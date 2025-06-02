@@ -1,0 +1,50 @@
+- const dashedName = name => name.replace(/ /g, '-');
+- const attrName = name => name.replace(/ /g, '_');
+- const removeSpace = name => name.replace(/ /g, '');
+- const toLowerCase = name => name.toLowerCase();
+- const shortName = name => name.length > 4 ? name.slice(0, 3) : name;
+
+include mixins/inputs.pug
+
+mixin textarea(name)
+	textarea(name=`attr_${attrName(name)}` placeholder=name)
+
+mixin attrSpan(name)
+	- const attr = attrName(name)
+	span(class!=attributes.class name=`attr_${attr}` title=`@{${attr}}`)
+
+include mixins/buttons.pug
+
+mixin headerInput(name)
+	.grid.col-auto-fr.gap-1.grid-flow-col.items-center(class!=attributes.class)
+		h3(data-i18n=name)
+		+textInput(name)
+
+include mixins/repeating.pug
+
+mixin subheaders(values)
+	.grid.grid-flow-col.gap-2.mb-2.border-bottom.subheaders
+		.grid.grid-flow-col.gap-2.custom-grid
+			each val in values
+				h3.ellipse(data-i18n=val)
+
+mixin title(name)
+	.grid.gap-4.justify-center.absolute.title
+		h2.px-2.text-center(data-i18n=name)
+
+
+mixin headerInput(value)
+	.grid.gap-2.col-auto-fr.items-center
+		h4(data-i18n=value)
+		+textInput(value)
+
+mixin textInputs(values)
+	.grid.gap-2.grid-flow-col(class!=attributes.class)
+		each val in values
+			+headerInput(val)
+
+mixin headerSpan(values)
+	each val in values
+		.grid.gap-2.col-auto-fr.items-center.display-span(class!=attributes.class)
+			h4(data-i18n=val)
+			+attrSpan(val)(class="capitalize")
