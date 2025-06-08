@@ -138,7 +138,6 @@ on("change:repeating_skills:attribute", (event) => {
   const repeatingRow = getFieldsetRow(sourceAttribute);
 
   // Attribute will be @{...}. Remove the @{}
-  const attribute = newValue.substring(2, newValue.length - 1);
   const abbreviation = getAttributeAbbreviation(attribute);
 
   setAttrs({ [`${repeatingRow}_attribute_abbreviation`]: abbreviation });

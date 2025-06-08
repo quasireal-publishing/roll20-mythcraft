@@ -3,6 +3,11 @@ const getAttributeAbbreviation = (attribute: string): string => {
     return attribute;
   }
 
+  if (attribute.charAt(0) === "@") {
+    // If Attribute is @{...}. Remove the @{}
+    attribute = attribute.substring(2, attribute.length - 1);
+  }
+
   const abbreviation = attribute.substring(0, 3);
 
   // Awareness first 3 letters are "awa" but abbreviation is "awr"

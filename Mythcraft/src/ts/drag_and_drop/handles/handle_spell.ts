@@ -20,11 +20,27 @@ const handle_spell = (page: CompendiumAttributes) => {
   const update = getUpdate(attrs, page, row);
 
   if (page.data?.damage) {
-    const row = getRow("attacks");
-    const attackAttr = ["damage", "damage_type"];
-    const updateAttack = getUpdate(attackAttr, page, row);
+    const attackRow = getRow("attacks");
+    const attackAttr = [
+      "name",
+      "damage",
+      "damage_type",
+      "range",
+      "tags",
+      "apc",
+    ];
+    const updateAttack = getUpdate(attackAttr, page, attackRow);
 
-    console.log("Attack", updateAttack);
+    updateAttack[`${attackRow}_link`] = row;
+    update[`${row}_link`] = attackRow;
+
+    getAttrs(["spellcasting_ability"], ({ spellcasting_ability }) => {
+      updateAttack[`${attackRow}_attribute`] = spellcasting_ability;
+      updateAttack[`${attackRow}_attribute_abbreviation`] =
+        getAttributeAbbreviation(spellcasting_ability);
+      setDropAttrs(updateAttack);
+      console.log("Attack", updateAttack);
+    });
   }
 
   if (page.data?.function_note) {

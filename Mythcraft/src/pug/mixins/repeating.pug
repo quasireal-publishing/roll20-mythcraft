@@ -87,7 +87,9 @@ mixin repeatingAttacks()
 								option(value=`@{${val}}` data-i18n=val)
 									val
 					+headerInput("apc")
-					+headerInput("bonus")
+					.grid.gap-2.col-auto-fr.items-center
+						h4(data-i18n="bonus")
+						+numberInput("bonus", 0)
 				+textInputs(["damage", "damage type"])
 				+textInputs(["range", "reload"])
 				+textInputs(["size", "type"])
@@ -98,12 +100,17 @@ mixin repeatingAttacks()
 mixin repeatingSpellCards()
 	fieldset(class="repeating_spells")
 		input(type="hidden" name="attr_link" value="")
+		input(type="hidden" name="roll_formula" value="")
 		.grid.gap-2.relative.repeating-grid.h-full.content-start.card
 			.grid.grid-flow-col.gap-2.displayed.custom-grid.col-span-full
-				+repeatingRollButton('name')
+				+repeatingMagicButton('name')
 			.grid.gap-2.items-center.col-span-full(class!=attributes.class)
 				+attrSpan("tags")(class="capitalize")
-			+headerSpan(["apc", "spc"]).col-span-full
+			.grid.gap-2.grid-flow-col.col-span-full
+				each val in ["apc", "spc"]
+					.grid.gap-2.grid-flow-col.display-span.col-auto-fr
+						h4(data-i18n=val)
+						+attrSpan(val)(class="capitalize")
 			+editToggle()
 			+collapseToggle()
 			.collapsible.grid.gap-2

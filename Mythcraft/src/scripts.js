@@ -247,7 +247,6 @@ on("change:repeating_skills:attribute", function (event) {
     var _a;
     var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
     var repeatingRow = getFieldsetRow(sourceAttribute);
-    var attribute = newValue.substring(2, newValue.length - 1);
     var abbreviation = getAttributeAbbreviation(attribute);
     setAttrs((_a = {}, _a["".concat(repeatingRow, "_attribute_abbreviation")] = abbreviation, _a));
 });
@@ -491,10 +490,26 @@ var handle_spell = function (page) {
     var row = getRow("spells");
     var update = getUpdate(attrs, page, row);
     if ((_a = page.data) === null || _a === void 0 ? void 0 : _a.damage) {
-        var row_1 = getRow("attacks");
-        var attackAttr = ["damage", "damage_type"];
-        var updateAttack = getUpdate(attackAttr, page, row_1);
-        console.log("Attack", updateAttack);
+        var attackRow_1 = getRow("attacks");
+        var attackAttr = [
+            "name",
+            "damage",
+            "damage_type",
+            "range",
+            "tags",
+            "apc",
+        ];
+        var updateAttack_1 = getUpdate(attackAttr, page, attackRow_1);
+        updateAttack_1["".concat(attackRow_1, "_link")] = row;
+        update["".concat(row, "_link")] = attackRow_1;
+        getAttrs(["spellcasting_ability"], function (_a) {
+            var spellcasting_ability = _a.spellcasting_ability;
+            updateAttack_1["".concat(attackRow_1, "_attribute")] = spellcasting_ability;
+            updateAttack_1["".concat(attackRow_1, "_attribute_abbreviation")] =
+                getAttributeAbbreviation(spellcasting_ability);
+            setDropAttrs(updateAttack_1);
+            console.log("Attack", updateAttack_1);
+        });
     }
     if ((_b = page.data) === null || _b === void 0 ? void 0 : _b.function_note) {
         update["".concat(row, "_function")] = "".concat(page.data["function"], " (").concat(page.data.function_note, ")");
@@ -574,6 +589,9 @@ var createAttributeName = function (name) {
 var getAttributeAbbreviation = function (attribute) {
     if (attribute === "luck") {
         return attribute;
+    }
+    if (attribute.charAt(0) === "@") {
+        attribute = attribute.substring(2, attribute.length - 1);
     }
     var abbreviation = attribute.substring(0, 3);
     if (attribute === "awareness") {

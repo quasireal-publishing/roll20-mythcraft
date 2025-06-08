@@ -22,9 +22,9 @@ mixin repeatingRollButton(name, includeDescription = false)
 	button.text-left.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{dice=[[1d20+${attribute}+${bonus}+${luckEffect}]]}} {${description}}}`)
 		span(name='attr_name')
 
-mixin repeatingRollButton(name, includeDescription = false)
+mixin repeatingMagicButton(name, includeDescription = false)
 	- const description = includeDescription ? "{{description=@{description}}" : ""
-	button.text-left.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{dice=[[1d20+@{spellcasting_ability}[spellcasting ability]+${bonus}+${luckEffect}]]}} {${description}}}`)
+	button.text-left.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{dice=[[1d20+@{spellcasting_ability}[spellcasting ability]+${luckEffect}]]}} {${description}}}`)
 		span(name='attr_name')
 
 mixin repeatingDamageButton(name, includeDescription = false)
