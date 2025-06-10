@@ -243,12 +243,14 @@ on("change:luck", function () {
         });
     });
 });
-on("change:repeating_skills:attribute", function (event) {
-    var _a;
-    var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
-    var repeatingRow = getFieldsetRow(sourceAttribute);
-    var abbreviation = getAttributeAbbreviation(attribute);
-    setAttrs((_a = {}, _a["".concat(repeatingRow, "_attribute_abbreviation")] = abbreviation, _a));
+["attacks", "skills"].forEach(function (fieldset) {
+    on("change:repeating_".concat(fieldset, ":attribute"), function (event) {
+        var _a;
+        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+        var repeatingRow = getFieldsetRow(sourceAttribute);
+        var abbreviation = getAttributeAbbreviation(newValue);
+        setAttrs((_a = {}, _a["".concat(repeatingRow, "_attribute_abbreviation")] = abbreviation, _a));
+    });
 });
 var favoriteAttributes = ["name", "tags", "description"];
 ["abilities", "favorites", "talents"].forEach(function (fieldset) {

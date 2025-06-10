@@ -133,14 +133,16 @@ on(`change:luck`, () => {
   }
 );
 
-on("change:repeating_skills:attribute", (event) => {
-  const { sourceAttribute, newValue } = event;
-  const repeatingRow = getFieldsetRow(sourceAttribute);
+["attacks", "skills"].forEach((fieldset) => {
+  on(`change:repeating_${fieldset}:attribute`, (event) => {
+    const { sourceAttribute, newValue } = event;
+    const repeatingRow = getFieldsetRow(sourceAttribute);
 
-  // Attribute will be @{...}. Remove the @{}
-  const abbreviation = getAttributeAbbreviation(attribute);
+    // Attribute will be @{...}. Remove the @{}
+    const abbreviation = getAttributeAbbreviation(newValue);
 
-  setAttrs({ [`${repeatingRow}_attribute_abbreviation`]: abbreviation });
+    setAttrs({ [`${repeatingRow}_attribute_abbreviation`]: abbreviation });
+  });
 });
 
 const favoriteAttributes = ["name", "tags", "description"];

@@ -34,7 +34,7 @@
 				each val in [ 'values', 'drive', 'quirk']
 					+headerInput(val)(class=`${val}`)
 			.grid.grid-flow-col.gap-2.background
-				each val in ['background', 'occupation tag']
+				each val in ['background', 'profession']
 					+headerInput(val)(class=`${val}`)
 
 		.grid.gap-2.grid-flow-col.items-center.content-start.attrs.relative
@@ -93,13 +93,13 @@
 					+title("special action points")
 					+numberInputWithMax("special action points")
 				.grid.double-border-2.rounded-md.p-2.relative
-					+title("rerolls")
+					+title("luck points")
 					.grid.grid-flow-col.gap-2
 						.grid.justify-center.items-center
-							+numberInput("rerolls")
+							+numberInput("luck points")
 							h3.text-center(data-i18n="current")
 						.grid.justify-center.items-center
-							+attrSpan("rerolls_max")(class="text-center")
+							+attrSpan("luck_points")(class="text-center")
 							h3.text-center(data-i18n="max")
 
 		.grid.gap-1.justify-between.items-center.attrs
@@ -114,11 +114,6 @@
 					.circle.rounded-full.border.grid.justify-center.items-center.font-bold
 						h3.text-center(data-i18n=shortName(val))
 						+attrSpan(val)(class="text-center")
-			.grid.relative.justify-center.items-center(class=`${val}`).rerolls
-				.circle.rounded-full.border.grid.justify-center.items-center.font-bold
-					h3.text-center(data-i18n="rerolls")
-					.grid.grid-flow-col.gap-2
-						span(name="attr_rerolls_max" class="text-center")
 		
 		.grid.double-border-2.rounded-md.p-2.relative.attacks
 			+title("attacks & spellcasting")
@@ -175,7 +170,7 @@
 				+repeatingSpellCards()
 	
 	.grid.gap-6.journal
-		.grid.rounded-md.p-2.relative
+		.grid.rounded-md.relative
 			+repeatingList('additional info', {display: ['name', "category"]})
 			
 		.grid.gap-4.grid-flow-col.auto-cols-fr
