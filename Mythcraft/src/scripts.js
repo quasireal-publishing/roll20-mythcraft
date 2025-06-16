@@ -229,20 +229,6 @@ on("change:luck", function () {
         setAttrs(attrs);
     });
 });
-[anticipation, fortitude, logic, reflexes, willpower].forEach(function (scoreAttributes) {
-    scoreAttributes.forEach(function (attr) {
-        on("change:".concat(attr), function () {
-            getAttrs(scoreAttributes, function (values) {
-                var _a;
-                var sum = sumIntegers(Object.values(parseIntegers(values)));
-                var name = scoreAttributes
-                    .find(function (e) { return e.includes("base"); })
-                    .replace("_base", "");
-                setAttrs((_a = {}, _a[name] = sum, _a));
-            });
-        });
-    });
-});
 ["attacks", "skills"].forEach(function (fieldset) {
     on("change:repeating_".concat(fieldset, ":attribute"), function (event) {
         var _a;
@@ -500,6 +486,7 @@ var handle_spell = function (page) {
             "range",
             "tags",
             "apc",
+            "description",
         ];
         var updateAttack_1 = getUpdate(attackAttr, page, attackRow_1);
         updateAttack_1["".concat(attackRow_1, "_link")] = row;
@@ -512,6 +499,7 @@ var handle_spell = function (page) {
             setDropAttrs(updateAttack_1);
             console.log("Attack", updateAttack_1);
         });
+        update["".concat(row, "_roll_formula")] = "{{dice=[[1d20+@{spellcasting_ability}[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs@{critical_range}]]}} {{description=@{description}}}";
     }
     if ((_b = page.data) === null || _b === void 0 ? void 0 : _b.function_note) {
         update["".concat(row, "_function")] = "".concat(page.data["function"], " (").concat(page.data.function_note, ")");

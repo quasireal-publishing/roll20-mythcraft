@@ -117,21 +117,21 @@ on(`change:luck`, () => {
   });
 });
 
-[anticipation, fortitude, logic, reflexes, willpower].forEach(
-  (scoreAttributes) => {
-    scoreAttributes.forEach((attr) => {
-      on(`change:${attr}`, () => {
-        getAttrs(scoreAttributes, (values) => {
-          const sum = sumIntegers(Object.values(parseIntegers(values)));
-          const name = scoreAttributes
-            .find((e) => e.includes("base"))
-            .replace("_base", "");
-          setAttrs({ [name]: sum });
-        });
-      });
-    });
-  }
-);
+// [anticipation, fortitude, logic, reflexes, willpower].forEach(
+//   (scoreAttributes) => {
+//     scoreAttributes.forEach((attr) => {
+//       on(`change:${attr}`, () => {
+//         getAttrs(scoreAttributes, (values) => {
+//           const sum = sumIntegers(Object.values(parseIntegers(values)));
+//           const name = scoreAttributes
+//             .find((e) => e.includes("base"))
+//             .replace("_base", "");
+//           setAttrs({ [name]: sum });
+//         });
+//       });
+//     });
+//   }
+// );
 
 ["attacks", "skills"].forEach((fieldset) => {
   on(`change:repeating_${fieldset}:attribute`, (event) => {

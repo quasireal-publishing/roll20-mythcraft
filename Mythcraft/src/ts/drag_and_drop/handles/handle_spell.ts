@@ -28,6 +28,7 @@ const handle_spell = (page: CompendiumAttributes) => {
       "range",
       "tags",
       "apc",
+      "description",
     ];
     const updateAttack = getUpdate(attackAttr, page, attackRow);
 
@@ -41,6 +42,10 @@ const handle_spell = (page: CompendiumAttributes) => {
       setDropAttrs(updateAttack);
       console.log("Attack", updateAttack);
     });
+
+    update[
+      `${row}_roll_formula`
+    ] = `{{dice=[[1d20+@{spellcasting_ability}[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs@{critical_range}]]}} {{description=@{description}}}`;
   }
 
   if (page.data?.function_note) {

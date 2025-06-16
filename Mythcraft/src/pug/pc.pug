@@ -113,7 +113,7 @@
 				.grid.relative.justify-center.items-center(class=`${val}`)
 					.circle.rounded-full.border.grid.justify-center.items-center.font-bold
 						h3.text-center(data-i18n=shortName(val))
-						+attrSpan(val)(class="text-center")
+						+numberInput(val)
 		
 		.grid.double-border-2.rounded-md.p-2.relative.attacks
 			+title("attacks & spellcasting")
