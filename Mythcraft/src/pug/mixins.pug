@@ -20,13 +20,16 @@ mixin headerInput(name)
 		h3(data-i18n=name)
 		+textInput(name)
 
-include mixins/repeating.pug
+include mixins/repeating_spell_cards.pug
+include mixins/repeating_attacks.pug
+include mixins/repeating_skills.pug
+include mixins/repeating_resources.pug
 
 mixin subheaders(values)
 	.grid.grid-flow-col.gap-2.mb-2.border-bottom.subheaders
 		.grid.grid-flow-col.gap-2.custom-grid
 			each val in values
-				h3.ellipse(data-i18n=val)
+				h3.ellipse.text-center(data-i18n=val)
 
 mixin title(name)
 	.grid.gap-4.justify-center.absolute.title
@@ -48,3 +51,37 @@ mixin headerSpan(values)
 		.grid.gap-2.col-auto-fr.items-center.display-span(class!=attributes.class)
 			h4(data-i18n=val)
 			+attrSpan(val)(class="capitalize")
+
+
+mixin repeatingSection(name, values)
+	- const { display = [], collapse = [], favorite } = values
+	fieldset(class=`repeating_${dashedName(name)}`)
+		input(type="hidden" name="attr_link" value="")
+		.grid.gap-2.relative.repeating-grid
+			.grid.grid-flow-col.gap-2.displayed.custom-grid
+				+repeatingChatButton(attrName(name))
+				//- Remove the name because it is the button above
+				each val in display.filter((e) => e !== "name")
+					+attrSpan(val)(class="display ellipse")
+			if favorite
+				+favoriteToggle()
+			+editToggle()
+			+collapseToggle()
+			.collapsible.grid.gap-2
+				+headerSpan(collapse)
+				.description
+					span.display(name='attr_description')
+			.edit.grid.gap-2
+				.grid.gap-2.edit-grid
+					each val in [...display, ...collapse]
+						+headerInput(val)
+				.description
+					+textarea('description')
+
+
+mixin repeatingList(name, values)
+	.grid.double-border-2.rounded-md.p-2.relative(class=dashedName(name)).content-start
+		+title(name)
+		+subheaders(values.display)
+		+repeatingSection(name, values)
+

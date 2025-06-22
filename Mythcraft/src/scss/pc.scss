@@ -11,6 +11,10 @@
     }
   }
 
+  .title {
+    max-height: 35px;
+  }
+
   .bio {
     width: $spacing-80;
 
@@ -24,6 +28,20 @@
     .name-row {
       grid-template-columns: 1fr minmax($spacing-12, $spacing-20);
     }
+  }
+
+  .attrs {
+    grid-template-columns: repeat(8, 1fr);
+
+    .circle {
+      height: 80px;
+      width: 80px;
+    }
+  }
+
+  h3[data-i18n*="name"],
+  span[name*="name"] {
+    @extend .text-left;
   }
 
   .main {
@@ -85,16 +103,6 @@
   }
 
   .combat {
-    .attrs {
-      grid-template-columns: repeat(8, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-
-      .circle {
-        height: 80px;
-        width: 80px;
-      }
-    }
-
     .attacks {
       .custom-grid {
         grid-template-columns:
@@ -106,12 +114,6 @@
         @extend .uppercase;
       }
 
-      h3[data-i18n="attribute"],
-      h3[data-i18n="apc"],
-      h3[data-i18n="bonus"],
-      h3[data-i18n="damage"],
-      h3[data-i18n="damage type"],
-      h3[data-i18n="range"],
       input[name="attr_apc"],
       span[name="attr_attribute_abbreviation"],
       span[name="attr_apc"],

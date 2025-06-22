@@ -19,7 +19,7 @@
 //Customer Variables for branding
 $primary: rgb(23, 67, 69);
 $secondary: rgb(254, 235, 179);
-$box-shadow: 2px 2px 3px 1px #4c4c4c;
+$box-shadow: 2px 2px 3px 1px $color-neutral-900;
 
 // Normal Text: Tinos 11pt -> closest is $text-sm: 14px
 // H1: Gideon Roman, bold, 30pt -> closest is $text-2xl: 24px
@@ -82,7 +82,7 @@ $box-shadow: 2px 2px 3px 1px #4c4c4c;
 /*  COMPONENTS
   ============================= */
 @import "scss/components/checkbox";
-@import "scss/components/rolltemplate";
+@import "scss/components/roll_template";
 @import "scss/components/switch";
 
 /*  FOOTER
