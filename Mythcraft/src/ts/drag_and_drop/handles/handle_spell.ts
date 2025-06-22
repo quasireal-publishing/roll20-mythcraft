@@ -20,6 +20,8 @@ const handle_spell = (page: CompendiumAttributes) => {
   const update = getUpdate(attrs, page, row);
 
   if (page.data?.damage) {
+    const rollFormula = `{{dice=[[1d20+@{spellcasting_ability}[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{critical_range}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}`;
+
     const attackRow = getRow("attacks");
     const attackAttr = [
       "name",
@@ -31,23 +33,19 @@ const handle_spell = (page: CompendiumAttributes) => {
       "description",
     ];
     const updateAttack = getUpdate(attackAttr, page, attackRow);
-
     updateAttack[`${attackRow}_link`] = row;
-    update[`${row}_link`] = attackRow;
 
     getAttrs(["spellcasting_ability"], ({ spellcasting_ability }) => {
       updateAttack[`${attackRow}_attribute`] = spellcasting_ability;
       updateAttack[`${attackRow}_attribute_abbreviation`] =
         getAttributeAbbreviation(spellcasting_ability);
+      updateAttack[`${attackRow}_roll_formula`] = rollFormula;
       setDropAttrs(updateAttack);
-      console.log("Attack", updateAttack);
     });
 
-    update[
-      `${row}_roll_formula`
-    ] = `{{dice=[[1d20+@{spellcasting_ability}[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs@{critical_range}]]}} {{description=@{description}}}`;
+    update[`${row}_link`] = attackRow;
+    update[`${row}_roll_formula`] = rollFormula;
   }
-
   if (page.data?.function_note) {
     update[
       `${row}_function`

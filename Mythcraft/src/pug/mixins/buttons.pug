@@ -25,7 +25,7 @@ mixin repeatingRollButton(name, includeDescription = false)
 
 mixin repeatingAttackRollButton(name, includeDescription = false)
 	- const description = includeDescription ? "{{description=@{description}}" : ""
-	button.text-left.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{dice=[[1d20+${attribute}+${bonus}+${tactical}+${luckEffect}]]}} {${description}}}`)
+	button.text-left.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} @{roll_formula}`)
 		span(name='attr_name')
 
 mixin repeatingMagicButton(name)
@@ -33,7 +33,7 @@ mixin repeatingMagicButton(name)
 		span(name='attr_name')
 
 mixin repeatingDamageButton(name, includeDescription = false)
-	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}} {{dice=[[@{damage}[damage]+${bonus}]]}} {{description=@{damage_type}}}`)
+	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}} {{dice=[[@{damage}[damage]+${bonus}]]}} {{type=@{damage_type}}}`)
 		span(name='attr_damage')
 
 mixin repeatingChatIconButton(name)

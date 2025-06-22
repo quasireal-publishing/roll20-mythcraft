@@ -2,6 +2,7 @@ mixin repeatingAttacks()
 	fieldset(class="repeating_attacks")
 		input(type="hidden" name="attr_link" value="")
 		input(type="hidden" name="attr_attribute_abbreviation" value= "STR")
+		input(type="hidden" name="attr_roll_formula" value=`{{dice=[[1d20+${attribute}+${bonus}+${tactical}+${luckEffect}]]}} {{damage=[Damage](~repeating_attacks-roll_damage)}}`)
 		.grid.gap-2.relative.repeating-grid 
 			.grid.grid-flow-col.gap-2.displayed.custom-grid
 				+repeatingAttackRollButton('name')
