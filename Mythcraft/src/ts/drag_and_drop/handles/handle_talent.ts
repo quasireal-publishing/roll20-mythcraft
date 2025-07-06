@@ -3,7 +3,11 @@ const handle_talent = (page: CompendiumAttributes) => {
   const row = getRow("talents");
   const update = getUpdate(attrs, page, row);
 
-  update[`${row}_tags`] = `${page.data.stack}, ${page.data.track}`;
+  let tag = page.data.stack;
+  if (page.data.track) {
+    tag += `, ${page.data.track}`;
+  }
+  update[`${row}_tags`] = tag;
 
   if (page.data.reactive) {
     const reactiveRow = getRow("reactive-actions");

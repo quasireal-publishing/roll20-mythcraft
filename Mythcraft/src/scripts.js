@@ -100,6 +100,7 @@ var handle_drop = function () {
                 break;
             case "Lineages":
                 handle_lineage(page);
+                break;
             case "Skills":
                 handle_skills(page);
                 break;
@@ -419,6 +420,9 @@ var handle_bop = function (page) {
         update["background"] = page.name;
         update["occupation_tag"] = page.data.occupation;
     }
+    if (page.data.Category === "Professions") {
+        update["profession"] = page.name;
+    }
     setDropAttrs(update);
 };
 var handle_conditions = function (page) {
@@ -467,7 +471,7 @@ var handle_skills = function (page) {
     var update = getUpdate(attrs, page, row);
     update["".concat(row, "_bonus")] = 1;
     if (typeof page.data.attribute === "string") {
-        update["".concat(row, "_attribute_abbreviation")] = page.data.attribute.substring(0, 3);
+        update["".concat(row, "_attribute_abbreviation")] = getAttributeAbbreviation(page.data.attribute);
     }
     setDropAttrs(update);
 };
@@ -545,7 +549,11 @@ var handle_talent = function (page) {
     var attrs = ["name", "description", "level", "prerequisites"];
     var row = getRow("talents");
     var update = getUpdate(attrs, page, row);
-    update["".concat(row, "_tags")] = "".concat(page.data.stack, ", ").concat(page.data.track);
+    var tag = page.data.stack;
+    if (page.data.track) {
+        tag += ", ".concat(page.data.track);
+    }
+    update["".concat(row, "_tags")] = tag;
     if (page.data.reactive) {
         var reactiveRow = getRow("reactive-actions");
         var reactiveAttrs = ["name", "description", "ap"];

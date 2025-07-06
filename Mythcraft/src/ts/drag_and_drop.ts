@@ -40,6 +40,7 @@ const handle_drop = () => {
         break;
       case "Lineages":
         handle_lineage(page);
+        break;
       case "Skills":
         handle_skills(page);
         break;
