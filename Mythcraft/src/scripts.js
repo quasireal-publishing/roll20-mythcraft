@@ -60,7 +60,7 @@ var physicalAttributes = ["strength", "dexterity", "endurance"];
 var attributes = __spreadArray(__spreadArray(__spreadArray([], mentalAttributes, true), metaphysicAttributes, true), physicalAttributes, true);
 var action_points = ["coordination", "action_points_base"];
 var hit_points = ["endurance", "hit_points_base", "level"];
-var critical_range = ["critical_range", "luck", "critical_range_base"];
+var critical_attributes = ["critical_range", "luck", "critical_range_base"];
 var armor_rating = ["armor_rating_base"];
 var anticipation = ["anticipation_base", "awareness"];
 var fortitude = ["fortitude_base", "endurance"];
@@ -125,98 +125,197 @@ var handle_drop = function () {
         handle_drop();
     });
 });
-["attacks", "spells"].forEach(function (fieldset) {
+["attacks", "spells", "reactive-actions"].forEach(function (fieldset) {
     on("change:repeating_".concat(fieldset), function (event) {
-        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
-        if (sourceAttribute.includes("link")) {
-            return;
-        }
-        var attr = getFieldsetAttr(sourceAttribute);
-        getAttrs(["repeating_".concat(fieldset, "_link")], function (values) {
-            var _a;
-            var linkedRow = values["repeating_".concat(fieldset, "_link")];
-            if (linkedRow) {
-                var update = (_a = {},
-                    _a["".concat(linkedRow, "_").concat(attr)] = newValue,
-                    _a);
-                setAttrs(update, { silent: true });
-            }
-        });
-    });
-    ["attacks", "skills"].forEach(function (fieldset) {
-        on("change:repeating_".concat(fieldset, ":attribute"), function (event) {
-            var _a;
-            var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
-            var repeatingRow = getFieldsetRow(sourceAttribute);
-            var abbreviation = getAttributeAbbreviation(newValue);
-            setAttrs((_a = {}, _a["".concat(repeatingRow, "_attribute_abbreviation")] = abbreviation, _a));
-        });
-    });
-    var favoriteAttributes = ["name", "tags", "description"];
-    ["abilities", "favorites", "talents"].forEach(function (fieldset) {
-        favoriteAttributes.forEach(function (attr) {
-            on("change:repeating_".concat(fieldset, ":").concat(attr), function (event) {
-                var newValue = event.newValue;
-                getAttrs(["repeating_".concat(fieldset, "_link")], function (values) {
-                    var _a;
-                    var favoriteRow = values["repeating_".concat(fieldset, "_link")];
-                    if (favoriteRow) {
-                        var update = (_a = {},
-                            _a["".concat(favoriteRow, "_").concat(attr)] = newValue,
-                            _a);
-                        setAttrs(update, { silent: true });
-                    }
-                });
-            });
-        });
-        on("change:repeating_".concat(fieldset, ":toggle_favorite"), function (event) {
-            var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
-            var abilitiesRow = getFieldsetRow(sourceAttribute);
-            var isFavorite = newValue === "true";
-            if (isFavorite) {
-                getAttrs([
-                    "".concat(abilitiesRow, "_description"),
-                    "".concat(abilitiesRow, "_link"),
-                    "".concat(abilitiesRow, "_name"),
-                    "".concat(abilitiesRow, "_tags"),
-                ], function (values) {
-                    var _a;
-                    var favoriteRow = getRow("favorites");
-                    var update = (_a = {},
-                        _a["".concat(favoriteRow, "_description")] = values["".concat(abilitiesRow, "_description")],
-                        _a["".concat(favoriteRow, "_link")] = abilitiesRow,
-                        _a["".concat(favoriteRow, "_name")] = values["".concat(abilitiesRow, "_name")],
-                        _a["".concat(favoriteRow, "_tags")] = values["".concat(abilitiesRow, "_tags")],
-                        _a["".concat(favoriteRow, "_toggle_edit")] = false,
-                        _a["".concat(abilitiesRow, "_link")] = favoriteRow,
-                        _a);
-                    setAttrs(update, { silent: true });
-                });
-            }
-            else {
-                getAttrs(["".concat(abilitiesRow, "_link")], function (values) {
-                    var favoriteRow = values["".concat(abilitiesRow, "_link")];
-                    removeRepeatingRow(favoriteRow);
-                });
-            }
-        });
-    });
-    ["attacks", "inventory"].forEach(function (fieldset) {
-        on("change:repeating_".concat(fieldset, ":name"), function (event) {
-            var newValue = event.newValue;
-            getAttrs(["repeating_".concat(fieldset, "_link")], function (values) {
-                var _a;
-                var row = values["repeating_".concat(fieldset, "_link")];
-                if (row) {
-                    var update = (_a = {},
-                        _a["".concat(row, "_name")] = newValue,
-                        _a);
-                    setAttrs(update, { silent: true });
-                }
-            });
-        });
+        updateLinkedAttribute(event);
     });
 });
+["attacks", "skills"].forEach(function (fieldset) {
+    on("change:repeating_".concat(fieldset, ":attribute"), function (event) {
+        var _a;
+        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+        var repeatingRow = getFieldsetRow(sourceAttribute);
+        var abbreviation = getAttributeAbbreviation(newValue);
+        setAttrs((_a = {}, _a["".concat(repeatingRow, "_attribute_abbreviation")] = abbreviation, _a));
+    });
+});
+["attacks", "inventory"].forEach(function (fieldset) {
+    on("change:repeating_".concat(fieldset, ":name"), function (event) {
+        updateLinkedAttribute(event);
+    });
+});
+["abilities", "favorites", "talents"].forEach(function (fieldset) {
+    ["name", "tags", "description", "ap"].forEach(function (attr) {
+        on("change:repeating_".concat(fieldset, ":").concat(attr), function (event) {
+            updateLinkedAttribute(event);
+        });
+    });
+    on("change:repeating_".concat(fieldset, ":toggle_favorite"), function (event) {
+        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+        var abilitiesRow = getFieldsetRow(sourceAttribute);
+        var isFavorite = newValue === "true";
+        if (isFavorite) {
+            getAttrs([
+                "".concat(abilitiesRow, "_description"),
+                "".concat(abilitiesRow, "_link"),
+                "".concat(abilitiesRow, "_name"),
+                "".concat(abilitiesRow, "_tags"),
+            ], function (values) {
+                var _a;
+                var favoriteRow = getRow("favorites");
+                var update = (_a = {},
+                    _a["".concat(favoriteRow, "_description")] = values["".concat(abilitiesRow, "_description")],
+                    _a["".concat(favoriteRow, "_link")] = abilitiesRow,
+                    _a["".concat(favoriteRow, "_name")] = values["".concat(abilitiesRow, "_name")],
+                    _a["".concat(favoriteRow, "_tags")] = values["".concat(abilitiesRow, "_tags")],
+                    _a["".concat(favoriteRow, "_toggle_edit")] = false,
+                    _a["".concat(abilitiesRow, "_link")] = favoriteRow,
+                    _a);
+                setAttrs(update, { silent: true });
+            });
+        }
+        else {
+            getAttrs(["".concat(abilitiesRow, "_link")], function (values) {
+                var favoriteRow = values["".concat(abilitiesRow, "_link")];
+                removeRepeatingRow(favoriteRow);
+            });
+        }
+    });
+});
+action_points.forEach(function (attr) {
+    on("change:".concat(attr), function () {
+        updateActionPointsPerRound(action_points);
+    });
+});
+critical_attributes.forEach(function (attr) {
+    on("change:".concat(attr), function () {
+        updateCriticalRange(critical_attributes);
+    });
+});
+on("change:luck", function () {
+    updateLuck(["luck"]);
+});
+hit_points.forEach(function (attr) {
+    on("change:".concat(attr), function () {
+        updateHitPoints(hit_points);
+    });
+});
+var updateActionPointsPerRound = function (attributes) {
+    getAttrs(attributes, function (values) {
+        var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base;
+        var action_points_per_round = action_points_base;
+        switch (coordination) {
+            case -1:
+            case -2:
+                action_points_per_round = action_points_base - 1 || 0;
+                break;
+            case -3:
+                action_points_per_round = action_points_base - 2 || 0;
+                break;
+            default:
+                action_points_per_round =
+                    Math.ceil(coordination / 2) + action_points_base;
+                break;
+        }
+        setAttrs({ action_points_per_round: action_points_per_round });
+    });
+};
+var updateCriticalRange = function (attributes) {
+    getAttrs(attributes, function (values) {
+        var _a = parseIntegers(values), luck = _a.luck, critical_range_base = _a.critical_range_base, critical_range = _a.critical_range;
+        if (luck < 0) {
+            setAttrs({
+                critical_range: 0
+            });
+            return;
+        }
+        var range = critical_range_base;
+        if (luck >= 12) {
+            range = critical_range_base - 2;
+        }
+        else if (luck >= 6 && luck <= 11) {
+            range = critical_range_base - 1;
+        }
+        var cr = range < 16 ? 16 : range;
+        if (cr !== critical_range) {
+            setAttrs({
+                critical_range: cr
+            });
+        }
+    });
+};
+var updateHitPoints = function (attributes) {
+    getAttrs(attributes, function (values) {
+        var _a = parseIntegers(values), endurance = _a.endurance, hit_points_base = _a.hit_points_base, level = _a.level;
+        var die_pips = 0;
+        var set_hit_points = 0;
+        if (endurance >= -2 && endurance <= 12) {
+            if (endurance === -3) {
+                die_pips = 0;
+                set_hit_points = 0;
+            }
+            else if (endurance >= -2 && endurance <= -1) {
+                die_pips = 2;
+                set_hit_points = 1;
+            }
+            else if (endurance >= 0 && endurance <= 2) {
+                die_pips = 4;
+                set_hit_points = 2;
+            }
+            else if (endurance >= 3 && endurance <= 5) {
+                die_pips = 6;
+                set_hit_points = 3;
+            }
+            else if (endurance >= 6 && endurance <= 8) {
+                die_pips = 8;
+                set_hit_points = 4;
+            }
+            else if (endurance >= 9 && endurance <= 11) {
+                die_pips = 10;
+                set_hit_points = 5;
+            }
+            else if (endurance >= 12) {
+                die_pips = 12;
+                set_hit_points = 6;
+            }
+        }
+        var hit_point_die = die_pips ? "".concat(level, "d").concat(die_pips) : 0;
+        var hit_die_formula = "".concat(hit_points_base, "+").concat(hit_point_die, "+").concat(level);
+        setAttrs({ hit_point_die: hit_point_die, hit_die_formula: hit_die_formula, set_hit_points: set_hit_points });
+    });
+};
+var updateLinkedAttribute = function (event) {
+    var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+    if (sourceAttribute.includes("link")) {
+        return;
+    }
+    var attr = getFieldsetAttr(sourceAttribute);
+    var fieldset = getFieldsetGroupName(sourceAttribute);
+    getAttrs(["repeating_".concat(fieldset, "_link")], function (values) {
+        var _a;
+        var linkedRow = values["repeating_".concat(fieldset, "_link")];
+        if (linkedRow) {
+            var update = (_a = {},
+                _a["".concat(linkedRow, "_").concat(attr)] = newValue,
+                _a);
+            setAttrs(update, { silent: true });
+        }
+    });
+};
+var updateLuck = function (attributes) {
+    getAttrs(attributes, function (values) {
+        var luck = parseInt(values.luck);
+        var attrs = {};
+        attrs.rerolls_max = Math.ceil(luck / 2) || 0;
+        if (luck < 0) {
+            attrs.luck_negative_modifier = luck;
+        }
+        else {
+            attrs.luck_negative_modifier = 0;
+        }
+        setAttrs(attrs);
+    });
+};
 var _this = this;
 var versioningAttr = "latest_versioning_upgrade";
 on("sheet:opened", function () {
@@ -447,6 +546,15 @@ var handle_talent = function (page) {
     var row = getRow("talents");
     var update = getUpdate(attrs, page, row);
     update["".concat(row, "_tags")] = "".concat(page.data.stack, ", ").concat(page.data.track);
+    if (page.data.reactive) {
+        var reactiveRow = getRow("reactive-actions");
+        var reactiveAttrs = ["name", "description", "ap"];
+        var reactiveUpdate = getUpdate(reactiveAttrs, page, reactiveRow);
+        Object.assign(update, reactiveUpdate);
+        update["".concat(reactiveRow, "_toggle_edit")] = false;
+        update["".concat(reactiveRow, "_link")] = row;
+        update["".concat(row, "_link")] = reactiveRow;
+    }
     setDropAttrs(update);
 };
 var handle_weapon = function (page, attackRow, inventoryRow) {
@@ -478,110 +586,6 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
     }
     setDropAttrs(update);
 };
-action_points.forEach(function (attr) {
-    on("change:".concat(attr), function () {
-        getAttrs(action_points, function (values) {
-            var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base;
-            var action_points_per_round = action_points_base;
-            switch (coordination) {
-                case -1:
-                case -2:
-                    action_points_per_round = action_points_base - 1 || 0;
-                    break;
-                case -3:
-                    action_points_per_round = action_points_base - 2 || 0;
-                    break;
-                default:
-                    action_points_per_round =
-                        Math.ceil(coordination / 2) + action_points_base;
-                    break;
-            }
-            setAttrs({ action_points_per_round: action_points_per_round });
-        });
-    });
-});
-critical_range.forEach(function (attr) {
-    on("change:".concat(attr), function () {
-        getAttrs(critical_range, function (values) {
-            var _a = parseIntegers(values), luck = _a.luck, critical_range_base = _a.critical_range_base, critical_range = _a.critical_range;
-            if (luck < 0) {
-                setAttrs({
-                    critical_range: 0
-                });
-                return;
-            }
-            var range = critical_range_base;
-            if (luck >= 12) {
-                range = critical_range_base - 2;
-            }
-            else if (luck >= 6 && luck <= 11) {
-                range = critical_range_base - 1;
-            }
-            var cr = range < 16 ? 16 : range;
-            if (cr !== critical_range) {
-                setAttrs({
-                    critical_range: cr
-                });
-            }
-        });
-    });
-});
-hit_points.forEach(function (attr) {
-    on("change:".concat(attr), function () {
-        getAttrs(hit_points, function (values) {
-            var _a = parseIntegers(values), endurance = _a.endurance, hit_points_base = _a.hit_points_base, level = _a.level;
-            var die_pips = 0;
-            var set_hit_points = 0;
-            if (endurance >= -2 && endurance <= 12) {
-                if (endurance === -3) {
-                    die_pips = 0;
-                    set_hit_points = 0;
-                }
-                else if (endurance >= -2 && endurance <= -1) {
-                    die_pips = 2;
-                    set_hit_points = 1;
-                }
-                else if (endurance >= 0 && endurance <= 2) {
-                    die_pips = 4;
-                    set_hit_points = 2;
-                }
-                else if (endurance >= 3 && endurance <= 5) {
-                    die_pips = 6;
-                    set_hit_points = 3;
-                }
-                else if (endurance >= 6 && endurance <= 8) {
-                    die_pips = 8;
-                    set_hit_points = 4;
-                }
-                else if (endurance >= 9 && endurance <= 11) {
-                    die_pips = 10;
-                    set_hit_points = 5;
-                }
-                else if (endurance >= 12) {
-                    die_pips = 12;
-                    set_hit_points = 6;
-                }
-            }
-            var hit_point_die = die_pips ? "".concat(level, "d").concat(die_pips) : 0;
-            var hit_die_formula = "".concat(hit_points_base, "+").concat(hit_point_die, "+").concat(level);
-            setAttrs({ hit_point_die: hit_point_die, hit_die_formula: hit_die_formula, set_hit_points: set_hit_points });
-        });
-    });
-});
-on("change:luck", function () {
-    getAttrs(["luck"], function (values) {
-        var luck = parseInt(values.luck);
-        var attrs = {};
-        attrs.rerolls_max = Math.ceil(luck / 2) || 0;
-        if (luck < 0) {
-            attrs.luck_negative_modifier = luck;
-        }
-        else {
-            attrs.luck_negative_modifier = 0;
-        }
-        setAttrs(attrs);
-    });
-});
 var convertIntegerNegative = function (number) {
     return number > 0 ? -Math.abs(number) : number;
 };

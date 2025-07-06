@@ -14,8 +14,10 @@ declare type AttrValue = string | number | boolean;
 
 declare type Attrs = { [key: string]: AttrValue };
 
+declare type Attributes = string[];
+
 declare function getAttrs(
-  attributes: string[],
+  attributes: Attributes,
   callback?: (values: { [key: string]: string }) => void
 ): void;
 

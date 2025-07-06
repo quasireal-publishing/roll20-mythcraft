@@ -14,26 +14,11 @@
 //   }
 // );
 
-
-["attacks", "spells"].forEach((fieldset) => {
+["attacks", "spells", "reactive-actions"].forEach((fieldset) => {
   on(`change:repeating_${fieldset}`, (event) => {
-    const { sourceAttribute, newValue } = event;
-    if(sourceAttribute.includes("link")) {	
-      return;
-    }
-
-    const attr = getFieldsetAttr(sourceAttribute);
-    
-    getAttrs([`repeating_${fieldset}_link`], (values) => {
-      const linkedRow = values[`repeating_${fieldset}_link`];
-      if (linkedRow) {
-        const update: Attrs = {
-          [`${linkedRow}_${attr}`]: newValue,
-        };
-      setAttrs(update, { silent: true });
-      }
-    });
+    updateLinkedAttribute(event);
   });
+});
 
 ["attacks", "skills"].forEach((fieldset) => {
   on(`change:repeating_${fieldset}:attribute`, (event) => {
@@ -47,22 +32,16 @@
   });
 });
 
-const favoriteAttributes = ["name", "tags", "description"];
+["attacks", "inventory"].forEach((fieldset) => {
+  on(`change:repeating_${fieldset}:name`, (event) => {
+    updateLinkedAttribute(event);
+  });
+});
 
 ["abilities", "favorites", "talents"].forEach((fieldset) => {
-  favoriteAttributes.forEach((attr) => {
+  ["name", "tags", "description", "ap"].forEach((attr) => {
     on(`change:repeating_${fieldset}:${attr}`, (event) => {
-      const { newValue } = event;
-
-      getAttrs([`repeating_${fieldset}_link`], (values) => {
-        const favoriteRow = values[`repeating_${fieldset}_link`];
-        if (favoriteRow) {
-          const update: Attrs = {
-            [`${favoriteRow}_${attr}`]: newValue,
-          };
-          setAttrs(update, { silent: true });
-        }
-      });
+      updateLinkedAttribute(event);
     });
   });
 
@@ -103,17 +82,24 @@ const favoriteAttributes = ["name", "tags", "description"];
   });
 });
 
-["attacks", "inventory"].forEach((fieldset) => {
-  on(`change:repeating_${fieldset}:name`, (event) => {
-    const { newValue } = event;
-    getAttrs([`repeating_${fieldset}_link`], (values) => {
-      const row = values[`repeating_${fieldset}_link`];
-      if (row) {
-        const update: Attrs = {
-          [`${row}_name`]: newValue,
-        };
-        setAttrs(update, { silent: true });
-      }
-    });
+action_points.forEach((attr) => {
+  on(`change:${attr}`, () => {
+    updateActionPointsPerRound(action_points);
+  });
+});
+
+critical_attributes.forEach((attr) => {
+  on(`change:${attr}`, () => {
+    updateCriticalRange(critical_attributes);
+  });
+});
+
+on(`change:luck`, () => {
+  updateLuck(["luck"]);
+});
+
+hit_points.forEach((attr) => {
+  on(`change:${attr}`, () => {
+    updateHitPoints(hit_points);
   });
 });

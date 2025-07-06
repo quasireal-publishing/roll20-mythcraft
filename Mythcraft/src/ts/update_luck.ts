@@ -1,5 +1,5 @@
-on(`change:luck`, () => {
-  getAttrs(["luck"], (values) => {
+const updateLuck = (attributes: Attributes) => {
+  getAttrs(attributes, (values) => {
     const luck = parseInt(values.luck);
     const attrs: Attrs = {};
     //Reroll 1d20 for every 2 points of Luck
@@ -14,4 +14,4 @@ on(`change:luck`, () => {
 
     setAttrs(attrs);
   });
-});
+};

@@ -131,14 +131,18 @@
       .rerolls {
         grid-column: 7/9;
       }
+    }
 
-      .reactive-actions {
-        .custom-grid {
-          grid-template-columns: $button-max-width repeat(
-              1,
-              minmax($spacing-16, 1fr)
-            );
-        }
+    .reactive-actions {
+      span[name="attr_ap"] {
+        @extend .text-center;
+      }
+
+      .custom-grid {
+        grid-template-columns: $button-max-width repeat(
+            1,
+            minmax($spacing-16, 1fr)
+          );
       }
     }
 
