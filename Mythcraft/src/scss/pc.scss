@@ -187,16 +187,6 @@
       .edit-grid {
         grid-template-columns: 2fr 1fr;
       }
-
-      .source-sp {
-        background: $color-neutral-100;
-      }
-
-      input[name="attr_source_magic_sp"] {
-        background-color: $color-neutral-100;
-        text-align: center;
-        width: $spacing-38;
-      }
     }
 
     .spells {

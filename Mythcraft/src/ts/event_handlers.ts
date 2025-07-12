@@ -103,3 +103,45 @@ hit_points.forEach((attr) => {
     updateHitPoints(hit_points);
   });
 });
+
+on("change:primary_source", (event) => {
+  const { newValue, previousValue } = event;
+  const section = "repeating_spells";
+
+  getSectionIDs(section, (ids) => {
+    const sourceMap = ids.map((id) => `${section}_${id}_source`);
+    const linksMap = ids.map((id) => `${section}_${id}_link`);
+    const formulasMap = ids.map((id) => `${section}_${id}_roll_formula`);
+
+    getAttrs([...sourceMap, ...linksMap, ...formulasMap], (v) => {
+      const update = {};
+
+      formulasMap.forEach((e) => {
+        //This indicates it is a spell card and primary source is irrelevant
+        if (v[e] === "{{description=@{description}}}") {
+          return;
+        }
+
+        const rowId = getFieldsetRow(e);
+        const link = v[`${rowId}_link`];
+
+        const source = v[`${rowId}_source`];
+        const isPrimarySource = source === newValue;
+        const wasPrimarySource = source === previousValue;
+
+        if (wasPrimarySource || isPrimarySource) {
+          const formula = getRollFormula(isPrimarySource);
+          //@ts-expect-error doesn't like indexing with a string
+          update[`${rowId}_roll_formula`] = formula;
+
+          if (link) {
+            //@ts-expect-error doesn't like indexing with a string
+            update[`${link}_roll_formula`] = formula;
+          }
+
+          setAttrs(update, { silent: true });
+        }
+      });
+    });
+  });
+});

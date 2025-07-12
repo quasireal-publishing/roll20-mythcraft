@@ -135,6 +135,13 @@
 						each val in coreAttributes
 							option(value=`@{${val}}` data-i18n=val)
 								val
+			.grid.double-border-2.rounded-md.p-2.relative
+				+title("primary source")
+				.grid.justify-center.items-center
+					select(name="attr_primary_source")
+						each val in magicSources
+							option(value=`${val}` data-i18n=val)
+								val
 					
 		.grid.double-border-2.rounded-md.content-start.p-2.source-magic.relative
 			+title('source')
@@ -143,7 +150,7 @@
 				input(type="hidden" name="attr_link" value="")
 				.grid.gap-2.relative.repeating-grid
 					.grid.grid-flow-col.gap-2.displayed.custom-grid
-						+repeatingChatButton(attrName('source'))
+						+repeatingChatButton(attrName('source')).capitalize
 						+attrSpan('power level')(class="display ellipse text-center")
 					+favoriteToggle()
 					+editToggle()
@@ -156,8 +163,8 @@
 							.grid.items-center.gap-2.grid-flow-col.col-auto-fr
 								h4(data-i18n='name')
 								select(name="attr_name")
-									each val in [ 'arcane', 'divine', 'primal', 'psionic', 'occult']
-										option(value=`@{${val}}` data-i18n=val)
+									each val in magicSources
+										option(value=`${val}` data-i18n=val).capitalize
 											val
 							.grid.justify-center.items-center
 								each val in ['power level']

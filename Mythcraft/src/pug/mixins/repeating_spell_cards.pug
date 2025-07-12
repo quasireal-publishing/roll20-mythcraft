@@ -27,9 +27,17 @@ mixin repeatingSpellCards()
 					span.display(name='attr_description')
 			.edit.grid.gap-2
 				.grid.gap-2.edit-grid
-					+textInputs(["name", "tags"]).grid-cols-2
+					+textInputs(["name"])
+					.grid.gap-2.grid-flow-col.col-auto-fr.items-center
+						h3(data-i18n="source")
+						select(name="attr_source")
+							each val in magicSources
+								option(value=`${val}` data-i18n=val)
+									val
+					+textInputs(["tags"])
 					+textInputs(["apc", "spc", "range"]).grid-cols-3
-					+textInputs(["requires", "duration"]).grid-cols-2
+					+textInputs(["requires"])
+					+textInputs(["duration"])
 					+textInputs(["damage", "damage type"]).grid-cols-2
 					+textInputs(["casting time", "recharge"]).grid-cols-2
 					each val in ["prerequisites", "upcharge"]

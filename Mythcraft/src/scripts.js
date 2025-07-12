@@ -201,6 +201,36 @@ hit_points.forEach(function (attr) {
         updateHitPoints(hit_points);
     });
 });
+on("change:primary_source", function (event) {
+    var newValue = event.newValue, previousValue = event.previousValue;
+    var section = "repeating_spells";
+    getSectionIDs(section, function (ids) {
+        var sourceMap = ids.map(function (id) { return "".concat(section, "_").concat(id, "_source"); });
+        var linksMap = ids.map(function (id) { return "".concat(section, "_").concat(id, "_link"); });
+        var formulasMap = ids.map(function (id) { return "".concat(section, "_").concat(id, "_roll_formula"); });
+        getAttrs(__spreadArray(__spreadArray(__spreadArray([], sourceMap, true), linksMap, true), formulasMap, true), function (v) {
+            var update = {};
+            formulasMap.forEach(function (e) {
+                if (v[e] === "{{description=@{description}}}") {
+                    return;
+                }
+                var rowId = getFieldsetRow(e);
+                var link = v["".concat(rowId, "_link")];
+                var source = v["".concat(rowId, "_source")];
+                var isPrimarySource = source === newValue;
+                var wasPrimarySource = source === previousValue;
+                if (wasPrimarySource || isPrimarySource) {
+                    var formula = getRollFormula(isPrimarySource);
+                    update["".concat(rowId, "_roll_formula")] = formula;
+                    if (link) {
+                        update["".concat(link, "_roll_formula")] = formula;
+                    }
+                    setAttrs(update, { silent: true });
+                }
+            });
+        });
+    });
+});
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {
         var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base;
@@ -475,8 +505,18 @@ var handle_skills = function (page) {
     }
     setDropAttrs(update);
 };
+var getRollFormula = function (isPrimarySource, isSpellCard) {
+    if (isSpellCard) {
+        return "{{description=@{description}}}";
+    }
+    var abilityModifier = "@{spellcasting_ability}";
+    if (!isPrimarySource) {
+        abilityModifier = "ceil(".concat(abilityModifier, "/2)");
+    }
+    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{critical_range}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}");
+};
 var handle_spell = function (page) {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     var attrs = [
         "apc",
         "description",
@@ -495,8 +535,8 @@ var handle_spell = function (page) {
     ];
     var row = getRow("spells");
     var update = getUpdate(attrs, page, row);
-    if ((_a = page.data) === null || _a === void 0 ? void 0 : _a.damage) {
-        var rollFormula_1 = "{{dice=[[1d20+@{spellcasting_ability}[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{critical_range}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}";
+    var source = page.data.source.toString().toLowerCase();
+    if (page.data.damage) {
         var attackRow_1 = getRow("attacks");
         var attackAttr = [
             "name",
@@ -509,38 +549,42 @@ var handle_spell = function (page) {
         ];
         var updateAttack_1 = getUpdate(attackAttr, page, attackRow_1);
         updateAttack_1["".concat(attackRow_1, "_link")] = row;
-        getAttrs(["spellcasting_ability"], function (_a) {
-            var spellcasting_ability = _a.spellcasting_ability;
+        getAttrs(["spellcasting_ability", "primary_source"], function (_a) {
+            var spellcasting_ability = _a.spellcasting_ability, primary_source = _a.primary_source;
             updateAttack_1["".concat(attackRow_1, "_attribute")] = spellcasting_ability;
             updateAttack_1["".concat(attackRow_1, "_attribute_abbreviation")] =
                 getAttributeAbbreviation(spellcasting_ability);
-            updateAttack_1["".concat(attackRow_1, "_roll_formula")] = rollFormula_1;
+            var rollFormula = getRollFormula(primary_source === source);
+            updateAttack_1["".concat(attackRow_1, "_roll_formula")] = rollFormula;
+            updateAttack_1["".concat(row, "_roll_formula")] = rollFormula;
             setDropAttrs(updateAttack_1);
         });
         update["".concat(row, "_link")] = attackRow_1;
-        update["".concat(row, "_roll_formula")] = rollFormula_1;
     }
-    if ((_b = page.data) === null || _b === void 0 ? void 0 : _b.function_note) {
+    if ((_a = page.data) === null || _a === void 0 ? void 0 : _a.function_note) {
         update["".concat(row, "_function")] = "".concat(page.data["function"], " (").concat(page.data.function_note, ")");
     }
-    if ((_c = page.data) === null || _c === void 0 ? void 0 : _c.liturgy_apc) {
+    if ((_b = page.data) === null || _b === void 0 ? void 0 : _b.liturgy_apc) {
         update["".concat(row, "_apc")] = "".concat(page.data.liturgy_apc, " (liturgy apc)");
     }
-    if ((_d = page.data) === null || _d === void 0 ? void 0 : _d.liturgy_spc) {
+    if ((_c = page.data) === null || _c === void 0 ? void 0 : _c.liturgy_spc) {
         update["".concat(row, "_spc")] = "".concat(page.data.liturgy_spc, " (liturgy spc)");
     }
-    if (((_e = page.data) === null || _e === void 0 ? void 0 : _e.requires) && ((_f = page.data) === null || _f === void 0 ? void 0 : _f.materials)) {
-        update["".concat(row, "_requires")] = "".concat((_g = page.data) === null || _g === void 0 ? void 0 : _g.requires, " (").concat(page.data.materials, ")");
+    if (((_d = page.data) === null || _d === void 0 ? void 0 : _d.requires) && ((_e = page.data) === null || _e === void 0 ? void 0 : _e.materials)) {
+        update["".concat(row, "_requires")] = "".concat((_f = page.data) === null || _f === void 0 ? void 0 : _f.requires, " (").concat(page.data.materials, ")");
     }
-    else if ((_h = page.data) === null || _h === void 0 ? void 0 : _h.requires) {
-        update["".concat(row, "_requires")] = "".concat((_j = page.data) === null || _j === void 0 ? void 0 : _j.requires);
+    else if ((_g = page.data) === null || _g === void 0 ? void 0 : _g.requires) {
+        update["".concat(row, "_requires")] = "".concat((_h = page.data) === null || _h === void 0 ? void 0 : _h.requires);
     }
-    else if ((_k = page.data) === null || _k === void 0 ? void 0 : _k.materials) {
-        update["".concat(row, "_requires")] = "".concat((_l = page.data) === null || _l === void 0 ? void 0 : _l.materials);
+    else if ((_j = page.data) === null || _j === void 0 ? void 0 : _j.materials) {
+        update["".concat(row, "_requires")] = "".concat((_k = page.data) === null || _k === void 0 ? void 0 : _k.materials);
     }
     var tags = "".concat(page.data.source, " ").concat(page.data.type, ", ").concat(page.data["function"]);
-    if ((_m = page.data) === null || _m === void 0 ? void 0 : _m.function_note) {
+    if ((_l = page.data) === null || _l === void 0 ? void 0 : _l.function_note) {
         tags += ", ".concat(page.data.function_note);
+    }
+    if (page.data.source) {
+        update["".concat(row, "_source")] = source;
     }
     update["".concat(row, "_tags")] = tags;
     setDropAttrs(update);
