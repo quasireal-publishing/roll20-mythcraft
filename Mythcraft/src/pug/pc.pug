@@ -78,23 +78,27 @@
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("speed")
 				+textInput("speed","20 ft")(class="text-center")
-		.grid.gap-2
-			.grid.grid-flow-col.gap-2.items-center
-				.grid.double-border-2.rounded-md.p-2.relative
-					+title("action points")
-					.grid.grid-flow-col.gap-2
-						.grid.justify-center.items-center
-							+numberInput("action points")
-							h3.text-center(data-i18n="current")
-						.grid.justify-center.items-center
-							+attrSpan("action points per round")(class="text-center")
-							h3.text-center(data-i18n="ap/round")
-				.grid.double-border-2.rounded-md.p-2.relative
-					+title("special action points")
-					+numberInputWithMax("special action points")
-				.grid.double-border-2.rounded-md.p-2.relative
-					+title("luck points")
-					+numberInputWithMax("luck points")
+		.grid.grid.grid-flow-col.gap-2.items-center
+			.grid.double-border-2.rounded-md.p-2.relative
+				+title("action points")
+				.grid.grid-flow-col.gap-2
+					.grid.justify-center.items-center
+						+numberInput("action points")
+						h3.text-center(data-i18n="current")
+					.grid.justify-center.items-center
+						+attrSpan("action points per round")(class="text-center")
+						h3.text-center(data-i18n="ap/round")
+			.grid.double-border-2.rounded-md.p-2.relative
+				+title("special action points")
+				+numberInputWithMax("special action points")
+			.grid.double-border-2.rounded-md.p-2.relative
+				+title("luck points")
+				+numberInputWithMax("luck points")
+			.grid.double-border-2.rounded-md.p-2.relative
+				+title("initiative")
+				+numberInput("initiative bonus", 0)
+				.grid.justify-center.items-center.mt-1
+					+initiativeButton()
 
 		.grid.gap-1.justify-between.items-center.attrs
 			each val in combatAttributes

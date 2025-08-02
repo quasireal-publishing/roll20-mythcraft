@@ -7,6 +7,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -53,6 +64,31 @@ var __assign = (this && this.__assign) || function () {
         return t;
     };
     return __assign.apply(this, arguments);
+};
+var addSpellAttack = function (row, page) {
+    var attackRow = getRow("attacks");
+    var attackAttr = [
+        "name",
+        "damage",
+        "damage_type",
+        "range",
+        "tags",
+        "apc",
+        "description",
+    ];
+    var updateAttack = getUpdate(attackAttr, page, attackRow);
+    updateAttack["".concat(attackRow, "_link")] = row;
+    getAttrs(["spellcasting_ability", "primary_source"], function (_a) {
+        var spellcasting_ability = _a.spellcasting_ability, primary_source = _a.primary_source;
+        updateAttack["".concat(attackRow, "_attribute")] = spellcasting_ability;
+        updateAttack["".concat(attackRow, "_attribute_abbreviation")] =
+            getAttributeAbbreviation(spellcasting_ability);
+        var rollFormula = getRollFormula(primary_source === page.data.source.toString().toLowerCase());
+        updateAttack["".concat(attackRow, "_roll_formula")] = rollFormula;
+        updateAttack["".concat(row, "_roll_formula")] = rollFormula;
+        setDropAttrs(updateAttack);
+    });
+    return attackRow;
 };
 var mentalAttributes = ["awareness", "intellect", "charisma"];
 var metaphysicAttributes = ["luck", "coordination"];
@@ -231,6 +267,49 @@ on("change:primary_source", function (event) {
         });
     });
 });
+on("change:repeating_spells:source", function (event) {
+    var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+    var repeatingRow = getFieldsetRow(sourceAttribute);
+    getAttrs(["primary_source"], function (values) {
+        var _a;
+        var isPrimarySource = values.primary_source === newValue;
+        setAttrs((_a = {},
+            _a["".concat(repeatingRow, "_roll_formula")] = getRollFormula(isPrimarySource),
+            _a));
+    });
+});
+on("change:repeating_spells:damage", function (event) {
+    var sourceAttribute = event.sourceAttribute, previousValue = event.previousValue, newValue = event.newValue, sourceType = event.sourceType;
+    var repeatingRow = getFieldsetRow(sourceAttribute);
+    var isSpellCard = newValue === undefined && previousValue;
+    var isSpellAttack = previousValue === undefined && newValue;
+    var updateFormula = !!isSpellCard || !!isSpellAttack;
+    if (updateFormula && sourceType === "player") {
+        getAttrs(["primary_source", "".concat(repeatingRow, "_source")], function (_a) {
+            var _b;
+            var primary_source = _a.primary_source, values = __rest(_a, ["primary_source"]);
+            var isPrimarySource = primary_source === values["".concat(repeatingRow, "_source")];
+            var update = (_b = {},
+                _b["".concat(repeatingRow, "_roll_formula")] = getRollFormula(isPrimarySource, !!isSpellCard),
+                _b);
+            if (isSpellAttack) {
+                var attackRow = addSpellAttack(repeatingRow, page);
+                update["".concat(repeatingRow, "_link")] = attackRow;
+            }
+            setAttrs(update);
+        });
+    }
+});
+var getRollFormula = function (isPrimarySource, isSpellCard) {
+    if (isSpellCard) {
+        return "{{description=@{description}}}";
+    }
+    var abilityModifier = "@{spellcasting_ability}";
+    if (!isPrimarySource) {
+        abilityModifier = "ceil(".concat(abilityModifier, "/2)");
+    }
+    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{critical_range}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}");
+};
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {
         var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base;
@@ -505,16 +584,6 @@ var handle_skills = function (page) {
     }
     setDropAttrs(update);
 };
-var getRollFormula = function (isPrimarySource, isSpellCard) {
-    if (isSpellCard) {
-        return "{{description=@{description}}}";
-    }
-    var abilityModifier = "@{spellcasting_ability}";
-    if (!isPrimarySource) {
-        abilityModifier = "ceil(".concat(abilityModifier, "/2)");
-    }
-    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{critical_range}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}");
-};
 var handle_spell = function (page) {
     var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
     var attrs = [
@@ -537,29 +606,8 @@ var handle_spell = function (page) {
     var update = getUpdate(attrs, page, row);
     var source = page.data.source.toString().toLowerCase();
     if (page.data.damage) {
-        var attackRow_1 = getRow("attacks");
-        var attackAttr = [
-            "name",
-            "damage",
-            "damage_type",
-            "range",
-            "tags",
-            "apc",
-            "description",
-        ];
-        var updateAttack_1 = getUpdate(attackAttr, page, attackRow_1);
-        updateAttack_1["".concat(attackRow_1, "_link")] = row;
-        getAttrs(["spellcasting_ability", "primary_source"], function (_a) {
-            var spellcasting_ability = _a.spellcasting_ability, primary_source = _a.primary_source;
-            updateAttack_1["".concat(attackRow_1, "_attribute")] = spellcasting_ability;
-            updateAttack_1["".concat(attackRow_1, "_attribute_abbreviation")] =
-                getAttributeAbbreviation(spellcasting_ability);
-            var rollFormula = getRollFormula(primary_source === source);
-            updateAttack_1["".concat(attackRow_1, "_roll_formula")] = rollFormula;
-            updateAttack_1["".concat(row, "_roll_formula")] = rollFormula;
-            setDropAttrs(updateAttack_1);
-        });
-        update["".concat(row, "_link")] = attackRow_1;
+        var attackRow = addSpellAttack({ source: source, row: row }, page);
+        update["".concat(row, "_link")] = attackRow;
     }
     if ((_a = page.data) === null || _a === void 0 ? void 0 : _a.function_note) {
         update["".concat(row, "_function")] = "".concat(page.data["function"], " (").concat(page.data.function_note, ")");

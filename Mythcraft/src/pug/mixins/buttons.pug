@@ -18,6 +18,10 @@ mixin attributeRoll(name, attr)
 mixin rollButton(name, formula)
 	button.text-capitalize(class!=attributes.class data-i18n=name name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=^{${name}}}} {{dice=[[1d20+${formula}+${luckEffect}]]}} {{description=@{description}}}`)
 
+mixin initiativeButton()
+	- const name = "initiative"
+	button.text-capitalize(class!=attributes.class data-i18n=name name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=^{${name}}}} {{dice=[[1d20+@{awareness}[awareness]+@{initiative_bonus}[bonus] &{tracker}]]}}`)
+
 mixin repeatingRollButton(name, includeDescription = false)
 	- const description = includeDescription ? "{{description=@{description}}" : ""
 	button.text-left.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{dice=[[1d20+${attribute}+${bonus}+${luckEffect}]]}} {${description}}}`)

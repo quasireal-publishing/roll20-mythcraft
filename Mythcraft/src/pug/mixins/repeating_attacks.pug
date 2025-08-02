@@ -23,7 +23,7 @@ mixin repeatingAttacks()
 					.grid.gap-2.col-auto-fr.items-center
 						h3(data-i18n="attribute")
 						select(name="attr_attribute")
-							each val in coreAttributes
+							each val in combatAttributes
 								option(value=`@{${val}}` data-i18n=val)
 									val
 					+headerInput("apc")

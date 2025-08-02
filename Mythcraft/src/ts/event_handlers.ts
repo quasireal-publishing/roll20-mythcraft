@@ -145,3 +145,48 @@ on("change:primary_source", (event) => {
     });
   });
 });
+
+on("change:repeating_spells:source", (event) => {
+  const { sourceAttribute, newValue } = event;
+  const repeatingRow = getFieldsetRow(sourceAttribute);
+
+  getAttrs(["primary_source"], (values) => {
+    const isPrimarySource = values.primary_source === newValue;
+    setAttrs({
+      [`${repeatingRow}_roll_formula`]: getRollFormula(isPrimarySource),
+    });
+  });
+});
+
+on("change:repeating_spells:damage", (event) => {
+  const { sourceAttribute, previousValue, newValue, sourceType } = event;
+  const repeatingRow = getFieldsetRow(sourceAttribute);
+
+  const isSpellCard = newValue === undefined && previousValue;
+  const isSpellAttack = previousValue === undefined && newValue;
+
+  const updateFormula = !!isSpellCard || !!isSpellAttack;
+
+  if (updateFormula && sourceType === "player") {
+    getAttrs(
+      ["primary_source", `${repeatingRow}_source`],
+      ({ primary_source, ...values }) => {
+        const isPrimarySource =
+          primary_source === values[`${repeatingRow}_source`];
+        const update = {
+          [`${repeatingRow}_roll_formula`]: getRollFormula(
+            isPrimarySource,
+            !!isSpellCard
+          ),
+        };
+
+        if (isSpellAttack) {
+          const attackRow = addSpellAttack(repeatingRow, page);
+          update[`${repeatingRow}_link`] = attackRow;
+        }
+
+        setAttrs(update);
+      }
+    );
+  }
+});
