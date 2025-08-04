@@ -165,28 +165,26 @@ on("change:repeating_spells:damage", (event) => {
   const isSpellCard = newValue === undefined && previousValue;
   const isSpellAttack = previousValue === undefined && newValue;
 
-  const updateFormula = !!isSpellCard || !!isSpellAttack;
+  if (isSpellCard && sourceType === "player") {
+    const formula = getRollFormula(undefined, !!isSpellCard);
+    setAttrs({
+      [`${repeatingRow}_roll_formula`]: formula,
+    });
+  }
 
-  if (updateFormula && sourceType === "player") {
-    getAttrs(
-      ["primary_source", `${repeatingRow}_source`],
-      ({ primary_source, ...values }) => {
-        const isPrimarySource =
-          primary_source === values[`${repeatingRow}_source`];
-        const update = {
-          [`${repeatingRow}_roll_formula`]: getRollFormula(
-            isPrimarySource,
-            !!isSpellCard
-          ),
-        };
-
-        if (isSpellAttack) {
-          const attackRow = addSpellAttack(repeatingRow, page);
-          update[`${repeatingRow}_link`] = attackRow;
-        }
-
-        setAttrs(update);
-      }
+  if (isSpellAttack && sourceType === "player") {
+    const attributes = [...attackFieldsetAttributes, "source"].map(
+      (attr) => `${repeatingRow}_${attr}`
     );
+
+    getAttrs(attributes, (values) => {
+      const data: Record<string, AttrValue> = {};
+      [...attackFieldsetAttributes, "source"].forEach((attr) => {
+        data[attr] = values[`${repeatingRow}_${attr}`];
+      });
+
+      //@ts-ignore data is only partial type but will work
+      addSpellAttack(repeatingRow, { data });
+    });
   }
 });

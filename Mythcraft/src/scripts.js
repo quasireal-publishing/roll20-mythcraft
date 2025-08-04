@@ -7,17 +7,6 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -65,28 +54,29 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var attackFieldsetAttributes = [
+    "name",
+    "damage",
+    "damage_type",
+    "range",
+    "tags",
+    "apc",
+    "description",
+];
 var addSpellAttack = function (row, page) {
     var attackRow = getRow("attacks");
-    var attackAttr = [
-        "name",
-        "damage",
-        "damage_type",
-        "range",
-        "tags",
-        "apc",
-        "description",
-    ];
-    var updateAttack = getUpdate(attackAttr, page, attackRow);
-    updateAttack["".concat(attackRow, "_link")] = row;
+    var update = getUpdate(attackFieldsetAttributes, page, attackRow);
+    update["".concat(attackRow, "_link")] = row;
     getAttrs(["spellcasting_ability", "primary_source"], function (_a) {
         var spellcasting_ability = _a.spellcasting_ability, primary_source = _a.primary_source;
-        updateAttack["".concat(attackRow, "_attribute")] = spellcasting_ability;
-        updateAttack["".concat(attackRow, "_attribute_abbreviation")] =
+        update["".concat(attackRow, "_attribute")] = spellcasting_ability;
+        update["".concat(attackRow, "_attribute_abbreviation")] =
             getAttributeAbbreviation(spellcasting_ability);
         var rollFormula = getRollFormula(primary_source === page.data.source.toString().toLowerCase());
-        updateAttack["".concat(attackRow, "_roll_formula")] = rollFormula;
-        updateAttack["".concat(row, "_roll_formula")] = rollFormula;
-        setDropAttrs(updateAttack);
+        update["".concat(attackRow, "_roll_formula")] = rollFormula;
+        update["".concat(row, "_roll_formula")] = rollFormula;
+        update["".concat(row, "_link")] = attackRow;
+        setDropAttrs(update);
     });
     return attackRow;
 };
@@ -279,24 +269,25 @@ on("change:repeating_spells:source", function (event) {
     });
 });
 on("change:repeating_spells:damage", function (event) {
+    var _a;
     var sourceAttribute = event.sourceAttribute, previousValue = event.previousValue, newValue = event.newValue, sourceType = event.sourceType;
     var repeatingRow = getFieldsetRow(sourceAttribute);
     var isSpellCard = newValue === undefined && previousValue;
     var isSpellAttack = previousValue === undefined && newValue;
-    var updateFormula = !!isSpellCard || !!isSpellAttack;
-    if (updateFormula && sourceType === "player") {
-        getAttrs(["primary_source", "".concat(repeatingRow, "_source")], function (_a) {
-            var _b;
-            var primary_source = _a.primary_source, values = __rest(_a, ["primary_source"]);
-            var isPrimarySource = primary_source === values["".concat(repeatingRow, "_source")];
-            var update = (_b = {},
-                _b["".concat(repeatingRow, "_roll_formula")] = getRollFormula(isPrimarySource, !!isSpellCard),
-                _b);
-            if (isSpellAttack) {
-                var attackRow = addSpellAttack(repeatingRow, page);
-                update["".concat(repeatingRow, "_link")] = attackRow;
-            }
-            setAttrs(update);
+    if (isSpellCard && sourceType === "player") {
+        var formula = getRollFormula(undefined, !!isSpellCard);
+        setAttrs((_a = {},
+            _a["".concat(repeatingRow, "_roll_formula")] = formula,
+            _a));
+    }
+    if (isSpellAttack && sourceType === "player") {
+        var attributes_1 = __spreadArray(__spreadArray([], attackFieldsetAttributes, true), ["source"], false).map(function (attr) { return "".concat(repeatingRow, "_").concat(attr); });
+        getAttrs(attributes_1, function (values) {
+            var data = {};
+            __spreadArray(__spreadArray([], attackFieldsetAttributes, true), ["source"], false).forEach(function (attr) {
+                data[attr] = values["".concat(repeatingRow, "_").concat(attr)];
+            });
+            addSpellAttack(repeatingRow, { data: data });
         });
     }
 });
@@ -604,10 +595,8 @@ var handle_spell = function (page) {
     ];
     var row = getRow("spells");
     var update = getUpdate(attrs, page, row);
-    var source = page.data.source.toString().toLowerCase();
     if (page.data.damage) {
-        var attackRow = addSpellAttack({ source: source, row: row }, page);
-        update["".concat(row, "_link")] = attackRow;
+        addSpellAttack(row, page);
     }
     if ((_a = page.data) === null || _a === void 0 ? void 0 : _a.function_note) {
         update["".concat(row, "_function")] = "".concat(page.data["function"], " (").concat(page.data.function_note, ")");
@@ -632,7 +621,7 @@ var handle_spell = function (page) {
         tags += ", ".concat(page.data.function_note);
     }
     if (page.data.source) {
-        update["".concat(row, "_source")] = source;
+        update["".concat(row, "_source")] = page.data.source.toString().toLowerCase();
     }
     update["".concat(row, "_tags")] = tags;
     setDropAttrs(update);
@@ -708,13 +697,13 @@ var getAttributeAbbreviation = function (attribute) {
         attribute = attribute.substring(2, attribute.length - 1);
     }
     var abbreviation = attribute.substring(0, 3);
-    if (attribute === "awareness") {
+    if (attribute === "awareness" || attribute === "coordination") {
         var key = getTranslationByKey(abbreviation);
         if (key) {
             return key;
         }
         else {
-            console.warn("Key not found for awareness abbreviation: ".concat(abbreviation));
+            console.warn("Key not found for ".concat(attribute, " abbreviation: ").concat(abbreviation));
         }
     }
     return abbreviation;

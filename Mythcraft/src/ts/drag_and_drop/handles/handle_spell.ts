@@ -18,12 +18,11 @@ const handle_spell = (page: CompendiumAttributes) => {
 
   const row = getRow("spells");
   const update = getUpdate(attrs, page, row);
-  const source = page.data.source.toString().toLowerCase();
 
   if (page.data.damage) {
-    const attackRow = addSpellAttack({ source, row }, page);
-    update[`${row}_link`] = attackRow;
+    addSpellAttack(row, page);
   }
+
   if (page.data?.function_note) {
     update[
       `${row}_function`
@@ -54,7 +53,7 @@ const handle_spell = (page: CompendiumAttributes) => {
   }
 
   if (page.data.source) {
-    update[`${row}_source`] = source;
+    update[`${row}_source`] = page.data.source.toString().toLowerCase();
   }
 
   update[`${row}_tags`] = tags;
