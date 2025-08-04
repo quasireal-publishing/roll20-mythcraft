@@ -4,7 +4,7 @@
 declare type EventInfo = {
   newValue: string;
   previousValue: string;
-  removedInfo: string;
+  removedInfo?: { [key: string]: AttrValue };
   sourceAttribute: string;
   sourceType: string;
   triggerName: string;

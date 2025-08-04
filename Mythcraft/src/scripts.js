@@ -7,6 +7,17 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -156,6 +167,15 @@ var handle_drop = function () {
     on("change:repeating_".concat(fieldset), function (event) {
         updateLinkedAttribute(event);
     });
+    on("remove:repeating_".concat(fieldset), function (_a) {
+        var _b;
+        var sourceAttribute = _a.sourceAttribute, removedInfo = _a.removedInfo;
+        var link = removedInfo["".concat(sourceAttribute, "_link")];
+        if (link) {
+            var update = (_b = {}, _b["".concat(link, "_link")] = "", _b);
+            setAttrs(update, { silent: true });
+        }
+    });
 });
 ["attacks", "skills"].forEach(function (fieldset) {
     on("change:repeating_".concat(fieldset, ":attribute"), function (event) {
@@ -268,28 +288,26 @@ on("change:repeating_spells:source", function (event) {
             _a));
     });
 });
-on("change:repeating_spells:damage", function (event) {
-    var _a;
-    var sourceAttribute = event.sourceAttribute, previousValue = event.previousValue, newValue = event.newValue, sourceType = event.sourceType;
-    var repeatingRow = getFieldsetRow(sourceAttribute);
-    var isSpellCard = newValue === undefined && previousValue;
-    var isSpellAttack = previousValue === undefined && newValue;
-    if (isSpellCard && sourceType === "player") {
-        var formula = getRollFormula(undefined, !!isSpellCard);
-        setAttrs((_a = {},
-            _a["".concat(repeatingRow, "_roll_formula")] = formula,
-            _a));
-    }
-    if (isSpellAttack && sourceType === "player") {
-        var attributes_1 = __spreadArray(__spreadArray([], attackFieldsetAttributes, true), ["source"], false).map(function (attr) { return "".concat(repeatingRow, "_").concat(attr); });
-        getAttrs(attributes_1, function (values) {
-            var data = {};
-            __spreadArray(__spreadArray([], attackFieldsetAttributes, true), ["source"], false).forEach(function (attr) {
-                data[attr] = values["".concat(repeatingRow, "_").concat(attr)];
-            });
-            addSpellAttack(repeatingRow, { data: data });
-        });
-    }
+on("change:repeating_spells:toggle_spell_attack", function (event) {
+    updateSpellRollFormula(event);
+});
+[
+    "attacks",
+    "spells",
+    "abilities",
+    "favorites",
+    "talents",
+    "reactive-actions",
+].forEach(function (fieldset) {
+    on("remove:repeating_".concat(fieldset), function (_a) {
+        var _b;
+        var sourceAttribute = _a.sourceAttribute, removedInfo = _a.removedInfo;
+        var link = removedInfo["".concat(sourceAttribute, "_link")];
+        if (link) {
+            var update = (_b = {}, _b["".concat(link, "_link")] = "", _b);
+            setAttrs(update, { silent: true });
+        }
+    });
 });
 var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (isSpellCard) {
@@ -416,6 +434,50 @@ var updateLuck = function (attributes) {
         }
         setAttrs(attrs);
     });
+};
+var updateSpellRollFormula = function (event) {
+    var _a;
+    var sourceAttribute = event.sourceAttribute, newValue = event.newValue, sourceType = event.sourceType;
+    var row = getFieldsetRow(sourceAttribute);
+    var isSpellCard = newValue === "0";
+    if (sourceType !== "player") {
+        return;
+    }
+    if (isSpellCard) {
+        var formula = getRollFormula(undefined, isSpellCard);
+        setAttrs((_a = {},
+            _a["".concat(row, "_roll_formula")] = formula,
+            _a));
+        return;
+    }
+    if (!isSpellCard) {
+        getAttrs(["primary_source", "".concat(row, "_source")], function (_a) {
+            var _b;
+            var primary_source = _a.primary_source, values = __rest(_a, ["primary_source"]);
+            var isPrimarySource = primary_source === values["".concat(row, "_source")];
+            setAttrs((_b = {},
+                _b["".concat(row, "_roll_formula")] = getRollFormula(isPrimarySource, isSpellCard),
+                _b));
+        });
+        var attributes_1 = __spreadArray(__spreadArray([], attackFieldsetAttributes, true), ["source", "link"], false).map(function (attr) { return "".concat(row, "_").concat(attr); });
+        getAttrs(attributes_1, function (values) {
+            var data = {};
+            __spreadArray(__spreadArray([], attackFieldsetAttributes, true), ["source"], false).forEach(function (attr) {
+                data[attr] = values["".concat(row, "_").concat(attr)];
+            });
+            var link = values["".concat(row, "_link")];
+            if (!link) {
+                var data_1 = {};
+                __spreadArray(__spreadArray([], attackFieldsetAttributes, true), ["source"], false).forEach(function (attr) {
+                    data_1[attr] = values["".concat(row, "_").concat(attr)];
+                });
+                addSpellAttack(row, {
+                    name: values["".concat(row, "_name")],
+                    data: data_1
+                });
+            }
+        });
+    }
 };
 var _this = this;
 var versioningAttr = "latest_versioning_upgrade";
@@ -596,6 +658,7 @@ var handle_spell = function (page) {
     var row = getRow("spells");
     var update = getUpdate(attrs, page, row);
     if (page.data.damage) {
+        update["".concat(row, "_toggle_spell_attack")] = "on";
         addSpellAttack(row, page);
     }
     if ((_a = page.data) === null || _a === void 0 ? void 0 : _a.function_note) {

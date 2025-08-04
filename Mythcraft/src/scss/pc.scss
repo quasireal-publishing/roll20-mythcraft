@@ -197,6 +197,14 @@
         gap: $spacing-2;
       }
 
+      .pc-grid-cols {
+        grid-template-columns: 1fr 1fr 2fr;
+      }
+
+      .attack-toggle {
+        grid-template-columns: 1fr max-content;
+      }
+
       .repeating-grid {
         border: 1px solid $color-neutral-200;
         border-radius: $spacing-2;

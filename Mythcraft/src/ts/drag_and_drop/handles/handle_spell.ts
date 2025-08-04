@@ -20,6 +20,7 @@ const handle_spell = (page: CompendiumAttributes) => {
   const update = getUpdate(attrs, page, row);
 
   if (page.data.damage) {
+    update[`${row}_toggle_spell_attack`] = "on";
     addSpellAttack(row, page);
   }
 

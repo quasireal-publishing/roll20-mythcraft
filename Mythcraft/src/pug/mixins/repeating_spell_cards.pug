@@ -28,18 +28,26 @@ mixin repeatingSpellCards()
 			.edit.grid.gap-2
 				.grid.gap-2.edit-grid
 					+textInputs(["name"])
-					.grid.gap-2.grid-flow-col.col-auto-fr.items-center
-						h3(data-i18n="source")
-						select(name="attr_source")
-							each val in magicSources
-								option(value=`${val}` data-i18n=val)
-									val
+					.grid.gap-2.grid-flow-col.grid-cols-2.items-center
+						.grid.gap-2.grid-flow-col.col-auto-fr.items-center
+							h3(data-i18n="source")
+							select(name="attr_source")
+								each val in magicSources
+									option(value=`${val}` data-i18n=val)
+										val
+						.grid.gap-2.grid-flow-col.items-center.attack-toggle
+							h3(data-i18n="attack")
+							label.switch(data-i18n-title="toggle attack")
+								input(class="whisper-toggle" type="checkbox" name="attr_toggle_spell_attack")
+								span.slider
+		
 					+textInputs(["tags"])
-					+textInputs(["apc", "spc", "range"]).grid-cols-3
+					+textInputs(["apc", "spc", "range"]).pc-grid-cols
 					+textInputs(["requires"])
 					+textInputs(["duration"])
 					+textInputs(["damage", "damage type"]).grid-cols-2
-					+textInputs(["casting time", "recharge"]).grid-cols-2
+					+textInputs(["casting time"])
+					+textInputs(["recharge"])
 					each val in ["prerequisites", "upcharge"]
 						.grid.gap-2.col-auto-fr.items-center
 							h4(data-i18n=val)

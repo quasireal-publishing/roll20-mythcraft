@@ -1,22 +1,15 @@
-// [anticipation, fortitude, logic, reflexes, willpower].forEach(
-//   (scoreAttributes) => {
-//     scoreAttributes.forEach((attr) => {
-//       on(`change:${attr}`, () => {
-//         getAttrs(scoreAttributes, (values) => {
-//           const sum = sumIntegers(Object.values(parseIntegers(values)));
-//           const name = scoreAttributes
-//             .find((e) => e.includes("base"))
-//             .replace("_base", "");
-//           setAttrs({ [name]: sum });
-//         });
-//       });
-//     });
-//   }
-// );
-
 ["attacks", "spells", "reactive-actions"].forEach((fieldset) => {
   on(`change:repeating_${fieldset}`, (event) => {
     updateLinkedAttribute(event);
+  });
+
+  on(`remove:repeating_${fieldset}`, ({ sourceAttribute, removedInfo }) => {
+    const link = removedInfo[`${sourceAttribute}_link`];
+
+    if (link) {
+      const update = { [`${link}_link`]: "" };
+      setAttrs(update, { silent: true });
+    }
   });
 });
 
@@ -158,33 +151,24 @@ on("change:repeating_spells:source", (event) => {
   });
 });
 
-on("change:repeating_spells:damage", (event) => {
-  const { sourceAttribute, previousValue, newValue, sourceType } = event;
-  const repeatingRow = getFieldsetRow(sourceAttribute);
+on("change:repeating_spells:toggle_spell_attack", (event) => {
+  updateSpellRollFormula(event);
+});
 
-  const isSpellCard = newValue === undefined && previousValue;
-  const isSpellAttack = previousValue === undefined && newValue;
+[
+  "attacks",
+  "spells",
+  "abilities",
+  "favorites",
+  "talents",
+  "reactive-actions",
+].forEach((fieldset) => {
+  on(`remove:repeating_${fieldset}`, ({ sourceAttribute, removedInfo }) => {
+    const link = removedInfo[`${sourceAttribute}_link`];
 
-  if (isSpellCard && sourceType === "player") {
-    const formula = getRollFormula(undefined, !!isSpellCard);
-    setAttrs({
-      [`${repeatingRow}_roll_formula`]: formula,
-    });
-  }
-
-  if (isSpellAttack && sourceType === "player") {
-    const attributes = [...attackFieldsetAttributes, "source"].map(
-      (attr) => `${repeatingRow}_${attr}`
-    );
-
-    getAttrs(attributes, (values) => {
-      const data: Record<string, AttrValue> = {};
-      [...attackFieldsetAttributes, "source"].forEach((attr) => {
-        data[attr] = values[`${repeatingRow}_${attr}`];
-      });
-
-      //@ts-ignore data is only partial type but will work
-      addSpellAttack(repeatingRow, { data });
-    });
-  }
+    if (link) {
+      const update = { [`${link}_link`]: "" };
+      setAttrs(update, { silent: true });
+    }
+  });
 });
