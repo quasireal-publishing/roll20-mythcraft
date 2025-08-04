@@ -2,7 +2,8 @@
 $button-max-width: $spacing-48;
 
 %button {
-  background-color: $color-neutral-50;
+  background-color: $third;
+
   border: {
     bottom-right-radius: 0.01em;
     bottom: 2px solid $color-neutral-900;
@@ -12,7 +13,7 @@ $button-max-width: $spacing-48;
     style: outset;
   }
   box-shadow: $box-shadow;
-  color: $color-neutral-900;
+  color: $secondary;
   font-size: $text-base;
   margin: 0px;
   max-width: $button-max-width;
@@ -30,9 +31,7 @@ $button-max-width: $spacing-48;
   &:focus,
   &:hover,
   &:active {
-    background: none;
-    background-color: $primary !important;
-    color: $color-neutral-50;
+    @extend %hover;
   }
 }
 
@@ -126,9 +125,14 @@ $button-max-width: $spacing-48;
   }
 
   select {
+    font-weight: bold;
     margin-bottom: 0px;
     text-transform: capitalize;
     width: 100%;
+  }
+
+  option {
+    font-weight: bold;
   }
 
   textarea {

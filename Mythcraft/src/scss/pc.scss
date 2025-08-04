@@ -1,4 +1,9 @@
 .pc {
+  background-image: url("https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/MythCraft-PaperTexture.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
   overflow: hidden;
 
   .logo {
@@ -195,6 +200,27 @@
         flex-direction: row;
         display: flex;
         gap: $spacing-2;
+        @extend .justify-around;
+      }
+
+      input[name="attr_source"][value="arcane"] + div {
+        background-color: rgba(0, 207, 255, 0.2);
+      }
+
+      input[name="attr_source"][value="divine"] + div {
+        background-color: rgba(234, 216, 73, 0.2);
+      }
+
+      input[name="attr_source"][value="primal"] + div {
+        background-color: rgba(102, 255, 102, 0.2);
+      }
+
+      input[name="attr_source"][value="psionic"] + div {
+        background-color: rgba(168, 77, 255, 0.2);
+      }
+
+      input[name="attr_source"][value="occult"] + div {
+        background-color: rgba(209, 44, 44, 0.2);
       }
 
       .pc-grid-cols {

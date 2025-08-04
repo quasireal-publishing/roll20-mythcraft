@@ -17,6 +17,14 @@
   }
 }
 
+%hover {
+  background-color: $fourth;
+  color: $secondary;
+  scale: 1.05;
+  border-radius: $spacing;
+  border: 1px solid $primary;
+}
+
 .toggle + span {
   visibility: hidden;
 }
@@ -73,27 +81,33 @@ input[type="radio"] {
 }
 
 .double-border-2 {
-  border: $spacing double $color-neutral-950;
+  border: $spacing double $third;
 }
 
 .border-bottom {
-  border-bottom: 2px solid $color-neutral-950;
+  border-bottom: 2px solid $third;
 }
 
 .border-right {
-  border-right: 2px solid $color-neutral-950;
+  border-right: 2px solid $third;
 }
 
 .circle {
-  background-color: $color-neutral-100;
+  background-color: $secondary;
   border-radius: 50%;
-  border: $spacing double $color-neutral-950;
+  border: 3px solid $third;
   height: 100px;
   padding: $spacing-2;
   width: 100px;
 
   button[type="roll"] {
     border-radius: 30px;
+  }
+
+  input[type="text"],
+  input[type="number"] {
+    font-weight: bold;
+    max-width: 55px;
   }
 }
 
@@ -191,6 +205,12 @@ input[type="radio"] {
     border-color: $secondary;
     color: $color-neutral-950;
     font-weight: bold;
+    border: 1px solid $third;
+  }
+
+  input[type="radio"]:hover + span,
+  input[type="radio"]:focus + span {
+    @extend %hover;
   }
 }
 
@@ -201,6 +221,6 @@ input[type="radio"] {
   width: 100%;
 
   h2 {
-    background-color: $color-neutral-100;
+    background-color: oklch(0.95 0.02 84.45);
   }
 }

@@ -26,10 +26,11 @@ label.switch {
   right: 0;
   top: 0;
   transition: 0.4s;
+  border: 1px solid $third;
 
   &:before {
     -webkit-transition: 0.4s;
-    background-color: $color-neutral-800;
+    background-color: $third;
     border-radius: 50%;
     bottom: 4px;
     content: "";
