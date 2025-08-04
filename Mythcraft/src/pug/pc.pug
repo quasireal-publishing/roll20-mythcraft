@@ -128,8 +128,8 @@
 
 
 	.grid.gap-6.magic
-		.grid.grid-flow-col.gap-4
-			.grid.gap-6
+		.grid.grid-flow-col.gap-2
+			.grid.gap-6.content-start
 				.grid.double-border-2.rounded-md.p-2.relative
 					+title("spell points")
 					+numberInputWithMax("spell points")
@@ -159,7 +159,6 @@
 						.grid.grid-flow-col.gap-2.displayed.custom-grid
 							+repeatingChatButton(attrName('source')).capitalize
 							+attrSpan('power level')(class="display ellipse text-center")
-						+favoriteToggle()
 						+editToggle()
 						+collapseToggle()
 						.collapsible.grid.gap-2

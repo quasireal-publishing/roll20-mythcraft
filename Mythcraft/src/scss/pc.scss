@@ -223,6 +223,10 @@
         background-color: rgba(209, 44, 44, 0.2);
       }
 
+      .points-source {
+        grid-template-columns: 1.5fr 1fr;
+      }
+
       .pc-grid-cols {
         grid-template-columns: 1fr 1fr 2fr;
       }
