@@ -1,0 +1,14 @@
+.creature {
+  .settings-toggle {
+    top: 4px;
+    right: 4px;
+
+    .toggle-settings {
+      grid-column: 1 / -1;
+
+      & + span {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}

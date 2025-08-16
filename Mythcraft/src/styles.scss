@@ -22,7 +22,7 @@ $secondary: rgb(254, 235, 179);
 $third: rgb(44, 37, 34);
 $fourth: rgb(41, 135, 140);
 $fifth: rgb(252, 101, 67);
-$box-shadow: 2px 2px 3px 1px $color-neutral-900;
+$box-shadow: 2px 2px 3px 1px $color-neutral-500;
 
 // Normal Text: Tinos 11pt -> closest is $text-sm: 14px
 // H1: Gideon Roman, bold, 30pt -> closest is $text-2xl: 24px
@@ -77,6 +77,10 @@ $box-shadow: 2px 2px 3px 1px $color-neutral-900;
 /* PC
     ============================= */
 @import "scss/pc";
+
+/* CREATURE
+    ============================= */
+@import "scss/creature";
 
 /*  SHOW & HIDE SECTIONS
   ============================= */

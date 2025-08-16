@@ -25,12 +25,12 @@
   border: 1px solid $primary;
 }
 
-.toggle + span {
-  visibility: hidden;
-}
-
-.repitem:hover {
+.repitem {
   .toggle + span {
+    visibility: hidden;
+  }
+
+  &:hover .toggle + span {
     visibility: visible;
     transition: visibility 0.5s ease-in-out;
   }
@@ -62,8 +62,8 @@ input[type="radio"] {
   }
 
   &.toggle:hover + span {
-    background-color: $primary;
-    color: $secondary;
+    background-color: $secondary;
+    color: $primary;
   }
 
   &.toggle:checked + span,
@@ -71,7 +71,6 @@ input[type="radio"] {
     background-color: $primary;
     color: $secondary;
     transition: color 0.5s ease-in-out;
-    visibility: visible;
   }
 
   &.toggle:not(:checked) + span,
@@ -174,7 +173,6 @@ input[type="radio"] {
 .tab {
   color: $color-neutral-50;
   text-align: center;
-  text-transform: capitalize;
 
   input[type="radio"],
   span {

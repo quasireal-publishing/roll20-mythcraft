@@ -21,10 +21,13 @@
 					each val in ['appearance']
 						+headerInput(val)
 		.grid.gap-2.grid-flow-col.auto-cols-min
-			each tab in ['main', 'combat', 'magic', 'talents', 'journal', ]
+			each tab in ['main', 'combat', 'magic', 'talents', 'journal', 'settings']
 				.grid.tab.relative
 					input(type="radio" name="attr_tab" value=tab checked=(!!tab === 'main'))
-					span(data-i18n=tab)
+					if tab === 'settings'
+						span.pictos.lowercase y
+					else
+						span(data-i18n=tab).capitalize
 
 
 	.grid.gap-6.main
@@ -198,3 +201,12 @@
 	.grid.gap-4.talents.grid-flow-col.talent-grid
 		+repeatingList('talents', {display: ['name', "tags"], collapse: ['prerequisites'], favorite: true})
 		+repeatingList('abilities', {display: ['name', 'tags'], favorite: true})
+
+	.grid.gap-6.settings
+		.grid.gap-2.grid-flow-col.col-auto-fr
+			h2(data-i18n="character type")
+			.grid.gap-2.grid-flow-col.auto-cols-min
+				each val in sheetTypes
+					.grid.tab.relative
+						input(type="radio" name="attr_sheet_type" value=val checked=(!!val === 'pc'))
+						span(data-i18n=val)

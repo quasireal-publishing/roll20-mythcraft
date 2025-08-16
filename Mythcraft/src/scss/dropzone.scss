@@ -12,6 +12,13 @@
 
 .dropzone {
   padding: 0px;
+  border-color: $third;
+  box-shadow: $box-shadow;
+
+  background-image: url("https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/MythCraft-PaperTexture.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .dropzone.active-drop-target.dropping ~ .compendium_warning {
