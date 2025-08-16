@@ -16,13 +16,13 @@ include pug/hidden_attributes.pug
 
 //- DRAG & DROP
   =============================
-.dropzone.compendium-drop-target.creatures.pregens
+.dropzone.compendium-drop-target.creatures.pregens.sheet
   each val in ['Name', 'data', 'Content', "Category"]
     input(name=`attr_drop_${val.toLowerCase()}` type='hidden' value='' accept=val)
 
   //- TABS
     =============================
-  input.type(name='attr_sheet_type' type='hidden' value='character')
+  input.type(name='attr_sheet_type' type='hidden' value='pc')
   input.display_string(name='attr_character_settings' type='hidden' value='')
 
   //-SHEET

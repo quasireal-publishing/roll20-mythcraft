@@ -1,4 +1,12 @@
 .creature {
+  max-width: 550px;
+
+  h2 {
+    @extend .uppercase;
+    @extend .text-primary;
+    @extend .font-bold;
+  }
+
   .settings-toggle {
     top: 4px;
     right: 4px;
@@ -9,6 +17,48 @@
       & + span {
         grid-column: 1 / -1;
       }
+    }
+  }
+
+  input[name="attr_hp"],
+  input[name="attr_armor_rating"] {
+    text-align: center;
+  }
+
+  .bio {
+    grid-template-columns: 1fr 100px;
+  }
+
+  .size-tags {
+    grid-template-columns: 1fr minmax(250px, 2fr);
+  }
+
+  .hp-armor-speed {
+    grid-template-columns: repeat(2, 1fr) minmax(250px, 2fr);
+  }
+
+  .attrs {
+    grid-template-columns: repeat(6, 1fr);
+
+    .luck,
+    .coordination {
+      display: none;
+    }
+
+    .reflexes {
+      grid-column: 2 / 3;
+    }
+    .fortitude {
+      grid-column: 3 / 4;
+    }
+    .anticipation {
+      grid-column: 4 / 5;
+    }
+    .logic {
+      grid-column: 5 / 6;
+    }
+    .willpower {
+      grid-column: 6 / 7;
     }
   }
 }

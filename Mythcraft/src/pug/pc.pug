@@ -103,18 +103,7 @@
 				.grid.justify-center.items-center.mt-1
 					+initiativeButton()
 
-		.grid.gap-1.justify-between.items-center.attrs
-			each val in combatAttributes
-				.grid.relative.justify-center.items-center
-					.circle.rounded-full.border.grid.justify-center.items-center.font-bold
-						+attributeRoll(shortName(val), `${val}`)
-						+numberInput(val)
-			div
-			each val in derivedAttributes
-				.grid.relative.justify-center.items-center(class=`${val}`)
-					.circle.rounded-full.border.grid.justify-center.items-center.font-bold
-						h3.text-center(data-i18n=shortName(val))
-						+numberInput(val)
+		+combatAttributes()
 		
 		.grid.double-border-2.rounded-md.p-2.relative.attacks
 			+title("attacks & spellcasting")

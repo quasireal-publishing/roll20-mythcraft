@@ -25,6 +25,16 @@
   border: 1px solid $primary;
 }
 
+.logo {
+  height: $spacing-32;
+  width: $spacing-64;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
 .repitem {
   .toggle + span {
     visibility: hidden;
@@ -107,6 +117,13 @@ input[type="radio"] {
   input[type="number"] {
     font-weight: bold;
     max-width: 55px;
+  }
+}
+
+.attrs {
+  .circle {
+    height: 80px;
+    width: 80px;
   }
 }
 

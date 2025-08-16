@@ -1,16 +1,6 @@
 .pc {
   overflow: hidden;
 
-  .logo {
-    height: $spacing-32;
-    width: $spacing-64;
-
-    img {
-      height: 100%;
-      width: 100%;
-    }
-  }
-
   .title {
     max-height: 35px;
   }
@@ -27,15 +17,6 @@
 
     .name-row {
       grid-template-columns: 1fr minmax($spacing-12, $spacing-20);
-    }
-  }
-
-  .attrs {
-    grid-template-columns: repeat(8, 1fr);
-
-    .circle {
-      height: 80px;
-      width: 80px;
     }
   }
 
@@ -103,6 +84,10 @@
   }
 
   .combat {
+    .attrs {
+      grid-template-columns: repeat(8, 1fr);
+    }
+
     .attacks {
       .custom-grid {
         grid-template-columns:

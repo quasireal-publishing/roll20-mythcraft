@@ -1,5 +1,56 @@
-.creature.grid.gap-6.p-2.relative
-    .settings-toggle.absolute
-        .grid.relative
-            +settingsToggle('creature settings')
-    h2(data-i18n="creature sheet") Creature Sheet
+.creature.grid.gap-4.p-2.relative
+    .grid.gap-2.grid-flow-col.col-auto-fr
+        .settings-toggle.absolute
+            .grid.relative.grid-flow-col.auto-cols-min
+                +settingsToggle('creature settings')
+        .flex.flex-wrap.flex-row
+            .logo.grow-0
+                img(src='https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/Mythcraft-Logo-Badge-Textured-Black.png' alt="Mythcraft Logo" title="Mythcraft Logo")
+
+        .description
+            .settings-toggle.absolute
+                .grid.relative.grid-flow-col.auto-cols-min
+                    +settingsToggle('creature settings')
+            +textarea("description")
+    
+    .grid.gap-4
+        .grid.gap-2.bio
+            .grid.grid-flow-col.gap-2.name-row
+                +headerInput('character name')
+            .grid.col-auto-fr.gap-1.grid-flow-col.items-center
+                h3(data-i18n="level")
+                +numberInput("level")(class="text-center")
+        .grid.grid-flow-col.gap-2.size-tags
+            each val in ['size', 'tags']
+                +headerInput(val)
+
+        +combatAttributes()
+
+        .grid.gap-2.grid-flow-col.items-center.hp-armor-speed
+            each val in ["hp", "armor rating", "speed"]
+                .grid.grid-gap-2.grid-flow-col.items-center
+                    +headerInput(val)
+
+        .grid.gap-2.grid-flow-col.items-center
+            each val in ['resist', 'immune']
+                +headerInput(val)
+
+        .grid.gap-2.grid-flow-col.items-center
+            each val in ['vulnerable', 'damage reduction']
+                +headerInput(val)
+
+        .grid.gap-2.items-center
+            each val in ['senses', 'traits']
+                +headerInput(val)
+
+        .grid.gap-2.items-center
+            h2.text-primary(data-i18n="features")
+            +repeatingFeatures("features")
+
+        .grid.gap-2.items-center
+            h2.text-primary(data-i18n="actions")
+            +repeatingFeatures("actions")
+
+        .grid.gap-2.items-center
+            h2.text-primary(data-i18n="reactions")
+            +repeatingFeatures("reactions")

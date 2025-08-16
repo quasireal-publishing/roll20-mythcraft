@@ -69,6 +69,17 @@ $box-shadow: 2px 2px 3px 1px $color-neutral-500;
 @import "scss/charsheet";
 @import "scss/dropzone";
 
+.pc,
+.creature {
+  background-image: url("https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/MythCraft-PaperTexture.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: $box-shadow;
+  border: 2px solid $third;
+  border-radius: $spacing-2;
+}
+
 // Shared Classes
 //   =============================  */
 @import "scss/shared_classes";

@@ -37,7 +37,7 @@ mixin collapseToggle(name)
 mixin favoriteToggle(name)
 	- const attr = name ? `toggle_favorite_${attrName(name)}` : 'toggle_favorite'
 	input.toggle.toggle-favorite(name=`attr_${attr}` title=`favorite toggle` type='checkbox' value='true')
-	span.pictos.lowercase S
+	span.pictos.uppercase S
 
 
 mixin settingsToggle(name)
