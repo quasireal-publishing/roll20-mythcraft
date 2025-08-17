@@ -62,13 +62,14 @@
                     .collapsible.grid.gap-2
                         .description
                             span.display(name='attr_description')
-                    .edit.grid.gap-2
-                        +textInput('name')
-                        +textInput('reach')
-                        +textInput('type')
-                        +textInput('bonus')
-                        +textInput('damage')
-                        +textInput('damage type')
+                    .edit.grid.gap-2.ml-4
+                        +headerInput('name')
+                        .grid.gap-2.grid-flow-col
+                            each val in ['reach', 'type', 'bonus']
+                                +headerInput(val)
+                        .grid.gap-2.grid-flow-col
+                            each val in ['damage', 'damage type']
+                                +headerInput(val)
                         .description
                             +textarea('description')
 
