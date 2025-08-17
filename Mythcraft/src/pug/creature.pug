@@ -47,10 +47,35 @@
             h2.text-primary(data-i18n="features")
             +repeatingFeatures("features")
 
-        .grid.gap-2.items-center
+        .grid.gap-2.items-center.actions
             h2.text-primary(data-i18n="actions")
-            +repeatingFeatures("actions")
+            +textInput('action description')
+            fieldset(class=`repeating_actions`)
+                .grid.gap-2.relative.repeating-grid
+                    input(type='hidden' name='attr_name')
+                    .grid.grid-flow-col.gap-2.displayed.custom-grid
+                        +repeatingChatButton('name')
+                        span.or.font-bold(name="attr_name")
+                        span.or(name="attr_description")
+                    +editToggle()
+                    +collapseToggle()
+                    .collapsible.grid.gap-2
+                        .description
+                            span.display(name='attr_description')
+                    .edit.grid.gap-2
+                        +textInput('name')
+                        +textInput('reach')
+                        +textInput('type')
+                        +textInput('bonus')
+                        +textInput('damage')
+                        +textInput('damage type')
+                        .description
+                            +textarea('description')
 
         .grid.gap-2.items-center
             h2.text-primary(data-i18n="reactions")
             +repeatingFeatures("reactions")
+
+        .grid.gap-2.items-center
+            h2.text-primary(data-i18n="spells")
+            +repeatingSpellCards()

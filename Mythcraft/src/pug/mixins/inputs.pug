@@ -39,7 +39,6 @@ mixin favoriteToggle(name)
 	input.toggle.toggle-favorite(name=`attr_${attr}` title=`favorite toggle` type='checkbox' value='true')
 	span.pictos.uppercase S
 
-
 mixin settingsToggle(name)
 	- const attr = name ? `toggle_favorite_${attrName(name)}` : 'toggle_favorite'
 	input.toggle.toggle-settings(name=`attr_${attr}` title=`favorite toggle` type='checkbox' value='true')

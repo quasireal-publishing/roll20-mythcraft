@@ -61,4 +61,29 @@
       grid-column: 6 / 7;
     }
   }
+
+  .actions {
+    span.or {
+      display: none;
+    }
+
+    @each $value in ("or", "OR", "…and", "…AND", "and", "AND") {
+      input[name="attr_name"][value="#{$value}"] {
+        & ~ .grid button[type="roll"],
+        & ~ .collapsible,
+        & ~ .toggle-collapse,
+        & ~ .toggle-collapse + span {
+          display: none;
+        }
+
+        & ~ .grid span.or {
+          display: inline;
+        }
+
+        & + .custom-grid {
+          grid-auto-columns: max-content;
+        }
+      }
+    }
+  }
 }
