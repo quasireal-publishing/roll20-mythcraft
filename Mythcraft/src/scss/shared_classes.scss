@@ -122,8 +122,8 @@ input[type="radio"] {
 
 .attrs {
   .circle {
-    height: 80px;
-    width: 80px;
+    height: 75px;
+    width: 75px;
   }
 }
 
@@ -238,4 +238,8 @@ input[type="radio"] {
   h2 {
     background-color: oklch(0.95 0.02 84.45);
   }
+}
+
+select[name="attr_sheet_type"] {
+  max-width: 250px;
 }

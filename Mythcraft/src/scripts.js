@@ -350,13 +350,9 @@ var updateCreatureAttackRollFormula = function (event) {
     }
     var row = getFieldsetRow(sourceAttribute);
     var isAttack = newValue === "on";
-    console.table({
-        row: row,
-        newValue: newValue
-    });
     if (isAttack) {
         var update = (_a = {},
-            _a["".concat(row, "_roll_formula")] = "{{dice=[[1d20+${tactical}]]}} {{action=Reach @{reach} @{type}. @{bonus} }} {{damage=[Damage](~repeating_actions-roll_damage)}}",
+            _a["".concat(row, "_roll_formula")] = "{{dice=[[1d20+(@{bonus})+${tactical}]]}} {{action=Reach @{reach} @{type}. @{bonus} }} {{damage=[Damage](~repeating_actions-roll_damage)}}",
             _a);
         setAttrs(update);
         return;

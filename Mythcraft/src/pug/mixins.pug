@@ -107,3 +107,11 @@ mixin combatAttributes()
                h3.text-center(data-i18n=shortName(val))
                +numberInput(val)
                
+mixin sheetSelect()
+   .grid.gap-2.grid-flow-col.col-auto-fr
+      h2(data-i18n="character type")
+      .grid.gap-2.grid-flow-col
+         select(name="attr_sheet_type")
+            each val in sheetTypes
+               option(value=`${val}` data-i18n=val  selected=(!!val === 'pc'))
+                  val

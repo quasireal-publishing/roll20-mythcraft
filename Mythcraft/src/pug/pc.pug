@@ -1,4 +1,4 @@
-.pc.grid.gap-6.p-2
+.pc.grid.gap-6.p-2.auto-rows-max
 	input(type="hidden"  name="attr_tab" value="main")
 	
 	.grid.gap-4
@@ -179,11 +179,10 @@
 		.grid.rounded-md.relative
 			+repeatingList('additional info', {display: ['name', "category"]})
 			
-		.grid.gap-4.grid-flow-col.auto-cols-fr
+		.grid.gap-2.grid-flow-col.auto-cols-fr
 			+repeatingList('location request contacts', {display: ['name']})
 
-			.grid.justify-center.gap-4.resources.w-full
-				+repeatingResources('resources')
+			+repeatingResources('resources')
 
 		+repeatingList('journal', {display: ['name', 'date']})
 
@@ -192,10 +191,4 @@
 		+repeatingList('abilities', {display: ['name', 'tags'], favorite: true})
 
 	.grid.gap-6.settings
-		.grid.gap-2.grid-flow-col.col-auto-fr
-			h2(data-i18n="character type")
-			.grid.gap-2.grid-flow-col.auto-cols-min
-				each val in sheetTypes
-					.grid.tab.relative
-						input(type="radio" name="attr_sheet_type" value=val checked=(!!val === 'pc'))
-						span(data-i18n=val)
+		+sheetSelect()

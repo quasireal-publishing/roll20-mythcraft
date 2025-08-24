@@ -1,38 +1,76 @@
-.creature.grid.gap-4.p-2.relative
-	.grid.gap-4
-		.grid.gap-2.bio.grid-flow-col
-			.grid.grid-flow-col.gap-2.name-row
-				+headerInput('character name')
+.creature.p-2.relative.auto-rows-max
+	input.settings-creature(type='hidden' name="attr_toggle_creature_settings")
+	input.edit-creature(type="hidden" name="attr_toggle_edit_creature_edit")
+	.grid.grid-flow-col.auto-cols-min.gap-2.settings-toggle.absolute
+		.grid.relative.grid-flow-col.auto-cols-min.gap-2
+			+editToggle('creature edit', true)
+		.grid.relative.grid-flow-col.auto-cols-min.gap-2
+			+settingsToggle('creature settings')
+	.grid.gap-4.sheet
+		.display
+			span.display(name="attr_character_name")
 			.grid.col-auto-fr.gap-1.grid-flow-col.items-center
-				h3(data-i18n="level")
-				+numberInput("level")(class="text-center")
-			.grid.grid-flow-col.auto-cols-min.gap-2.settings-toggle
-				.grid.relative.grid-flow-col.auto-cols-min.gap-2
-					+editToggle('creature edit')
-				.grid.relative.grid-flow-col.auto-cols-min.gap-2
-					+settingsToggle('creature settings')
-		.grid.grid-flow-col.gap-2.size-tags
-			each val in ['size', 'tags']
-				+headerInput(val)
+				span.italic Monster Level:
+				span.italic(name="attr_level")
+			.grid.gap-1.grid-flow-col.items-center.auto-cols-max
+				each val in ['size', 'tags']
+					+attrSpan(val)(class='italic')
+		.inputs.grid.gap-2
+			.grid.gap-2.grid-flow-col.bio
+				.grid.grid-flow-col.gap-2
+					+headerInput('character name')
+				.grid.col-auto-fr.gap-1.grid-flow-col.items-center
+					h3(data-i18n="level")
+					+numberInput("level")(class="text-center")
+			.grid.grid-flow-col.gap-2.size-tags
+				each val in ['size', 'tags']
+					+headerInput(val)
 
 		+combatAttributes()
 
-		.grid.gap-2.grid-flow-col.items-center.hp-armor-speed
-			each val in ["hp", "armor rating", "speed"]
-				.grid.grid-gap-2.grid-flow-col.items-center
+		.display.grid
+			.grid.gap-4.grid-flow-col.items-center.auto-cols-max
+				each val in ['hp', 'armor rating']
+					.grid.gap-2.grid-flow-cols.col-auto-fr.items-center.display-span
+						h3(data-i18n=val)
+						+attrSpan(val)(class='font-base')
+			.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
+				h3(data-i18n="speed")
+				+attrSpan("speed")(class='font-base')
+			.grid.gap-2.items-center.auto-cols-max.grid-flow-col
+				each val in ['resist', 'immune']
+					.grid.gap-2.grid-flow-col.items-center.auto-cols-max.display-span.display-span
+						h3(data-i18n=val)
+						+attrSpan(val)(class='font-base')
+			.grid.gap-2.items-center.auto-cols-max.grid-flow-col
+				each val in ['vulnerable', 'damage reduction']
+					.grid.gap-2.grid-flow-col.items-center.auto-cols-max.display-span
+						h3(data-i18n=val)
+						+attrSpan(val)(class='font-base')
+			.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
+				h3(data-i18n="senses")
+				+attrSpan("senses")(class='font-base')
+			.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
+				h3(data-i18n="traits")
+				+attrSpan("traits")(class='font-base')
+
+		.inputs.grid.gap-4
+			.grid.gap-2.grid-flow-col.items-center.hp-armor-speed
+				each val in ["hp", "armor rating", "speed"]
+					.grid.grid-gap-2.grid-flow-col.items-center
+						+headerInput(val)
+
+			.grid.gap-2.grid-flow-col.items-center
+				each val in ['resist', 'immune']
 					+headerInput(val)
 
-		.grid.gap-2.grid-flow-col.items-center
-			each val in ['resist', 'immune']
-				+headerInput(val)
+			.grid.gap-2.grid-flow-col.items-center
+				each val in ['vulnerable', 'damage reduction']
+					+headerInput(val)
 
-		.grid.gap-2.grid-flow-col.items-center
-			each val in ['vulnerable', 'damage reduction']
-				+headerInput(val)
-
-		.grid.gap-2.items-center
-			each val in ['senses', 'traits']
-				+headerInput(val)
+			.grid.gap-2.items-center
+				each val in ['senses', 'traits']
+					+headerInput(val)
 
 		.grid.gap-2.items-center
 			h2.text-primary(data-i18n="skills")
@@ -40,7 +78,27 @@
 
 		.grid.gap-2.items-center
 			h2.text-primary(data-i18n="features")
-			+repeatingFeatures("features")
+			fieldset(class=`repeating_features`)
+				input(type="hidden" name="attr_link" value="")
+				.grid.gap-2.relative.repeating-grid
+					.grid.grid-flow-col.gap-2.displayed.custom-grid
+						+repeatingChatButton(attrName("features"))
+					+editToggle()
+					+collapseToggle()
+					.collapsible.grid.gap-2
+						.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
+							+repeatingDamageButton("damage")(class="text-center")
+							+attrSpan("damage type")
+						.description
+							span.display(name='attr_description')
+					.edit.grid.gap-2.ml-4
+						+headerInput('name')
+						.grid.gap-2.grid-flow-col.damage
+							each val in ['damage', 'damage type']
+								+headerInput(val)
+						.description
+							+textarea('description')
+
 
 		.grid.gap-2.items-center.actions
 			h2.text-primary(data-i18n="actions")
@@ -55,7 +113,18 @@
 						span.or(name="attr_description")
 					+editToggle()
 					+collapseToggle()
-					.collapsible.grid.gap-2
+					.collapsible.grid.gap-1
+						input(type="hidden" name="attr_toggle_action_attack")
+						.grid.grid-flow-col.items-center.auto-cols-max.gap-2
+							span.italic Reach
+							+attrSpan("reach")(class="italic")
+							+attrSpan("type")(class="italic")
+							+attrSpan("bonus")
+							span vs
+							+attrSpan("attack defense")
+							span.font-bold Hit:
+							+repeatingDamageButton("damage")(class="text-center")
+							+attrSpan("damage type")
 						.description
 							span.display(name='attr_description')
 					.edit.grid.gap-2.ml-4
@@ -67,8 +136,12 @@
 									input(type="checkbox" name="attr_toggle_action_attack")
 									span.slider
 						.grid.gap-2.grid-flow-col
-							each val in ['reach', 'type', 'bonus']
+							each val in ['reach', 'type']
 								+headerInput(val)
+						.grid.gap-2.grid-flow-col.items-center
+							+headerInput('bonus')
+							span vs
+							+headerInput('defense')
 						.grid.gap-2.grid-flow-col.damage
 							each val in ['damage', 'damage type']
 								+headerInput(val)
@@ -82,3 +155,6 @@
 		.grid.gap-2.items-center
 			h2.text-primary(data-i18n="spells")
 			+repeatingSpellCards()
+
+	.grid.gap-6.settings
+		+sheetSelect()

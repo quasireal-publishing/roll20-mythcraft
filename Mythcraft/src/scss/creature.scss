@@ -1,10 +1,25 @@
 .creature {
   max-width: 550px;
+  min-height: 500px;
 
   h2 {
     @extend .uppercase;
     @extend .text-primary;
     @extend .font-bold;
+  }
+
+  .display h3 {
+    font-weight: 700;
+    @extend .font-base;
+  }
+
+  span.display[name="attr_character_name"] {
+    color: $primary;
+    @extend .font-h1;
+  }
+
+  .display-span:has(span:empty) {
+    display: none;
   }
 
   .settings-toggle {
@@ -26,7 +41,12 @@
   }
 
   .bio {
-    grid-template-columns: 1fr 100px;
+    grid-template-columns: 1fr 100px 50px;
+  }
+
+  span[name="attr_size"]::after,
+  span[name="attr_type"]::after {
+    content: ".";
   }
 
   .size-tags {
@@ -99,5 +119,9 @@
     .damage {
       grid-template-columns: 1fr 2fr;
     }
+  }
+
+  input[name="attr_toggle_action_attack"]:not([value="on"]) + div {
+    display: none;
   }
 }

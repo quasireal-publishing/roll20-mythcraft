@@ -37,7 +37,7 @@ mixin repeatingMagicButton(name)
 		span(name='attr_name')
 
 mixin repeatingDamageButton(name, includeDescription = false)
-	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}} {{dice=[[@{damage}[damage]+${bonus}]]}} {{type=@{damage_type}}}`)
+	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}} {{dice=[[@{damage}[damage]]]}} {{type=@{damage_type}}}`)
 		span(name='attr_damage')
 
 mixin repeatingChatIconButton(name)
