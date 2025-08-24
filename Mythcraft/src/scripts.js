@@ -309,6 +309,9 @@ on("change:repeating_spells:toggle_spell_attack", function (event) {
         }
     });
 });
+on("change:repeating_actions:toggle_action_attack", function (event) {
+    updateCreatureAttackRollFormula(event);
+});
 var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (isSpellCard) {
         return "{{description=@{description}}}";
@@ -338,6 +341,29 @@ var updateActionPointsPerRound = function (attributes) {
         }
         setAttrs({ action_points_per_round: action_points_per_round });
     });
+};
+var updateCreatureAttackRollFormula = function (event) {
+    var _a, _b;
+    var sourceAttribute = event.sourceAttribute, newValue = event.newValue, sourceType = event.sourceType;
+    if (sourceType !== "player") {
+        return;
+    }
+    var row = getFieldsetRow(sourceAttribute);
+    var isAttack = newValue === "on";
+    console.table({
+        row: row,
+        newValue: newValue
+    });
+    if (isAttack) {
+        var update = (_a = {},
+            _a["".concat(row, "_roll_formula")] = "{{dice=[[1d20+${tactical}]]}} {{action=Reach @{reach} @{type}. @{bonus} }} {{damage=[Damage](~repeating_actions-roll_damage)}}",
+            _a);
+        setAttrs(update);
+        return;
+    }
+    setAttrs((_b = {},
+        _b["".concat(row, "_roll_formula")] = "{{description=@{description}}}",
+        _b));
 };
 var updateCriticalRange = function (attributes) {
     getAttrs(attributes, function (values) {

@@ -1,82 +1,84 @@
 .creature.grid.gap-4.p-2.relative
-    .grid.gap-2.grid-flow-col.col-auto-fr
-        .settings-toggle.absolute
-            .grid.relative.grid-flow-col.auto-cols-min
-                +settingsToggle('creature settings')
-        .flex.flex-wrap.flex-row
-            .logo.grow-0
-                img(src='https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/Mythcraft-Logo-Badge-Textured-Black.png' alt="Mythcraft Logo" title="Mythcraft Logo")
+	.grid.gap-4
+		.grid.gap-2.bio.grid-flow-col
+			.grid.grid-flow-col.gap-2.name-row
+				+headerInput('character name')
+			.grid.col-auto-fr.gap-1.grid-flow-col.items-center
+				h3(data-i18n="level")
+				+numberInput("level")(class="text-center")
+			.grid.grid-flow-col.auto-cols-min.gap-2.settings-toggle
+				.grid.relative.grid-flow-col.auto-cols-min.gap-2
+					+editToggle('creature edit')
+				.grid.relative.grid-flow-col.auto-cols-min.gap-2
+					+settingsToggle('creature settings')
+		.grid.grid-flow-col.gap-2.size-tags
+			each val in ['size', 'tags']
+				+headerInput(val)
 
-        .description
-            .settings-toggle.absolute
-                .grid.relative.grid-flow-col.auto-cols-min
-                    +settingsToggle('creature settings')
-            +textarea("description")
-    
-    .grid.gap-4
-        .grid.gap-2.bio
-            .grid.grid-flow-col.gap-2.name-row
-                +headerInput('character name')
-            .grid.col-auto-fr.gap-1.grid-flow-col.items-center
-                h3(data-i18n="level")
-                +numberInput("level")(class="text-center")
-        .grid.grid-flow-col.gap-2.size-tags
-            each val in ['size', 'tags']
-                +headerInput(val)
+		+combatAttributes()
 
-        +combatAttributes()
+		.grid.gap-2.grid-flow-col.items-center.hp-armor-speed
+			each val in ["hp", "armor rating", "speed"]
+				.grid.grid-gap-2.grid-flow-col.items-center
+					+headerInput(val)
 
-        .grid.gap-2.grid-flow-col.items-center.hp-armor-speed
-            each val in ["hp", "armor rating", "speed"]
-                .grid.grid-gap-2.grid-flow-col.items-center
-                    +headerInput(val)
+		.grid.gap-2.grid-flow-col.items-center
+			each val in ['resist', 'immune']
+				+headerInput(val)
 
-        .grid.gap-2.grid-flow-col.items-center
-            each val in ['resist', 'immune']
-                +headerInput(val)
+		.grid.gap-2.grid-flow-col.items-center
+			each val in ['vulnerable', 'damage reduction']
+				+headerInput(val)
 
-        .grid.gap-2.grid-flow-col.items-center
-            each val in ['vulnerable', 'damage reduction']
-                +headerInput(val)
+		.grid.gap-2.items-center
+			each val in ['senses', 'traits']
+				+headerInput(val)
 
-        .grid.gap-2.items-center
-            each val in ['senses', 'traits']
-                +headerInput(val)
+		.grid.gap-2.items-center
+			h2.text-primary(data-i18n="skills")
+			+repeatingSkills()(class="repeating_skills")
 
-        .grid.gap-2.items-center
-            h2.text-primary(data-i18n="features")
-            +repeatingFeatures("features")
+		.grid.gap-2.items-center
+			h2.text-primary(data-i18n="features")
+			+repeatingFeatures("features")
 
-        .grid.gap-2.items-center.actions
-            h2.text-primary(data-i18n="actions")
-            +textInput('action description')
-            fieldset(class=`repeating_actions`)
-                .grid.gap-2.relative.repeating-grid
-                    input(type='hidden' name='attr_name')
-                    .grid.grid-flow-col.gap-2.displayed.custom-grid
-                        +repeatingChatButton('name')
-                        span.or.font-bold(name="attr_name")
-                        span.or(name="attr_description")
-                    +editToggle()
-                    +collapseToggle()
-                    .collapsible.grid.gap-2
-                        .description
-                            span.display(name='attr_description')
-                    .edit.grid.gap-2.ml-4
-                        +headerInput('name')
-                        .grid.gap-2.grid-flow-col
-                            each val in ['reach', 'type', 'bonus']
-                                +headerInput(val)
-                        .grid.gap-2.grid-flow-col
-                            each val in ['damage', 'damage type']
-                                +headerInput(val)
-                        .description
-                            +textarea('description')
+		.grid.gap-2.items-center.actions
+			h2.text-primary(data-i18n="actions")
+			+textInput('action description')
+			fieldset(class=`repeating_actions`)
+				input(type="hidden" name="attr_roll_formula" value=`{{dice=[[1d20+${tactical}]]}} {{description=@{description}}}`)
+				.grid.gap-2.relative.repeating-grid
+					input(type='hidden' name='attr_name')
+					.grid.grid-flow-col.gap-2.displayed.custom-grid
+						+repeatingAttackRollButton('name')
+						span.or.font-bold(name="attr_name")
+						span.or(name="attr_description")
+					+editToggle()
+					+collapseToggle()
+					.collapsible.grid.gap-2
+						.description
+							span.display(name='attr_description')
+					.edit.grid.gap-2.ml-4
+						.grid.gap-2.grid-flow-col.col-fr-auto
+							+headerInput('name')
+							.grid.gap-2.grid-flow-col.items-center.attack-toggle.auto-cols-min
+								h3(data-i18n="attack")
+								label.switch(data-i18n-title="toggle attack")
+									input(type="checkbox" name="attr_toggle_action_attack")
+									span.slider
+						.grid.gap-2.grid-flow-col
+							each val in ['reach', 'type', 'bonus']
+								+headerInput(val)
+						.grid.gap-2.grid-flow-col.damage
+							each val in ['damage', 'damage type']
+								+headerInput(val)
+						.description
+							+textarea('description')
 
-        .grid.gap-2.items-center
-            h2.text-primary(data-i18n="reactions")
-            +repeatingFeatures("reactions")
+		.grid.gap-2.items-center
+			h2.text-primary(data-i18n="reactions")
+			+repeatingFeatures("reactions")
 
-        .grid.gap-2.items-center
-            h2.text-primary(data-i18n="spells")
-            +repeatingSpellCards()
+		.grid.gap-2.items-center
+			h2.text-primary(data-i18n="spells")
+			+repeatingSpellCards()

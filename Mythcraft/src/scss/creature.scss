@@ -62,6 +62,16 @@
     }
   }
 
+  div.repeating_skills {
+    .category {
+      display: none;
+    }
+
+    .custom-grid {
+      grid-auto-columns: min-content;
+    }
+  }
+
   .actions {
     span.or {
       display: none;
@@ -84,6 +94,10 @@
           grid-auto-columns: max-content;
         }
       }
+    }
+
+    .damage {
+      grid-template-columns: 1fr 2fr;
     }
   }
 }

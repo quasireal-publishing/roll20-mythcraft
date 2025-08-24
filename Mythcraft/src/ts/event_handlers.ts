@@ -172,3 +172,7 @@ on("change:repeating_spells:toggle_spell_attack", (event) => {
     }
   });
 });
+
+on("change:repeating_actions:toggle_action_attack", (event) => {
+  updateCreatureAttackRollFormula(event);
+});

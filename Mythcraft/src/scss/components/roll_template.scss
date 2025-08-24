@@ -35,6 +35,10 @@
         @extend .capitalize;
       }
 
+      .sheet-template-action {
+        @extend .text-center;
+      }
+
       .sheet-template-desc {
         text-align: left;
       }
