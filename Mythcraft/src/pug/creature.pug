@@ -32,7 +32,7 @@
 			.grid.gap-4.grid-flow-col.items-center.auto-cols-max
 				each val in ['hp', 'armor rating']
 					.grid.gap-2.grid-flow-cols.col-auto-fr.items-center.display-span
-						h3(data-i18n=val)
+						h3(data-i18n=val === 'armor rating' ? 'AR' : val)
 						+attrSpan(val)(class='font-base')
 			.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
 				h3(data-i18n="speed")
