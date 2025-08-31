@@ -124,4 +124,10 @@
   input[name="attr_toggle_action_attack"]:not([value="on"]) + div {
     display: none;
   }
+
+  .features {
+    .custom-grid {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
 }

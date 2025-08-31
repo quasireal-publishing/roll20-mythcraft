@@ -80,15 +80,16 @@
 			h2.text-primary(data-i18n="features")
 			fieldset(class=`repeating_features`)
 				input(type="hidden" name="attr_link" value="")
-				.grid.gap-2.relative.repeating-grid
+				.grid.gap-2.relative.repeating-grid.features
 					.grid.grid-flow-col.gap-2.displayed.custom-grid
 						+repeatingChatButton(attrName("features"))
+						.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
+							span.font-bold Hit:
+							+repeatingDamageButton("damage")(class="text-center")
+							+attrSpan("damage type")
 					+editToggle()
 					+collapseToggle()
 					.collapsible.grid.gap-2
-						.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
-							+repeatingDamageButton("damage")(class="text-center")
-							+attrSpan("damage type")
 						.description
 							span.display(name='attr_description')
 					.edit.grid.gap-2.ml-4
@@ -102,7 +103,10 @@
 
 		.grid.gap-2.items-center.actions
 			h2.text-primary(data-i18n="actions")
-			+textInput('action description')
+			.display
+				span(name='attr_action_description')
+			.inputs
+				+textInput('action description')
 			fieldset(class=`repeating_actions`)
 				input(type="hidden" name="attr_roll_formula" value=`{{dice=[[1d20+${tactical}]]}} {{description=@{description}}}`)
 				.grid.gap-2.relative.repeating-grid

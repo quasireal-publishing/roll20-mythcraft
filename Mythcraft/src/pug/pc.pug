@@ -51,7 +51,8 @@
 				+repeatingList('inventory', {display: ['name', 'qty', ], collapse: ['tags', "cost"]})
 				.grid.double-border-2.rounded-md.p-2.relative
 					+title('currency')
-					+textarea("currency")
+					.grid.mt-1
+						+textarea("currency")
 			.grid.gap-6.content-start
 				.grid.double-border-2.rounded-md.p-2.relative.skills
 					+title('skills')
@@ -67,24 +68,29 @@
 		.grid.grid-flow-col.gap-2.hp-row
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("hp & shield")
-				.grid.grid-flow-col.gap-2.hp
+				.grid.grid-flow-col.gap-2.hp.mt-1
 					+numberInputWithMax("hp")
 					.grid.justify-center.items-center
 						+numberInput("shield")(class="text-center")
 						h3.text-center(data-i18n="shield")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("death points")
-				+numberInputWithMax("death points")
+				.grid.mt-1
+					+numberInputWithMax("death points")
 			.grid.double-border-2.rounded-md.p-2.relative
-				+title("armor rating")
-				+numberInput("armor rating", 10)
+				+title("AR")
+				.grid.mt-1
+					+textInput("armor rating", 10)(class="text-center")
+					h3.text-center(data-i18n="armor rating")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("speed")
-				+textInput("speed","20 ft")(class="text-center")
+				.grid.mt-1
+					+textInput("speed","20")(class="text-center")
+					h3.text-center(data-i18n="ft")
 		.grid.grid.grid-flow-col.gap-2.items-center
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("action points")
-				.grid.grid-flow-col.gap-2
+				.grid.grid-flow-col.gap-2.mt-1
 					.grid.justify-center.items-center
 						+numberInput("action points")
 						h3.text-center(data-i18n="current")
@@ -93,13 +99,16 @@
 						h3.text-center(data-i18n="ap/round")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("special action points")
+				.grid.mt-1
 				+numberInputWithMax("special action points")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("luck points")
+				.grid.mt-1
 				+numberInputWithMax("luck points")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("initiative")
-				+numberInput("initiative bonus", 0)
+				.grid.mt-1
+					+numberInput("initiative bonus", 0)
 				.grid.justify-center.items-center.mt-1
 					+initiativeButton()
 
@@ -124,11 +133,12 @@
 			.grid.gap-6.content-start
 				.grid.double-border-2.rounded-md.p-2.relative
 					+title("spell points")
-					+numberInputWithMax("spell points")
+					.grid.mt-1
+						+numberInputWithMax("spell points")
 				.grid.grid-flow-col.gap-4
 					.grid.double-border-2.rounded-md.p-2.relative
 						+title("spellcasting ability")
-						.grid.justify-center.items-center
+						.grid.justify-center.items-center.mt-1
 							select(name="attr_spellcasting_ability")
 								each val in coreAttributes
 									option(value=`@{${val}}` data-i18n=val)
@@ -136,7 +146,7 @@
 					input(type="hidden" name="attr_primary_source" value="arcane")
 					.grid.double-border-2.rounded-md.p-2.relative
 						+title("primary source")
-						.grid.justify-center.items-center
+						.grid.justify-center.items-center.mt-1
 							select(name="attr_primary_source")
 								each val in magicSources
 									option(value=`${val}` data-i18n=val)
