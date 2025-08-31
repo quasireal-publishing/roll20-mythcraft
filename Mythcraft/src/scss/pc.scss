@@ -152,11 +152,17 @@
 
   .magic {
     .source-magic {
+      max-width: 320px;
+
       .custom-grid {
         grid-template-columns: $button-max-width repeat(
             1,
             minmax($spacing-16, 1fr)
           );
+      }
+
+      select[name="attr_name"] {
+        max-width: $spacing-24;
       }
 
       span[name="attr_source_magic_sp"] {
@@ -166,12 +172,13 @@
 
       h3[data-i18n="apc"],
       span[name="attr_apc"],
-      input[name="attr_apc"] {
+      input[name="attr_apc"],
+      input[name="attr_power_level"] {
         @extend .text-center;
       }
 
       .edit-grid {
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 1fr 1fr;
       }
     }
 
