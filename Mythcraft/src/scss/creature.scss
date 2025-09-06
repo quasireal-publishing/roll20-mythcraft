@@ -54,7 +54,7 @@
   }
 
   .hp-armor-speed {
-    grid-template-columns: repeat(2, 1fr) minmax(250px, 2fr);
+    grid-template-columns: 1fr 1.5fr minmax(250px, 2fr);
   }
 
   .attrs {
@@ -95,6 +95,36 @@
   .actions {
     span.or {
       display: none;
+    }
+
+    textarea[name="attr_action_description"] {
+      height: 80px;
+      white-space: pre-wrap;
+    }
+
+    span[name="attr_action_description"] {
+      white-space: pre-wrap;
+    }
+
+    @for $i from 1 through 10 {
+      input[name="attr_name"][value*="Tier #{$i} Actions"] {
+        & ~ .grid button[type="roll"],
+        & ~ .collapsible,
+        & ~ .toggle-collapse,
+        & ~ .toggle-collapse + span {
+          display: none;
+        }
+
+        & ~ .grid span.or {
+          display: inline;
+        }
+
+        & + .custom-grid {
+          grid-auto-columns: max-content;
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+      }
     }
 
     @each $value in ("or", "OR", "…and", "…AND", "and", "AND") {

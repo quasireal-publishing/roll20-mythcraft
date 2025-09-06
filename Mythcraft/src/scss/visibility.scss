@@ -19,8 +19,8 @@ input.toggle-collapse:not(checked) ~ .collapsible,
 input.edit-creature:not([value="true"]) ~ .inputs,
 input.edit-creature:not([value="true"]) ~ .grid .inputs,
 input.edit-creature[value="true"] ~ .display,
-input.edit-creature[value="true"] ~ .grid .display,
-input.edit-creature[value="true"] ~ .grid span.display,
+input.edit-creature[value="true"] ~ .grid .display-mode,
+input.edit-creature[value="true"] ~ .grid span.display-mode,
 input.settings-creature[value="true"] ~ .sheet,
 input.settings-creature:not([value="true"]) ~ .settings {
   display: none;

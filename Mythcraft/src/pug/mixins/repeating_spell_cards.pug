@@ -11,7 +11,7 @@ mixin repeatingSpellCards()
 			.grid.gap-2.grid-flow-col.col-span-full
 				each val in ["apc", "spc"]
 					.grid.gap-2.grid-flow-col.display-span.col-auto-fr
-						h4(data-i18n=val)
+						h4.uppercase(data-i18n=val)
 						+attrSpan(val)(class="capitalize")
 			+editToggle()
 			+collapseToggle()

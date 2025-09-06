@@ -24,7 +24,7 @@ mixin numberInputWithMax(name, defaultValue)
 			h3.text-center(data-i18n="max")
 
 //- p lowercase = pencil
-mixin editToggle(name, checked)
+mixin editToggle(name, checked = true)
 	- const attr = name ? `toggle_edit_${attrName(name)}` : 'toggle_edit'
 	input.toggle.toggle-edit(name=`attr_${attr}` title=`edit toggle` type='checkbox' value='true' checked=checked)
 	span.pictos.lowercase p

@@ -7,7 +7,7 @@
 		.grid.relative.grid-flow-col.auto-cols-min.gap-2
 			+settingsToggle('creature settings')
 	.grid.gap-4.sheet
-		.display
+		.display-mode
 			span.display(name="attr_character_name")
 			.grid.col-auto-fr.gap-1.grid-flow-col.items-center
 				span.italic Monster Level:
@@ -28,7 +28,7 @@
 
 		+combatAttributes()
 
-		.display.grid
+		.display-mode.grid
 			.grid.gap-4.grid-flow-col.items-center.auto-cols-max
 				each val in ['hp', 'armor rating']
 					.grid.gap-2.grid-flow-cols.col-auto-fr.items-center.display-span
@@ -83,7 +83,7 @@
 				.grid.gap-2.relative.repeating-grid.features
 					.grid.grid-flow-col.gap-2.displayed.custom-grid
 						+repeatingChatButton(attrName("features"))
-						.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
+						.grid.gap-2.grid-flow-col.items-center.items-center.auto-cols-max.display-span
 							span.font-bold Hit:
 							+repeatingDamageButton("damage")(class="text-center")
 							+attrSpan("damage type")
@@ -103,12 +103,12 @@
 
 		.grid.gap-2.items-center.actions
 			h2.text-primary(data-i18n="actions")
-			.display
+			.display-mode
 				span(name='attr_action_description')
 			.inputs
-				+textInput('action description')
+				textarea(name='attr_action_description' title='@{action_description}')
 			fieldset(class=`repeating_actions`)
-				input(type="hidden" name="attr_roll_formula" value=`{{dice=[[1d20+${tactical}]]}} {{description=@{description}}}`)
+				input(type="hidden" name="attr_roll_formula" value=`{{dice=[[1d20+(?{TA/TD|0}[tactical bonus])]]}} {{description=@{description}}}`)
 				.grid.gap-2.relative.repeating-grid
 					input(type='hidden' name='attr_name')
 					.grid.grid-flow-col.gap-2.displayed.custom-grid
@@ -125,8 +125,9 @@
 							+attrSpan("type")(class="italic")
 							+attrSpan("bonus")
 							span vs
-							+attrSpan("attack defense")
+							+attrSpan("defense")
 							span.font-bold Hit:
+							span(name='attr_damage_average')(class="text-center")
 							+repeatingDamageButton("damage")(class="text-center")
 							+attrSpan("damage type")
 						.description
@@ -147,8 +148,14 @@
 							span vs
 							+headerInput('defense')
 						.grid.gap-2.grid-flow-col.damage
-							each val in ['damage', 'damage type']
-								+headerInput(val)
+							.grid.col-auto-fr.gap-1.grid-flow-col.items-center
+								h3(data-i18n='damage')
+								.grid.grid-flow-col.items-center
+									+numberInput('damage average')
+									span (
+									+textInput('damage')
+									span )
+							+headerInput('damage type')
 						.description
 							+textarea('description')
 

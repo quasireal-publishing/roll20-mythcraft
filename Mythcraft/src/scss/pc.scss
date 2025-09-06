@@ -183,6 +183,12 @@
     }
 
     .spells {
+      h4[data-i18n="apc"],
+      h4[data-i18n="spc"] {
+        text-transform: uppercase;
+        font-variant: all-petite-caps;
+      }
+
       .repcontainer {
         flex-wrap: wrap;
         flex-direction: row;
