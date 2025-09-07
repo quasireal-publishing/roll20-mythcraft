@@ -2,6 +2,8 @@
   max-width: 550px;
   min-height: 500px;
 
+  @extend .font-base;
+
   h2 {
     @extend .uppercase;
     @extend .text-primary;
@@ -18,9 +20,7 @@
     @extend .font-h1;
   }
 
-  button[type="roll"]:has(span:empty),
-  .display-span:has(span:empty),
-  span:empty {
+  .display-span:has(span:empty) {
     display: none;
   }
 
@@ -95,6 +95,11 @@
   }
 
   .actions {
+    p > span:empty,
+    p > button[type="roll"][name="roll_damage"]:has(span:empty) {
+      display: none;
+    }
+
     span.or {
       display: none;
     }
@@ -109,28 +114,39 @@
     }
 
     .range {
-      grid-template-columns: $spacing-38 1fr;
+      grid-template-columns: $spacing-48 1fr;
     }
 
     .bonus {
       grid-template-columns: $spacing-38 auto 1fr;
+
+      input[name="attr_bonus"] {
+        text-align: center;
+      }
+    }
+
+    @mixin hide-action-elements {
+      & ~ .grid p,
+      & ~ .grid button[type="roll"],
+      & ~ .collapsible,
+      & ~ .toggle-collapse,
+      & ~ .toggle-collapse + span {
+        display: none;
+      }
+
+      & ~ .grid span.or {
+        display: inline;
+      }
+
+      & + .custom-grid {
+        grid-auto-columns: max-content;
+      }
     }
 
     @for $i from 1 through 10 {
       input[name="attr_name"][value*="Tier #{$i} Actions"] {
-        & ~ .grid button[type="roll"],
-        & ~ .collapsible,
-        & ~ .toggle-collapse,
-        & ~ .toggle-collapse + span {
-          display: none;
-        }
-
-        & ~ .grid span.or {
-          display: inline;
-        }
-
+        @include hide-action-elements;
         & + .custom-grid {
-          grid-auto-columns: max-content;
           grid-template-columns: 1fr;
           text-align: center;
         }
@@ -139,20 +155,7 @@
 
     @each $value in ("or", "OR", "…and", "…AND", "and", "AND") {
       input[name="attr_name"][value="#{$value}"] {
-        & ~ .grid button[type="roll"],
-        & ~ .collapsible,
-        & ~ .toggle-collapse,
-        & ~ .toggle-collapse + span {
-          display: none;
-        }
-
-        & ~ .grid span.or {
-          display: inline;
-        }
-
-        & + .custom-grid {
-          grid-auto-columns: max-content;
-        }
+        @include hide-action-elements;
       }
     }
 
@@ -165,13 +168,15 @@
     }
   }
 
-  input[name="attr_toggle_action_attack"]:not([value="on"]) + div {
-    display: none;
+  p > *:not(:first-child) {
+    margin-left: $spacing;
   }
 
-  .features {
-    .custom-grid {
-      grid-template-columns: 1fr 2fr;
-    }
+  input[name="attr_toggle_action_attack"]:not([value="on"]) + p .vs,
+  input[name="attr_toggle_action_attack"]:not([value="on"]) + p .hit,
+  input[name="attr_damage"][value=""] + span,
+  input[name="attr_damage"][value=""] ~ button[name="roll_damage"],
+  input[name="attr_damage"][value=""] ~ span[name="attr_damage_type"] {
+    display: none;
   }
 }

@@ -2,6 +2,10 @@
   min-height: 800px;
   overflow: hidden;
 
+  button[type="roll"] {
+    max-width: $button-max-width;
+  }
+
   .title {
     max-height: 35px;
   }

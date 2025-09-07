@@ -77,21 +77,6 @@ mixin repeatingList(name, values)
       +subheaders(values.display)
       +repeatingSection(name, values)
 
-mixin repeatingFeatures(name)
-   fieldset(class=`repeating_${dashedName(name)}`)
-      input(type="hidden" name="attr_link" value="")
-      .grid.gap-2.relative.repeating-grid
-         .grid.grid-flow-col.gap-2.displayed.custom-grid
-            +repeatingChatButton(attrName(name))
-         +editToggle()
-         +collapseToggle()
-         .collapsible.grid.gap-2
-            .description
-               span.display(name='attr_description')
-         .edit.grid.gap-2.ml-4
-            +headerInput('name')
-            .description
-               +textarea('description')
 
 mixin combatAttributes()
    .grid.gap-1.justify-between.items-center.attrs
