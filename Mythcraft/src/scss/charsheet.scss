@@ -131,6 +131,10 @@ $button-max-width: $spacing-48;
     width: 100%;
   }
 
+  p {
+    @extend .font-base;
+  }
+
   option {
     font-weight: bold;
   }

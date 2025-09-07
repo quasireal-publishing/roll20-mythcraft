@@ -18,7 +18,9 @@
     @extend .font-h1;
   }
 
-  .display-span:has(span:empty) {
+  button[type="roll"]:has(span:empty),
+  .display-span:has(span:empty),
+  span:empty {
     display: none;
   }
 
@@ -98,12 +100,20 @@
     }
 
     textarea[name="attr_action_description"] {
-      height: 80px;
+      height: $spacing-20;
       white-space: pre-wrap;
     }
 
     span[name="attr_action_description"] {
       white-space: pre-wrap;
+    }
+
+    .range {
+      grid-template-columns: $spacing-38 1fr;
+    }
+
+    .bonus {
+      grid-template-columns: $spacing-38 auto 1fr;
     }
 
     @for $i from 1 through 10 {
@@ -147,6 +157,10 @@
     }
 
     .damage {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .dmg {
       grid-template-columns: 1fr 2fr;
     }
   }

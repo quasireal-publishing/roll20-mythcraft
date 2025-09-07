@@ -15,9 +15,9 @@ mixin attrSpan(name)
 
 include mixins/buttons.pug
 
-mixin headerInput(name)
+mixin headerInput(name, i18n)
    .grid.col-auto-fr.gap-1.grid-flow-col.items-center(class!=attributes.class)
-      h3(data-i18n=name)
+      h3(data-i18n=i18n ? i18n : name)
       +textInput(name)
 
 include mixins/repeating_spell_cards.pug

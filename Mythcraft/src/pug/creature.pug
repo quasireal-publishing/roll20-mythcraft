@@ -119,17 +119,19 @@
 					+collapseToggle()
 					.collapsible.grid.gap-1
 						input(type="hidden" name="attr_toggle_action_attack")
-						.grid.grid-flow-col.items-center.auto-cols-max.gap-2
-							span.italic Reach
-							+attrSpan("reach")(class="italic")
-							+attrSpan("type")(class="italic")
+						//- .grid.grid-flow-col.items-center.auto-cols-max.gap-2
+						p
+							+attrSpan("range")(class="italic")
+							+attrSpan("type")(class="italic mx-1")
 							+attrSpan("bonus")
-							span vs
+							span.mx-1 vs
 							+attrSpan("defense")
-							span.font-bold Hit:
-							span(name='attr_damage_average')(class="text-center")
-							+repeatingDamageButton("damage")(class="text-center")
-							+attrSpan("damage type")
+							b.mx-1
+								span.font-bold.capitalize(data-i18n="hit")
+							+attrSpan("damage average")(class="text-center mr-1")
+							+repeatingDamageButton("damage")
+							+attrSpan("damage type")(class="mx-1")
+							+attrSpan("effect")
 						.description
 							span.display(name='attr_description')
 					.edit.grid.gap-2.ml-4
@@ -140,22 +142,25 @@
 								label.switch(data-i18n-title="toggle attack")
 									input(type="checkbox" name="attr_toggle_action_attack")
 									span.slider
-						.grid.gap-2.grid-flow-col
-							each val in ['reach', 'type']
+						.grid.gap-2.grid-flow-col.range
+							each val in ['range', 'type']
 								+headerInput(val)
-						.grid.gap-2.grid-flow-col.items-center
-							+headerInput('bonus')
+						.grid.gap-2.grid-flow-col.items-center.bonus
+							+headerInput('bonus')(class="text-center")
 							span vs
 							+headerInput('defense')
+						h3.capitalize(data-i18n="hit")
 						.grid.gap-2.grid-flow-col.damage
 							.grid.col-auto-fr.gap-1.grid-flow-col.items-center
 								h3(data-i18n='damage')
-								.grid.grid-flow-col.items-center
-									+numberInput('damage average')
-									span (
-									+textInput('damage')
-									span )
-							+headerInput('damage type')
+								.grid.grid-flow-col.items-center.dmg
+									+textInput('damage average')(class="text-center")
+									.grid.grid-flow-col.items-center
+										span (
+										+textInput('damage')
+										span )
+							+headerInput('damage type', 'type')
+						+headerInput('effect')
 						.description
 							+textarea('description')
 

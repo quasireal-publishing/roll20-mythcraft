@@ -11,7 +11,7 @@ const updateCreatureAttackRollFormula = (event: EventInfo) => {
   if (isAttack) {
     const update = {
       [`${row}_roll_formula`]:
-        "{{dice=[[1d20+(@{bonus})+(?{TA/TD|0}[tactical bonus])]]}} {{action=Reach @{reach} @{type}. @{bonus} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}",
+        "{{dice=[[1d20+(@{bonus})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{bonus} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}",
     };
     setAttrs(update);
     return;
