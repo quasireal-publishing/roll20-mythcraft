@@ -176,3 +176,26 @@ on("change:repeating_spells:toggle_spell_attack", (event) => {
 on("change:repeating_actions:toggle_action_attack", (event) => {
   updateCreatureAttackRollFormula(event);
 });
+
+["skills", "features", "actions", "reactions", "spells"].forEach((section) => {
+  on(`change:section_${section}`, (event) => {
+    const { newValue } = event;
+    getAttrs(["creature_sections"], (values) => {
+      const sections = values.creature_sections
+        ? values.creature_sections.split(",")
+        : [];
+
+      if (newValue === "on" && !sections.includes(section)) {
+        sections.push(section);
+      } else if (newValue !== "on" && sections.includes(section)) {
+        const index = sections.indexOf(section);
+        if (index > -1) {
+          sections.splice(index, 1);
+        }
+      }
+
+      console.log(sections);
+      setAttrs({ creature_sections: sections.join(",") });
+    });
+  });
+});

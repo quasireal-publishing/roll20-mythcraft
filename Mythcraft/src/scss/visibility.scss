@@ -15,15 +15,7 @@ input.toggle-edit:not(checked) ~ .grid textarea,
 input.toggle-edit:not(checked) ~ .grid label,
 input.toggle-edit:not(checked) ~ .grid .edit,
 input.toggle-edit:not(checked) ~ .edit,
-input.toggle-collapse:not(checked) ~ .collapsible,
-input.edit-creature:not([value="true"]) ~ .inputs,
-input.edit-creature:not([value="true"]) ~ .grid .inputs,
-input.edit-creature:not([value="true"]) ~ .grid .grid .repcontrol,
-input.edit-creature[value="true"] ~ .display,
-input.edit-creature[value="true"] ~ .grid .display-mode,
-input.edit-creature[value="true"] ~ .grid span.display-mode,
-input.settings-creature[value="true"] ~ .sheet,
-input.settings-creature:not([value="true"]) ~ .settings {
+input.toggle-collapse:not(checked) ~ .collapsible {
   display: none;
 }
 
@@ -32,13 +24,7 @@ input.toggle-edit:checked ~ .grid textarea,
 input.toggle-edit:checked ~ .grid label,
 input.toggle-edit:checked ~ .grid .edit,
 input.toggle-edit:checked ~ .edit,
-input.toggle-collapse:checked ~ .collapsible,
-input.edit-creature[value="true"] ~ .inputs,
-input.edit-creature:not([value="true"]) ~ .display,
-input.edit-creature:not([value="true"]) ~ .grid .display,
-input.edit-creature:not([value="true"]) ~ .grid span.display,
-input.settings-creature[value="true"] ~ .settings,
-input.settings-creature:not([value="true"]) ~ .sheet {
+input.toggle-collapse:checked ~ .collapsible {
   display: inherit;
 }
 

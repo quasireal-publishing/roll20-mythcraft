@@ -10,6 +10,10 @@
     @extend .font-bold;
   }
 
+  p > *:not(:first-child) {
+    margin-left: $spacing;
+  }
+
   .display h3 {
     font-weight: 700;
     @extend .font-base;
@@ -168,15 +172,51 @@
     }
   }
 
-  p > *:not(:first-child) {
-    margin-left: $spacing;
+  .header-toggle {
+    grid-template-columns: 1fr auto;
+    align-items: center;
   }
 
   input[name="attr_toggle_action_attack"]:not([value="on"]) + p .vs,
   input[name="attr_toggle_action_attack"]:not([value="on"]) + p .hit,
   input[name="attr_damage"][value=""] + span,
   input[name="attr_damage"][value=""] ~ button[name="roll_damage"],
-  input[name="attr_damage"][value=""] ~ span[name="attr_damage_type"] {
+  input[name="attr_damage"][value=""] ~ span[name="attr_damage_type"],
+  input.edit-creature:not([value="true"]) ~ .grid .inputs,
+  input.edit-creature:not([value="true"]) ~ .grid .grid .repcontrol,
+  input.edit-creature[value="true"] ~ .display,
+  input.edit-creature[value="true"] ~ .grid .display-mode,
+  input.edit-creature[value="true"] ~ .grid span.display-mode,
+  input.edit-creature:not([value="true"])
+    ~ .sheet
+    .grid
+    .header-toggle
+    label.switch,
+  input.settings-creature[value="true"] ~ .sheet,
+  input.settings-creature:not([value="true"]) ~ .settings {
     display: none;
+  }
+
+  input.edit-creature[value="true"] ~ .inputs,
+  input.edit-creature[value="true"] ~ .inputs,
+  input.edit-creature:not([value="true"]) ~ .display,
+  input.edit-creature:not([value="true"]) ~ .grid .display,
+  input.edit-creature:not([value="true"]) ~ .grid span.display,
+  input.settings-creature[value="true"] ~ .settings,
+  input.settings-creature:not([value="true"]) ~ .sheet {
+    display: inherit;
+  }
+
+  @each $value in ("skills", "features", "actions", "reactions", "spells") {
+    .section-#{$value} {
+      display: none;
+    }
+
+    input.edit-creature[value="true"] ~ .sheet .section-#{$value},
+    input[name="attr_creature_sections"][value*="#{$value}"]
+      ~ .sheet
+      .section-#{$value} {
+      display: inherit;
+    }
   }
 }

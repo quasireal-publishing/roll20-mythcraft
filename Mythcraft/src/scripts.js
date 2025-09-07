@@ -312,6 +312,27 @@ on("change:repeating_spells:toggle_spell_attack", function (event) {
 on("change:repeating_actions:toggle_action_attack", function (event) {
     updateCreatureAttackRollFormula(event);
 });
+["skills", "features", "actions", "reactions", "spells"].forEach(function (section) {
+    on("change:section_".concat(section), function (event) {
+        var newValue = event.newValue;
+        getAttrs(["creature_sections"], function (values) {
+            var sections = values.creature_sections
+                ? values.creature_sections.split(",")
+                : [];
+            if (newValue === "on" && !sections.includes(section)) {
+                sections.push(section);
+            }
+            else if (newValue !== "on" && sections.includes(section)) {
+                var index = sections.indexOf(section);
+                if (index > -1) {
+                    sections.splice(index, 1);
+                }
+            }
+            console.log(sections);
+            setAttrs({ creature_sections: sections.join(",") });
+        });
+    });
+});
 var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (isSpellCard) {
         return "{{description=@{description}}}";
