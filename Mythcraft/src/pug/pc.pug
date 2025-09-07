@@ -123,7 +123,7 @@
 			.grid.gap-6.content-start
 				+repeatingList('reactive actions', {display: ['name', 'ap']})
 				+repeatingList('conditions', {display: ['name']})
-			.grid.gap-6.content-start
+			.grid.gap-6.content-start.auto-cols-fr
 				+repeatingList('favorites', {display: ['name', 'tags', ]})
 				+repeatingResources('trackables')
 
@@ -196,7 +196,7 @@
 
 		+repeatingList('journal', {display: ['name', 'date']})
 
-	.grid.gap-4.talents.grid-flow-col.talent-grid
+	.grid.gap-4.talents.grid-flow-col.talent-grid.auto-cols-fr
 		+repeatingList('talents', {display: ['name', "tags"], collapse: ['prerequisites'], favorite: true})
 		+repeatingList('abilities', {display: ['name', 'tags'], favorite: true})
 

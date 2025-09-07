@@ -126,8 +126,10 @@ var handle_drop = function () {
                 handle_conditions(page);
                 break;
             case "Backgrounds":
-            case "Professions":
                 handle_bop(page);
+                break;
+            case "Professions":
+                handle_profession(page);
                 break;
             case "Equipment":
                 handle_equipment(page);
@@ -669,6 +671,21 @@ var handle_lineage = function (page) {
     catch (e) {
         dropWarning("Error setting attributes: ".concat(e));
     }
+};
+var handle_profession = function (page) {
+    if (page.data.occupation) {
+        handle_bop(page);
+        return;
+    }
+    console.log(page);
+    var attrs = ["name", "description"];
+    var row = getRow("abilities");
+    var update = getUpdate(attrs, page, row);
+    if (page.data.profession) {
+        update["".concat(row, "_tags")] = page.data.profession;
+    }
+    console.log(update);
+    setDropAttrs(update);
 };
 var handle_skills = function (page) {
     var attrs = ["name", "category", "description", "attribute"];
