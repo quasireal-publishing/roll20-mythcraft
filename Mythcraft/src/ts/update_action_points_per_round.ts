@@ -14,7 +14,7 @@ const updateActionPointsPerRound = (attributes: Attributes) => {
       default:
         // Action Points Per Round + half of the Coordination attribute
         action_points_per_round =
-          Math.ceil(coordination / 2) + action_points_base;
+          Math.floor(coordination / 2) + action_points_base;
         break;
     }
 

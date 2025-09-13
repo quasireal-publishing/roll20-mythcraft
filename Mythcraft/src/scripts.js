@@ -122,6 +122,7 @@ var handle_drop = function () {
         var Category = page.data.Category;
         switch (Category) {
             case "Creatures":
+                break;
             case "Conditions":
                 handle_conditions(page);
                 break;
@@ -359,7 +360,7 @@ var updateActionPointsPerRound = function (attributes) {
                 break;
             default:
                 action_points_per_round =
-                    Math.ceil(coordination / 2) + action_points_base;
+                    Math.floor(coordination / 2) + action_points_base;
                 break;
         }
         setAttrs({ action_points_per_round: action_points_per_round });

@@ -30,6 +30,7 @@ mixin textInputs(values)
       each val in values
          +editInput(val)
 
+
 include mixins/repeating_spell_cards.pug
 include mixins/repeating_attacks.pug
 include mixins/repeating_skills.pug
@@ -111,3 +112,12 @@ mixin sheetSelect()
             each val in sheetTypes
                option(value=`${val}` data-i18n=val  selected=(!!val === 'pc'))
                   val
+
+mixin attributeSelect(name)
+   .grid.gap-2.grid-flow-col.col-auto-fr.items-center
+      +h4Header(name)
+      select(name=`attr_${attrName(name)}`)
+         option(value="0" data-i18n="none")
+         each val in combatAttributes
+            option(value=`@{${val}}` data-i18n=val)
+               val
