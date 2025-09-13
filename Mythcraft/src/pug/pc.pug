@@ -9,7 +9,7 @@
 				.grid.grid-flow-col.gap-2.name-row
 					+headerInput('character name')
 					.grid.col-auto-fr.gap-1.grid-flow-col.items-center
-						h3(data-i18n="level")
+						+h3Header("level")
 						+numberInput("level")(class="text-center")
 				.grid.grid-flow-col.gap-2.name-row
 					each val in ['lineage', 'age']
@@ -51,15 +51,17 @@
 				+repeatingList('inventory', {display: ['name', 'qty', ], collapse: ['tags', "cost"]})
 				.grid.double-border-2.rounded-md.p-2.relative
 					+title('currency')
+					.grid.gap-2.items-center.grid-flow-col.mb-2
+						each val in ['a', 'sc', 'q', 'dc']
+							.grid.col-auto-fr.gap-1.grid-flow-col.items-center
+								+h3Header(val)
+								+numberInput(val)(class="text-center")
 					.grid.mt-1
 						+textarea("currency")
 			.grid.gap-6.content-start
 				.grid.double-border-2.rounded-md.p-2.relative.skills
 					+title('skills')
-					.grid.grid-flow-col.gap-2.mb-2.border-bottom.subheaders
-						.grid.grid-flow-col.gap-2.custom-grid
-							each val in ['name','attribute','bonus']
-								h3(data-i18n=val)
+					+subheaders(['name', 'attribute', 'bonus'])
 					+repeatingSkills('skill')
 				+repeatingList('favorites', {display: ['name', 'tags', ]})
 
@@ -72,7 +74,7 @@
 					+numberInputWithMax("hp")
 					.grid.justify-center.items-center
 						+numberInput("shield")(class="text-center")
-						h3.text-center(data-i18n="shield")
+						+h3Header("shield")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("death points")
 				.grid.mt-1
@@ -81,30 +83,30 @@
 				+title("AR")
 				.grid.mt-1
 					+textInput("armor rating", 10)(class="text-center")
-					h3.text-center(data-i18n="armor rating")
+					+h3Header("armor rating")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("speed")
 				.grid.mt-1
 					+textInput("speed","20")(class="text-center")
-					h3.text-center(data-i18n="ft")
+					+h3Header("ft")(class="lowercase")
 		.grid.grid.grid-flow-col.gap-2.items-center
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("action points")
 				.grid.grid-flow-col.gap-2.mt-1
 					.grid.justify-center.items-center
 						+numberInput("action points")
-						h3.text-center(data-i18n="current")
+						+h3Header("current")
 					.grid.justify-center.items-center
 						+attrSpan("action points per round")(class="text-center")
-						h3.text-center(data-i18n="ap/round")
+						+h3Header("ap/round")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("special action points")
 				.grid.mt-1
-				+numberInputWithMax("special action points")
+					+numberInputWithMax("special action points")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("luck points")
 				.grid.mt-1
-				+numberInputWithMax("luck points")
+					+numberInputWithMax("luck points")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("initiative")
 				.grid.mt-1
@@ -169,14 +171,13 @@
 						.edit.grid.gap-2
 							.grid.gap-2.edit-grid
 								.grid.items-center.gap-2.grid-flow-col.col-auto-fr
-									h4(data-i18n='name')
+									+h4Header("name")
 									select(name="attr_name")
 										each val in magicSources
 											option(value=`${val}` data-i18n=val).capitalize
 												val
 								.grid.justify-center.items-center
-									each val in ['power level']
-										+headerInput(val)
+									+editInput('power level')
 							.description
 								+textarea('description')
 

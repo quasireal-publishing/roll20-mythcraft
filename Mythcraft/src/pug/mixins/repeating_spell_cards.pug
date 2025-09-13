@@ -18,10 +18,10 @@ mixin repeatingSpellCards()
 			.collapsible.grid.gap-2
 				+headerSpan(["range", "requires", "duration"])
 				.grid.gap-2.col-auto-fr.items-center.display-span
-					h4(data-i18n="damage")
+					+h4Header("damage")
 					+repeatingDamageButton("damage")(class="capitalize")
 				.grid.gap-2.col-auto-fr.items-center.display-span
-					h4(data-i18n="damage type")
+					+h4Header("damage type")
 					+attrSpan("damage type")(class="capitalize")
 				+headerSpan(["casting time", "recharge"])
 				.description
@@ -31,13 +31,13 @@ mixin repeatingSpellCards()
 					+textInputs(["name"])
 					.grid.gap-2.grid-flow-col.grid-cols-2.items-center
 						.grid.gap-2.grid-flow-col.col-auto-fr.items-center
-							h3(data-i18n="source")
+							+h4Header("source")
 							select(name="attr_source")
 								each val in magicSources
 									option(value=`${val}` data-i18n=val)
 										val
 						.grid.gap-2.grid-flow-col.items-center.attack-toggle
-							h3(data-i18n="attack")
+							+h4Header("attack")
 							label.switch(data-i18n-title="toggle attack")
 								input(type="checkbox" name="attr_toggle_spell_attack")
 								span.slider
@@ -51,7 +51,7 @@ mixin repeatingSpellCards()
 					+textInputs(["recharge"])
 					each val in ["prerequisites", "upcharge"]
 						.grid.gap-2.col-auto-fr.items-center
-							h4(data-i18n=val)
+							+h4Header(val)
 							+textInput(val)
 				.description
 					+textarea('description')

@@ -58,7 +58,6 @@ $button-max-width: $spacing-48;
   h3,
   h4 {
     @extend %ellipsis;
-    @extend .capitalize;
   }
 
   h1 {

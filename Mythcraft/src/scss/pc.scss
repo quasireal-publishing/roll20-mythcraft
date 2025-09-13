@@ -187,10 +187,15 @@
     }
 
     .spells {
-      h4[data-i18n="apc"],
-      h4[data-i18n="spc"] {
+      .display-span h4[data-i18n="apc"],
+      .display-span h4[data-i18n="spc"] {
         text-transform: uppercase;
         font-variant: all-petite-caps;
+      }
+
+      input[name="attr_apc"],
+      input[name="attr_spc"] {
+        @extend .text-center;
       }
 
       .repcontainer {
@@ -198,7 +203,7 @@
         flex-direction: row;
         display: flex;
         gap: $spacing-2;
-        @extend .justify-around;
+        justify-content: space-between;
       }
 
       input[name="attr_source"][value="arcane"] + div {

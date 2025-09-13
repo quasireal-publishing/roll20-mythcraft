@@ -18,10 +18,10 @@ mixin numberInputWithMax(name, defaultValue)
 	.grid.grid-flow-col.gap-2
 		.grid.justify-center.items-center
 			+numberInput(name, value)(class="text-center")
-			h3.text-center(data-i18n="current")
+			+h3Header("current")
 		.grid.justify-center.items-center
 			+numberInput(`${name} max`, value)(class="text-center")
-			h3.text-center(data-i18n="max")
+			+h3Header("max")
 
 //- p lowercase = pencil
 mixin editToggle(name, checked = true)

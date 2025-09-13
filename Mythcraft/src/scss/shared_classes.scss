@@ -167,8 +167,8 @@ input[type="radio"] {
   .edit {
     grid-column: 1/-1;
 
-    background-color: $color-yellow-100;
-    border: 1px dotted $color-yellow-500;
+    background-color: $secondary;
+    border: 1px dotted $fifth;
     padding: $spacing-2;
   }
 

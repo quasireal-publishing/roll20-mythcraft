@@ -21,14 +21,14 @@ mixin repeatingAttacks()
 				+textInputs(["name", "tags"])
 				.grid.gap-2.grid-flow-col.items-center
 					.grid.gap-2.col-auto-fr.items-center
-						h3(data-i18n="attribute")
+						+h4Header("attribute")
 						select(name="attr_attribute")
 							each val in combatAttributes
 								option(value=`@{${val}}` data-i18n=val)
 									val
-					+headerInput("apc")
+					+editInput("apc")
 					.grid.gap-2.col-auto-fr.items-center
-						h3(data-i18n="bonus")
+						+editInput("bonus")
 						+numberInput("bonus", 0)
 				+textInputs(["damage", "damage type"])
 				+textInputs(["range", "reload", "size"])
