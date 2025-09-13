@@ -20,7 +20,7 @@ mixin rollButton(name, formula)
 
 mixin initiativeButton()
 	- const name = "initiative"
-	button.text-capitalize(class!=attributes.class data-i18n=name name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=^{${name}}}} {{dice=[[1d20+@{awareness}[awareness]+@{initiative_bonus}[bonus] &{tracker}]]}}`)
+	button.text-capitalize(class!=attributes.class data-i18n=name name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=^{${name}}}} {{dice=[[1d20+@{awareness}[awareness]+@{initiative_modifier}[modifier] &{tracker}]]}}`)
 
 mixin repeatingRollButton(name, includeDescription = false)
 	- const description = includeDescription ? "{{description=@{description}}" : ""

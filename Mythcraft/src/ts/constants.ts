@@ -21,6 +21,8 @@ const logic = ["logic_base", "intellect"];
 const reflexes = ["reflexes_base", "dexterity"];
 const willpower = ["willpower_base", "charisma"];
 
+const initiative = ["awareness", "initiative_modifier"];
+
 // const skills = [
 //   "awareness",,
 //   "first aid",

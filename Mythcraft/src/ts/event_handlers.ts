@@ -16,6 +16,10 @@
 ["attacks", "skills"].forEach((fieldset) => {
   on(`change:repeating_${fieldset}:attribute`, (event) => {
     const { sourceAttribute, newValue } = event;
+
+    //This can happen when the attribute's value changes but we only want this event when the user selects a new attribute
+    if (!newValue) return;
+
     const repeatingRow = getFieldsetRow(sourceAttribute);
     const abbreviation = getAttributeAbbreviation(newValue);
     setAttrs({ [`${repeatingRow}_attribute_abbreviation`]: abbreviation });
@@ -23,40 +27,26 @@
 
   ["attribute", "modifier"].forEach((attr) => {
     on(`change:repeating_${fieldset}:${attr}`, (event) => {
-      const { sourceAttribute, newValue } = event;
+      const { sourceAttribute } = event;
       const repeatingRow = getFieldsetRow(sourceAttribute);
 
-      const setBonus = (attrs: Attrs) => {
-        const integers = parseIntegers(attrs);
-        const sum = sumIntegers(Object.values(integers));
-        setAttrs({
-          [`${repeatingRow}_bonus`]: sum > 0 ? `+${sum}` : `${sum}`,
-        });
-      };
-
-      if (attr === "modifier") {
-        getAttrs([`${repeatingRow}_attribute`], (values) => {
-          const attribute = values[`${repeatingRow}_attribute`].slice(2, -1);
+      getAttrs(
+        [`${repeatingRow}_attribute`, `${repeatingRow}_modifier`],
+        (values) => {
+          const attribute = sliceAttribute(values[`${repeatingRow}_attribute`]);
           getAttrs([attribute], (v) => {
-            const ints = {
+            const attrs = {
               attribute: v[attribute],
-              modifier: newValue,
+              modifier: values[`${repeatingRow}_modifier`],
             };
-            setBonus(ints);
+            const integers = parseIntegers(attrs);
+            const sum = sumIntegers(Object.values(integers));
+            setAttrs({
+              [`${repeatingRow}_bonus`]: sum > 0 ? `+${sum}` : `${sum}`,
+            });
           });
-        });
-      }
-
-      if (attr === "attribute") {
-        const attribute = newValue.slice(2, -1);
-        getAttrs([attribute, `${repeatingRow}_modifier`], (v) => {
-          const ints = {
-            attribute: v[attribute],
-            modifier: v[`${repeatingRow}_modifier`],
-          };
-          setBonus(ints);
-        });
-      }
+        }
+      );
     });
   });
 });
@@ -232,6 +222,24 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
 
       console.log(sections);
       setAttrs({ creature_sections: sections.join(",") });
+    });
+  });
+});
+
+initiative.forEach((attr) => {
+  on(`change:${attr}`, (event) => {
+    const { sourceAttribute, newValue } = event;
+    const otherAttr =
+      attr === "awareness" ? "initiative_modifier" : "awareness";
+    getAttrs([otherAttr], (values) => {
+      const ints = parseIntegers({
+        sourceAttribute: newValue,
+        otherAttr: values[otherAttr],
+      });
+      const sum = sumIntegers(Object.values(ints));
+      setAttrs({
+        initiative_bonus: sum > 0 ? `+${sum}` : `${sum}`,
+      });
     });
   });
 });

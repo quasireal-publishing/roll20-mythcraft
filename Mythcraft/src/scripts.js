@@ -111,6 +111,7 @@ var fortitude = ["fortitude_base", "endurance"];
 var logic = ["logic_base", "intellect"];
 var reflexes = ["reflexes_base", "dexterity"];
 var willpower = ["willpower_base", "charisma"];
+var initiative = ["awareness", "initiative_modifier"];
 var dropWarning = function (v) {
     console.log("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
 };
@@ -191,44 +192,31 @@ var handle_drop = function () {
     on("change:repeating_".concat(fieldset, ":attribute"), function (event) {
         var _a;
         var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+        if (!newValue)
+            return;
         var repeatingRow = getFieldsetRow(sourceAttribute);
         var abbreviation = getAttributeAbbreviation(newValue);
         setAttrs((_a = {}, _a["".concat(repeatingRow, "_attribute_abbreviation")] = abbreviation, _a));
     });
     ["attribute", "modifier"].forEach(function (attr) {
         on("change:repeating_".concat(fieldset, ":").concat(attr), function (event) {
-            var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+            var sourceAttribute = event.sourceAttribute;
             var repeatingRow = getFieldsetRow(sourceAttribute);
-            var setBonus = function (attrs) {
-                var _a;
-                var integers = parseIntegers(attrs);
-                var sum = sumIntegers(Object.values(integers));
-                setAttrs((_a = {},
-                    _a["".concat(repeatingRow, "_bonus")] = sum > 0 ? "+".concat(sum) : "".concat(sum),
-                    _a));
-            };
-            if (attr === "modifier") {
-                getAttrs(["".concat(repeatingRow, "_attribute")], function (values) {
-                    var attribute = values["".concat(repeatingRow, "_attribute")].slice(2, -1);
-                    getAttrs([attribute], function (v) {
-                        var ints = {
-                            attribute: v[attribute],
-                            modifier: newValue
-                        };
-                        setBonus(ints);
-                    });
-                });
-            }
-            if (attr === "attribute") {
-                var attribute_1 = newValue.slice(2, -1);
-                getAttrs([attribute_1, "".concat(repeatingRow, "_modifier")], function (v) {
-                    var ints = {
-                        attribute: v[attribute_1],
-                        modifier: v["".concat(repeatingRow, "_modifier")]
+            getAttrs(["".concat(repeatingRow, "_attribute"), "".concat(repeatingRow, "_modifier")], function (values) {
+                var attribute = sliceAttribute(values["".concat(repeatingRow, "_attribute")]);
+                getAttrs([attribute], function (v) {
+                    var _a;
+                    var attrs = {
+                        attribute: v[attribute],
+                        modifier: values["".concat(repeatingRow, "_modifier")]
                     };
-                    setBonus(ints);
+                    var integers = parseIntegers(attrs);
+                    var sum = sumIntegers(Object.values(integers));
+                    setAttrs((_a = {},
+                        _a["".concat(repeatingRow, "_bonus")] = sum > 0 ? "+".concat(sum) : "".concat(sum),
+                        _a));
                 });
-            }
+            });
         });
     });
 });
@@ -376,6 +364,22 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
             }
             console.log(sections);
             setAttrs({ creature_sections: sections.join(",") });
+        });
+    });
+});
+initiative.forEach(function (attr) {
+    on("change:".concat(attr), function (event) {
+        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+        var otherAttr = attr === "awareness" ? "initiative_modifier" : "awareness";
+        getAttrs([otherAttr], function (values) {
+            var ints = parseIntegers({
+                sourceAttribute: newValue,
+                otherAttr: values[otherAttr]
+            });
+            var sum = sumIntegers(Object.values(ints));
+            setAttrs({
+                initiative_bonus: sum > 0 ? "+".concat(sum) : "".concat(sum)
+            });
         });
     });
 });
@@ -589,6 +593,9 @@ var versionOneOne = function () {
                 setAttrs(updates);
             });
         });
+    });
+    getAttrs(["initiative_bonus"], function (v) {
+        setAttrs({ initiative_modifier: v.initiative_bonus });
     });
 };
 var versioning = function (version) { return __awaiter(_this, void 0, void 0, function () {

@@ -107,10 +107,13 @@
 					+numberInputWithMax("luck points")
 			.grid.double-border-2.rounded-md.p-2.relative
 				+title("initiative")
-				.grid.mt-1
-					+numberInput("initiative bonus", 0)
-				.grid.justify-center.items-center.mt-1
-					+initiativeButton()
+				.grid.grid-flow-col.gap-2.mt-1
+					.grid.justify-center.items-center
+						+numberInput("initiative modifier", 0)
+						+h3Header("modifier")
+					.grid.justify-center.items-center
+						+attrSpan("initiative bonus")(class="text-center")
+						+initiativeButton()
 
 		+combatAttributes()
 		

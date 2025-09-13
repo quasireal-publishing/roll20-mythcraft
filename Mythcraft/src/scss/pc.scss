@@ -212,6 +212,10 @@
         justify-content: space-between;
       }
 
+      .repitem {
+        height: fit-content;
+      }
+
       input[name="attr_source"][value="arcane"] + div {
         background-color: rgba(0, 207, 255, 0.2);
       }

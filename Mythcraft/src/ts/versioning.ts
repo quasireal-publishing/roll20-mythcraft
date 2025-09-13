@@ -22,6 +22,10 @@ const versionOneOne = () => {
       });
     });
   });
+
+  getAttrs(["initiative_bonus"], (v) => {
+    setAttrs({ initiative_modifier: v.initiative_bonus });
+  });
 };
 
 const versioning = async (version: number) => {
