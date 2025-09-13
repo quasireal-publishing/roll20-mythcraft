@@ -36,11 +36,11 @@ include mixins/repeating_attacks.pug
 include mixins/repeating_skills.pug
 include mixins/repeating_resources.pug
 
-mixin h3Header(name)
-   h3.ellipse.text-center.capitalize(data-i18n=name)(class!=attributes.class)
+mixin h3Header(name, i18n)
+   h3.ellipse.text-center.capitalize(data-i18n=i18n ? i18n : name)
 
-mixin h4Header(name)
-   h4.ellipse.capitalize(data-i18n=name)(class!=attributes.class)
+mixin h4Header(name, i18n)
+   h4.ellipse.capitalize(data-i18n=i18n ? i18n : name)
 
 mixin subheaders(values)
    .grid.grid-flow-col.gap-2.mb-2.border-bottom.subheaders
