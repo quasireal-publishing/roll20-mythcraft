@@ -28,8 +28,9 @@
 
       const setBonus = (attrs: Attrs) => {
         const integers = parseIntegers(attrs);
+        const sum = sumIntegers(Object.values(integers));
         setAttrs({
-          [`${repeatingRow}_bonus`]: sumIntegers(Object.values(integers)),
+          [`${repeatingRow}_bonus`]: sum > 0 ? `+${sum}` : `${sum}`,
         });
       };
 

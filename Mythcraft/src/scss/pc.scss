@@ -98,7 +98,10 @@
     .attacks {
       .custom-grid {
         grid-template-columns:
-          $button-max-width 1fr $spacing-20 repeat(3, $spacing-16)
+          $button-max-width repeat(2, $spacing-20) $spacing-16 repeat(
+            3,
+            $spacing-20
+          )
           1fr;
       }
 

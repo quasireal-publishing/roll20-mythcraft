@@ -91,9 +91,8 @@ var addSpellAttack = function (row, page) {
         var attribute = spellcasting_ability.slice(2, -1);
         getAttrs([attribute], function (attrs) {
             var int = parseInteger(attrs[attribute]);
-            update["".concat(attackRow, "_bonus")] = isPrimarySource
-                ? int
-                : Math.ceil(int / 2);
+            var bonus = isPrimarySource ? int : Math.ceil(int / 2);
+            update["".concat(attackRow, "_bonus")] = bonus > 0 ? "+".concat(bonus) : "".concat(bonus);
             setDropAttrs(update);
         });
     });
@@ -203,8 +202,9 @@ var handle_drop = function () {
             var setBonus = function (attrs) {
                 var _a;
                 var integers = parseIntegers(attrs);
+                var sum = sumIntegers(Object.values(integers));
                 setAttrs((_a = {},
-                    _a["".concat(repeatingRow, "_bonus")] = sumIntegers(Object.values(integers)),
+                    _a["".concat(repeatingRow, "_bonus")] = sum > 0 ? "+".concat(sum) : "".concat(sum),
                     _a));
             };
             if (attr === "modifier") {
@@ -387,7 +387,7 @@ var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (!isPrimarySource) {
         abilityModifier = "ceil(".concat(abilityModifier, "/2)");
     }
-    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{bonus}[bonus])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{critical_range}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}");
+    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{modifier}[modifier])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{critical_range}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}");
 };
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {

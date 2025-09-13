@@ -35,9 +35,8 @@ const addSpellAttack = (row: string, page: CompendiumAttributes) => {
 
       getAttrs([attribute], (attrs) => {
         const int = parseInteger(attrs[attribute]);
-        update[`${attackRow}_bonus`] = isPrimarySource
-          ? int
-          : Math.ceil(int / 2);
+        const bonus = isPrimarySource ? int : Math.ceil(int / 2);
+        update[`${attackRow}_bonus`] = bonus > 0 ? `+${bonus}` : `${bonus}`;
 
         setDropAttrs(update);
       });
