@@ -6,7 +6,8 @@ mixin repeatingAttacks()
 		.grid.gap-2.relative.repeating-grid 
 			.grid.grid-flow-col.gap-2.displayed.custom-grid
 				+repeatingAttackRollButton('name')
-				each val in  ['apc', "attribute_abbreviation",'bonus', 'damage', 'damage type', 'range']
+				+attrSpan('range')(class="text-center")
+				each val in  ['apc', 'bonus', 'damage', 'damage type', 'range']
 					if val === "damage"
 						+repeatingDamageButton(val)(class="text-center")
 					else
@@ -20,11 +21,12 @@ mixin repeatingAttacks()
 			.edit.grid.gap-2
 				+textInputs(["name", "tags"])
 				.grid.gap-2.grid-flow-col.items-center
-					+attributeSelect("attribute")
 					+editInput("apc")
+					+attributeSelect("attribute")
+					span.text-center
+						| +
 					.grid.gap-2.col-auto-fr.items-center
-						+editInput("bonus")
-						+numberInput("bonus", 0)
+						+editInput("modifier", 0)
 				.grid.gap-2.grid-flow-col
 					+editInput('damage')
 					+attributeSelect('damage attribute')

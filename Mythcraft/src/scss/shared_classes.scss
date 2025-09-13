@@ -35,6 +35,12 @@
   }
 }
 
+.description {
+  span.display {
+    white-space: pre-wrap;
+  }
+}
+
 .repitem {
   .toggle + span {
     visibility: hidden;

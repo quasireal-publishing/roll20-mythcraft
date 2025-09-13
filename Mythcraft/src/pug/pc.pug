@@ -8,14 +8,12 @@
 			.grid.gap-1.grow.bio
 				.grid.grid-flow-col.gap-2.name-row
 					+headerInput('character name')
-					.grid.col-auto-fr.gap-1.grid-flow-col.items-center
-						+h3Header("level")
-						+numberInput("level")(class="text-center")
+					+headerInput('lineage')
 				.grid.grid-flow-col.gap-2.name-row
-					each val in ['lineage', 'age']
+					each val in ['level', 'size']
 						+headerInput(val)
 				.grid.grid-flow-col.gap-2
-					each val in ['height', 'weight', 'size']
+					each val in ['height', 'weight', 'age']
 						+headerInput(val)
 				.grid.grid-flow-col.gap-2
 					each val in ['appearance']

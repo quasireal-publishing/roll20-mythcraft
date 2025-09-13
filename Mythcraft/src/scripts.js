@@ -83,11 +83,19 @@ var addSpellAttack = function (row, page) {
         update["".concat(attackRow, "_attribute")] = spellcasting_ability;
         update["".concat(attackRow, "_attribute_abbreviation")] =
             getAttributeAbbreviation(spellcasting_ability);
-        var rollFormula = getRollFormula(primary_source === page.data.source.toString().toLowerCase());
+        var isPrimarySource = primary_source === page.data.source.toString().toLowerCase();
+        var rollFormula = getRollFormula(isPrimarySource);
         update["".concat(attackRow, "_roll_formula")] = rollFormula;
         update["".concat(row, "_roll_formula")] = rollFormula;
         update["".concat(row, "_link")] = attackRow;
-        setDropAttrs(update);
+        var attribute = spellcasting_ability.slice(2, -1);
+        getAttrs([attribute], function (attrs) {
+            var int = parseInteger(attrs[attribute]);
+            update["".concat(attackRow, "_bonus")] = isPrimarySource
+                ? int
+                : Math.ceil(int / 2);
+            setDropAttrs(update);
+        });
     });
     return attackRow;
 };
@@ -187,6 +195,41 @@ var handle_drop = function () {
         var repeatingRow = getFieldsetRow(sourceAttribute);
         var abbreviation = getAttributeAbbreviation(newValue);
         setAttrs((_a = {}, _a["".concat(repeatingRow, "_attribute_abbreviation")] = abbreviation, _a));
+    });
+    ["attribute", "modifier"].forEach(function (attr) {
+        on("change:repeating_".concat(fieldset, ":").concat(attr), function (event) {
+            var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+            var repeatingRow = getFieldsetRow(sourceAttribute);
+            var setBonus = function (attrs) {
+                var _a;
+                var integers = parseIntegers(attrs);
+                setAttrs((_a = {},
+                    _a["".concat(repeatingRow, "_bonus")] = sumIntegers(Object.values(integers)),
+                    _a));
+            };
+            if (attr === "modifier") {
+                getAttrs(["".concat(repeatingRow, "_attribute")], function (values) {
+                    var attribute = values["".concat(repeatingRow, "_attribute")].slice(2, -1);
+                    getAttrs([attribute], function (v) {
+                        var ints = {
+                            attribute: v[attribute],
+                            modifier: newValue
+                        };
+                        setBonus(ints);
+                    });
+                });
+            }
+            if (attr === "attribute") {
+                var attribute_1 = newValue.slice(2, -1);
+                getAttrs([attribute_1, "".concat(repeatingRow, "_modifier")], function (v) {
+                    var ints = {
+                        attribute: v[attribute_1],
+                        modifier: v["".concat(repeatingRow, "_modifier")]
+                    };
+                    setBonus(ints);
+                });
+            }
+        });
     });
 });
 ["attacks", "inventory"].forEach(function (fieldset) {
@@ -533,6 +576,20 @@ on("sheet:opened", function () {
     });
 });
 var versionOneOne = function () {
+    var fieldsToUpdate = ["repeating_attacks", "repeating_skills"];
+    fieldsToUpdate.forEach(function (fieldset) {
+        getSectionIDs(fieldset, function (ids) {
+            var bonuses = ids.map(function (id) { return "".concat(fieldset, "_").concat(id, "_bonus"); });
+            getAttrs(bonuses, function (values) {
+                var updates = {};
+                bonuses.forEach(function (bonus) {
+                    var modifier = bonus.replace("bonus", "modifier");
+                    updates[modifier] = values[bonus] || "0";
+                });
+                setAttrs(updates);
+            });
+        });
+    });
 };
 var versioning = function (version) { return __awaiter(_this, void 0, void 0, function () {
     var updateMessage;
@@ -546,9 +603,10 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
                 versioning(1);
                 updateMessage(1);
                 break;
-            case version < 1.01:
-                updateMessage(1.01);
-                versioning(1.01);
+            case version < 1.1:
+                updateMessage(1.1);
+                versionOneOne();
+                versioning(1.1);
                 break;
             default:
                 console.log("%c Sheet is update to date.", "color: green; font-weight:bold");
@@ -770,12 +828,24 @@ var handle_talent = function (page) {
     }
     setDropAttrs(update);
 };
+var getAttributeInfo = function (attr) {
+    if (typeof attr === "string") {
+        return {
+            attribute: "@{".concat(attr, "}"),
+            abbreviation: getAttributeAbbreviation(attr)
+        };
+    }
+    console.warn("Attribute is not a string: ".concat(attr));
+    return { attribute: "", abbreviation: "" };
+};
 var handle_weapon = function (page, attackRow, inventoryRow) {
+    var _a;
     var attrs = [
         "apc",
         "cost",
         "damage_type",
         "damage",
+        "damage_attribute",
         "name",
         "range",
         "reload",
@@ -788,14 +858,24 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
     var row = attackRow ? attackRow : getRow("attacks");
     var update = getUpdate(attrs, page, row);
     update["".concat(row, "_category")] = page.data.Category;
-    update["".concat(row, "_bonus")] = 0;
+    update["".concat(row, "_modifier")] = (_a = page.data.modifier) !== null && _a !== void 0 ? _a : 0;
     update["".concat(row, "_link")] = inventoryRow;
-    if (typeof page.data.attribute === "string") {
-        update["".concat(row, "_attribute")] = "@{".concat(page.data.attribute, "}");
-        update["".concat(row, "_attribute_abbreviation")] = getAttributeAbbreviation(page.data.attribute);
+    var setAttributeField = function (key, value) {
+        if (!value)
+            return;
+        var _a = getAttributeInfo(value), attribute = _a.attribute, abbreviation = _a.abbreviation;
+        update["".concat(row, "_").concat(key)] = attribute;
+        update["".concat(row, "_").concat(key, "_abbreviation")] = abbreviation;
+    };
+    setAttributeField("attribute", page.data.attribute);
+    if (page.data.damage_attribute) {
+        setAttributeField("damage_attribute", page.data.damage_attribute);
     }
     else {
-        console.warn("Attribute is not a string: ".concat(page.data.attribute, ", ").concat(page.data.name));
+        setAttributeField("damage_attribute", page.data.attribute);
+    }
+    if (!page.data.attribute) {
+        update["".concat(row, "_bonus")] = 0;
     }
     setDropAttrs(update);
 };

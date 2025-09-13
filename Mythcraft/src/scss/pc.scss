@@ -21,7 +21,7 @@
     }
 
     .name-row {
-      grid-template-columns: 1fr minmax($spacing-12, $spacing-20);
+      grid-template-columns: 1.5fr 1fr;
     }
   }
 
@@ -49,7 +49,8 @@
 
       h3[data-i18n="bonus"],
       h3[data-i18n="attribute"],
-      span[name="attr_attribute_abbreviation"] {
+      span[name="attr_attribute_abbreviation"],
+      input[name="attr_modifier"] {
         @extend .text-center;
       }
 
@@ -74,7 +75,8 @@
     .inventory {
       h3[data-i18n="qty"],
       span[name="attr_qty"],
-      input[name="attr_qty"] {
+      input[name="attr_qty"],
+      input[name="attr_cost"] {
         @extend .text-center;
       }
 
@@ -105,6 +107,7 @@
       }
 
       input[name="attr_apc"],
+      input[name="attr_modifier"],
       span[name="attr_attribute_abbreviation"],
       span[name="attr_apc"],
       span[name="attr_bonus"],

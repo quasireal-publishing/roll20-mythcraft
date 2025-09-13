@@ -1,6 +1,7 @@
 mixin repeatingSkills()
 	fieldset(class=`repeating_skills`)
 		input(type="hidden" name="attr_attribute_abbreviation" value= "STR")
+		input(type="hidden" name="attr_bonus" value= "0")
 		.grid.gap-2.relative.repeating-grid(class!=attributes.class)
 			.grid.grid-flow-col.gap-2.displayed.custom-grid
 				+repeatingRollButton(`skill`)
@@ -22,6 +23,8 @@ mixin repeatingSkills()
 							each val in coreAttributes
 								option(value=`@{${val}}` data-i18n=val)
 									val
-					+editInput("bonus")(class=`bonus`)
+					span.text-center
+						| +
+					+editInput("modifier")(class=`modifier`)
 				.description
 					+textarea('description')

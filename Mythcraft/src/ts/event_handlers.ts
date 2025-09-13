@@ -17,11 +17,46 @@
   on(`change:repeating_${fieldset}:attribute`, (event) => {
     const { sourceAttribute, newValue } = event;
     const repeatingRow = getFieldsetRow(sourceAttribute);
-
-    // Attribute will be @{...}. Remove the @{}
     const abbreviation = getAttributeAbbreviation(newValue);
-
     setAttrs({ [`${repeatingRow}_attribute_abbreviation`]: abbreviation });
+  });
+
+  ["attribute", "modifier"].forEach((attr) => {
+    on(`change:repeating_${fieldset}:${attr}`, (event) => {
+      const { sourceAttribute, newValue } = event;
+      const repeatingRow = getFieldsetRow(sourceAttribute);
+
+      const setBonus = (attrs: Attrs) => {
+        const integers = parseIntegers(attrs);
+        setAttrs({
+          [`${repeatingRow}_bonus`]: sumIntegers(Object.values(integers)),
+        });
+      };
+
+      if (attr === "modifier") {
+        getAttrs([`${repeatingRow}_attribute`], (values) => {
+          const attribute = values[`${repeatingRow}_attribute`].slice(2, -1);
+          getAttrs([attribute], (v) => {
+            const ints = {
+              attribute: v[attribute],
+              modifier: newValue,
+            };
+            setBonus(ints);
+          });
+        });
+      }
+
+      if (attr === "attribute") {
+        const attribute = newValue.slice(2, -1);
+        getAttrs([attribute, `${repeatingRow}_modifier`], (v) => {
+          const ints = {
+            attribute: v[attribute],
+            modifier: v[`${repeatingRow}_modifier`],
+          };
+          setBonus(ints);
+        });
+      }
+    });
   });
 });
 
