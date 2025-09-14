@@ -199,7 +199,6 @@ var handle_drop = function () {
 });
 initiative.forEach(function (attr) {
     on("change:".concat(attr), function () {
-        console.log(attr, "changed, updating initiative...");
         updateModifiedAttribute(initiative);
     });
 });
@@ -730,7 +729,7 @@ var parseJSON = function (jsonString) {
         return JSON.parse(jsonString);
     }
     catch (e) {
-        console.log("Error parsing JSON: ".concat(jsonString));
+        console.warn("Error parsing JSON: ".concat(jsonString));
         return undefined;
     }
 };
@@ -828,14 +827,12 @@ var handle_profession = function (page) {
         handle_bop(page);
         return;
     }
-    console.log(page);
     var attrs = ["name", "description"];
     var row = getRow("abilities");
     var update = getUpdate(attrs, page, row);
     if (page.data.profession) {
         update["".concat(row, "_tags")] = page.data.profession;
     }
-    console.log(update);
     setDropAttrs(update);
 };
 var handle_skills = function (page) {

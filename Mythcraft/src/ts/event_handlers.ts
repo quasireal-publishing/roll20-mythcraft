@@ -8,7 +8,6 @@
 
 initiative.forEach((attr) => {
   on(`change:${attr}`, () => {
-    console.log(attr, "changed, updating initiative...");
     updateModifiedAttribute(initiative);
   });
 });
