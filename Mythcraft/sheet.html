@@ -686,6 +686,9 @@ var versionOneOne = function () {
             });
         });
     });
+    getAttrs(["awareness", "initiative_bonus"], function (v) {
+        setAttrs({ initiative: v.initiative_bonus + v.awareness });
+    });
 };
 var versioning = function (version) { return __awaiter(_this, void 0, void 0, function () {
     var updateMessage;
