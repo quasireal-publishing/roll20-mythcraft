@@ -6,6 +6,23 @@
     max-width: $button-max-width;
   }
 
+  .input-span {
+    &:hover > label > input[type="text"],
+    &:focus > label > input[type="text"] {
+      display: inline;
+    }
+
+    span {
+      display: inherit;
+    }
+
+    &:hover > span,
+    &:focus > span,
+    input[type="text"] {
+      display: none;
+    }
+  }
+
   .title {
     max-height: 35px;
   }

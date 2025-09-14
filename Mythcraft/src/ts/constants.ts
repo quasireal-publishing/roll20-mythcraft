@@ -10,11 +10,17 @@ const attributes = [
   ...physicalAttributes,
 ];
 
-const action_points = ["coordination", "action_points_base"];
+const action_points = [
+  "coordination",
+  "action_points_base",
+  "action_points_modifier",
+];
+
 const hit_points = ["endurance", "hit_points_base", "level"];
 const critical_attributes = ["critical_range", "luck", "critical_range_base"];
+
 // Defenses
-const armor_rating = ["armor_rating_base"];
+const armor_rating = ["armor_rating_base", "armor_rating_modifier"];
 const anticipation = [
   "anticipation_base",
   "anticipation_modifier",
@@ -34,3 +40,5 @@ const defenses = [
 ];
 
 const initiative = ["awareness", "initiative_modifier"];
+
+const modifiers = [...defenses, "action_points_max", "initiative"];

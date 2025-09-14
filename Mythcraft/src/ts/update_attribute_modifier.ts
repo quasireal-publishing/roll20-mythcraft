@@ -1,6 +1,5 @@
 const updateAttributeModifier = ({
   sourceAttribute,
-  newValue,
   previousValue,
   removedInfo,
 }: EventInfo) => {
@@ -48,7 +47,7 @@ const updateAttributeModifier = ({
 
       update[`${attribute}_modifier`] = getAttributeSum(attribute.toString());
 
-      if (previousValue && defenses.includes(previousValue)) {
+      if (previousValue && modifiers.includes(previousValue)) {
         update[`${previousValue}_modifier`] = getAttributeSum(previousValue);
       }
 

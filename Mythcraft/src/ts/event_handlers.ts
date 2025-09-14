@@ -1,10 +1,12 @@
-[anticipation, fortitude, logic, reflexes, willpower].forEach((attributes) => {
-  attributes.forEach((attr) => {
-    on(`change:${attr}`, () => {
-      updateDerivedAttribute(attributes);
+[anticipation, fortitude, logic, reflexes, willpower, armor_rating].forEach(
+  (attributes) => {
+    attributes.forEach((attr) => {
+      on(`change:${attr}`, () => {
+        updateDerivedAttribute(attributes);
+      });
     });
-  });
-});
+  }
+);
 
 ["modifier", "toggle_active", "attribute"].forEach((attribute) => {
   on(`change:repeating_modifiers:${attribute}`, (event) => {
@@ -129,6 +131,7 @@ on(`remove:repeating_modifiers`, (event) => {
 
 action_points.forEach((attr) => {
   on(`change:${attr}`, () => {
+    console.log("Action Points related attribute changed, updating max...");
     updateActionPointsPerRound(action_points);
   });
 });

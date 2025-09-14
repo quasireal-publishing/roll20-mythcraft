@@ -14,7 +14,8 @@ input(type="hidden"  name="attr_critical_range_base" value="20")
 input(type="hidden"  name="attr_critical_range" value="20")
 //- Rerolls
 input(type="hidden"  name="attr_rerolls_max" value="3")
+
 //- Defenses
-each val in ["armor rating", ...derivedAttributes]
+each val in ["armor rating", "initiative", ...derivedAttributes]
     input(type="hidden"  name=`attr_${attrName(val)}_base` value="10")
     input(type="hidden"  name=`attr_${attrName(val)}_modifier` value="0")

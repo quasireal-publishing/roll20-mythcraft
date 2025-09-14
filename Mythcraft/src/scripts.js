@@ -102,10 +102,14 @@ var mentalAttributes = ["awareness", "intellect", "charisma"];
 var metaphysicAttributes = ["luck", "coordination"];
 var physicalAttributes = ["strength", "dexterity", "endurance"];
 var attributes = __spreadArray(__spreadArray(__spreadArray([], mentalAttributes, true), metaphysicAttributes, true), physicalAttributes, true);
-var action_points = ["coordination", "action_points_base"];
+var action_points = [
+    "coordination",
+    "action_points_base",
+    "action_points_modifier",
+];
 var hit_points = ["endurance", "hit_points_base", "level"];
 var critical_attributes = ["critical_range", "luck", "critical_range_base"];
-var armor_rating = ["armor_rating_base"];
+var armor_rating = ["armor_rating_base", "armor_rating_modifier"];
 var anticipation = [
     "anticipation_base",
     "anticipation_modifier",
@@ -123,6 +127,7 @@ var defenses = [
     "willpower",
 ];
 var initiative = ["awareness", "initiative_modifier"];
+var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points_max", "initiative"], false);
 var dropWarning = function (v) {
     console.log("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
 };
@@ -185,7 +190,7 @@ var handle_drop = function () {
         handle_drop();
     });
 });
-[anticipation, fortitude, logic, reflexes, willpower].forEach(function (attributes) {
+[anticipation, fortitude, logic, reflexes, willpower, armor_rating].forEach(function (attributes) {
     attributes.forEach(function (attr) {
         on("change:".concat(attr), function () {
             updateDerivedAttribute(attributes);
@@ -297,6 +302,7 @@ on("remove:repeating_modifiers", function (event) {
 });
 action_points.forEach(function (attr) {
     on("change:".concat(attr), function () {
+        console.log("Action Points related attribute changed, updating max...");
         updateActionPointsPerRound(action_points);
     });
 });
@@ -426,7 +432,7 @@ var getRollFormula = function (isPrimarySource, isSpellCard) {
 };
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {
-        var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base;
+        var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base, action_points_modifier = _a.action_points_modifier;
         var action_points_max = action_points_base;
         switch (coordination) {
             case -1:
@@ -440,11 +446,13 @@ var updateActionPointsPerRound = function (attributes) {
                 action_points_max = Math.floor(coordination / 2) + action_points_base;
                 break;
         }
+        action_points_max += action_points_modifier;
+        console.log("Updated Action Points Max:", action_points_max);
         setAttrs({ action_points_max: action_points_max });
     });
 };
 var updateAttributeModifier = function (_a) {
-    var sourceAttribute = _a.sourceAttribute, newValue = _a.newValue, previousValue = _a.previousValue, removedInfo = _a.removedInfo;
+    var sourceAttribute = _a.sourceAttribute, previousValue = _a.previousValue, removedInfo = _a.removedInfo;
     var repeatingRow = getFieldsetRow(sourceAttribute);
     getSectionIDs("repeating_modifiers", function (ids) {
         var attrs = [];
@@ -477,7 +485,7 @@ var updateAttributeModifier = function (_a) {
                 ? removedInfo["".concat(sourceAttribute, "_attribute")]
                 : v["".concat(repeatingRow, "_attribute")];
             update["".concat(attribute, "_modifier")] = getAttributeSum(attribute.toString());
-            if (previousValue && defenses.includes(previousValue)) {
+            if (previousValue && modifiers.includes(previousValue)) {
                 update["".concat(previousValue, "_modifier")] = getAttributeSum(previousValue);
             }
             setAttrs(update);
