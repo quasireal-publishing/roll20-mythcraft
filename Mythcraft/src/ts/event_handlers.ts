@@ -6,13 +6,10 @@
   });
 });
 
-[initiative].forEach((attrs) => {
-  attrs.forEach((attr) => {
-    on(`change:${attr}`, () => {
-      console.log(attr, "changed, updating initiative...");
-
-      updateModifiedAttribute(attrs);
-    });
+initiative.forEach((attr) => {
+  on(`change:${attr}`, () => {
+    console.log(attr, "changed, updating initiative...");
+    updateModifiedAttribute(initiative);
   });
 });
 
@@ -139,7 +136,6 @@ on(`remove:repeating_modifiers`, (event) => {
 
 action_points.forEach((attr) => {
   on(`change:${attr}`, () => {
-    console.log("Action Points related attribute changed, updating max...");
     updateActionPointsPerRound(action_points);
   });
 });

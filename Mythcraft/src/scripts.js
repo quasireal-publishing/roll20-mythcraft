@@ -126,7 +126,7 @@ var defenses = [
     "reflexes",
     "willpower",
 ];
-var initiative = ["initiative_base", "initiative_modifier", "awareness"];
+var initiative = ["initiative_base", "initiative_bonus", "awareness"];
 var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points", "initiative", "armor_rating"], false);
 var dropWarning = function (v) {
     console.log("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
@@ -197,12 +197,10 @@ var handle_drop = function () {
         });
     });
 });
-[initiative].forEach(function (attrs) {
-    attrs.forEach(function (attr) {
-        on("change:".concat(attr), function () {
-            console.log(attr, "changed, updating initiative...");
-            updateModifiedAttribute(attrs);
-        });
+initiative.forEach(function (attr) {
+    on("change:".concat(attr), function () {
+        console.log(attr, "changed, updating initiative...");
+        updateModifiedAttribute(initiative);
     });
 });
 ["modifier", "toggle_active", "attribute"].forEach(function (attribute) {
@@ -310,7 +308,6 @@ on("remove:repeating_modifiers", function (event) {
 });
 action_points.forEach(function (attr) {
     on("change:".concat(attr), function () {
-        console.log("Action Points related attribute changed, updating max...");
         updateActionPointsPerRound(action_points);
     });
 });
@@ -425,22 +422,22 @@ var getRollFormula = function (isPrimarySource, isSpellCard) {
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {
         var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base, action_points_modifier = _a.action_points_modifier;
-        var action_points_max = action_points_base;
+        var action_points_per_round = action_points_base;
         switch (coordination) {
             case -1:
             case -2:
-                action_points_max = action_points_base - 1 || 0;
+                action_points_per_round = action_points_base - 1 || 0;
                 break;
             case -3:
-                action_points_max = action_points_base - 2 || 0;
+                action_points_per_round = action_points_base - 2 || 0;
                 break;
             default:
-                action_points_max = Math.floor(coordination / 2) + action_points_base;
+                action_points_per_round =
+                    Math.floor(coordination / 2) + action_points_base;
                 break;
         }
-        action_points_max += action_points_modifier;
-        console.log("Updated Action Points Max:", action_points_max);
-        setAttrs({ action_points_max: action_points_max });
+        action_points_per_round += action_points_modifier || 0;
+        setAttrs({ action_points_per_round: action_points_per_round });
     });
 };
 var updateAttributeModifier = function (_a) {
@@ -684,12 +681,6 @@ var versionOneOne = function () {
                 setAttrs(updates);
             });
         });
-    });
-    getAttrs(["initiative_bonus"], function (v) {
-        setAttrs({ initiative_modifier: v.initiative_bonus });
-    });
-    getAttrs(["action_points_per_round"], function (v) {
-        setAttrs({ action_points_max: v.action_points_per_round });
     });
 };
 var versioning = function (version) { return __awaiter(_this, void 0, void 0, function () {

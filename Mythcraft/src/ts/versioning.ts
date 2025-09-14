@@ -22,14 +22,6 @@ const versionOneOne = () => {
       });
     });
   });
-
-  getAttrs(["initiative_bonus"], (v) => {
-    setAttrs({ initiative_modifier: v.initiative_bonus });
-  });
-
-  getAttrs(["action_points_per_round"], (v) => {
-    setAttrs({ action_points_max: v.action_points_per_round });
-  });
 };
 
 const versioning = async (version: number) => {

@@ -39,6 +39,6 @@ const defenses = [
   "willpower",
 ];
 
-const initiative = ["initiative_base", "initiative_modifier", "awareness"];
+const initiative = ["initiative_base", "initiative_bonus", "awareness"];
 
 const modifiers = [...defenses, "action_points", "initiative", "armor_rating"];
