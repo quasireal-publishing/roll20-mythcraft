@@ -126,8 +126,8 @@ var defenses = [
     "reflexes",
     "willpower",
 ];
-var initiative = ["awareness", "initiative_modifier"];
-var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points_max", "initiative"], false);
+var initiative = ["initiative_base", "initiative_modifier", "awareness"];
+var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points", "initiative", "armor_rating"], false);
 var dropWarning = function (v) {
     console.log("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
 };
@@ -190,10 +190,18 @@ var handle_drop = function () {
         handle_drop();
     });
 });
-[anticipation, fortitude, logic, reflexes, willpower, armor_rating].forEach(function (attributes) {
-    attributes.forEach(function (attr) {
+[
+    anticipation,
+    fortitude,
+    logic,
+    reflexes,
+    willpower,
+    armor_rating,
+    initiative,
+].forEach(function (attrs) {
+    attrs.forEach(function (attr) {
         on("change:".concat(attr), function () {
-            updateDerivedAttribute(attributes);
+            updateDerivedAttribute(attrs);
         });
     });
 });
@@ -401,22 +409,6 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
                 }
             }
             setAttrs({ creature_sections: sections.join(",") });
-        });
-    });
-});
-initiative.forEach(function (attr) {
-    on("change:".concat(attr), function (event) {
-        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
-        var otherAttr = attr === "awareness" ? "initiative_modifier" : "awareness";
-        getAttrs([otherAttr], function (values) {
-            var ints = parseIntegers({
-                sourceAttribute: newValue,
-                otherAttr: values[otherAttr]
-            });
-            var sum = sumIntegers(Object.values(ints));
-            setAttrs({
-                initiative_bonus: sum > 0 ? "+".concat(sum) : "".concat(sum)
-            });
         });
     });
 });

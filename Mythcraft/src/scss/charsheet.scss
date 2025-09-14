@@ -95,6 +95,7 @@ $button-max-width: $spacing-48;
       &:focus,
       &:active {
         background-color: $secondary;
+        border: 1px dotted $fifth;
       }
 
       border: {

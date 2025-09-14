@@ -5,7 +5,9 @@ mixin combatAttributes()
          .grid.relative.justify-center.items-center(class=`${val}`)
             .circle.rounded-full.border.grid.justify-center.items-center.font-bold
                +attributeRoll(shortName(val), `${val}`)
-               +numberInput(val)
+               .grid.gap-2.input-span
+                  +numberInput(val)(class="text-center")
+                  +attrSpan(val)(class="text-center")
       div
       each val in derivedAttributes
          .grid.relative.justify-center.items-center(class=`${val}`)
