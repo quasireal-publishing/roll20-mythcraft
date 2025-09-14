@@ -190,18 +190,18 @@ var handle_drop = function () {
         handle_drop();
     });
 });
-[
-    anticipation,
-    fortitude,
-    logic,
-    reflexes,
-    willpower,
-    armor_rating,
-    initiative,
-].forEach(function (attrs) {
+[anticipation, fortitude, logic, reflexes, willpower].forEach(function (attrs) {
     attrs.forEach(function (attr) {
         on("change:".concat(attr), function () {
             updateDerivedAttribute(attrs);
+        });
+    });
+});
+[initiative].forEach(function (attrs) {
+    attrs.forEach(function (attr) {
+        on("change:".concat(attr), function () {
+            console.log(attr, "changed, updating initiative...");
+            updateModifiedAttribute(attrs);
         });
     });
 });
@@ -607,6 +607,16 @@ var updateLuck = function (attributes) {
             attrs.luck_negative_modifier = 0;
         }
         setAttrs(attrs);
+    });
+};
+var updateModifiedAttribute = function (attributes) {
+    getAttrs(attributes, function (values) {
+        var _a;
+        var sum = sumIntegers(Object.values(parseIntegers(values)));
+        var name = attributes
+            .find(function (e) { return e.includes("base"); })
+            .replace("_base", "");
+        setAttrs((_a = {}, _a[name] = sum > 0 ? "+".concat(sum) : sum < 0 ? "-".concat(sum) : "0", _a));
     });
 };
 var updateSpellRollFormula = function (event) {

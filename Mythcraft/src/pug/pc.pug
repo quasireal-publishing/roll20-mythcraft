@@ -80,9 +80,7 @@
 			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("AR")
 				.grid.mt-1
-					.input-span
-						+textInput("armor rating base", 10)(class="text-center")
-						+attrSpan("armor rating")(class="text-center")
+					+textInput("armor rating", 10)(class="text-center")
 					+h3Header("armor rating")
 			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("speed")
@@ -225,7 +223,7 @@
 						.edit.grid.gap-2
 							.grid.gap-2.edit-grid
 								select(name="attr_attribute")
-									each val in [...attributes, ...derivedAttributes, "action points", "initiative", "armor rating"].sort()
+									each val in [...derivedAttributes, "action points", "initiative"].sort()
 										option(value=`${attrName(val)}` data-i18n=val)
 											val
 								.grid.gap-2.grid-flow-col

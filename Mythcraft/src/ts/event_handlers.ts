@@ -1,15 +1,17 @@
-[
-  anticipation,
-  fortitude,
-  logic,
-  reflexes,
-  willpower,
-  armor_rating,
-  initiative,
-].forEach((attrs) => {
+[anticipation, fortitude, logic, reflexes, willpower].forEach((attrs) => {
   attrs.forEach((attr) => {
     on(`change:${attr}`, () => {
       updateDerivedAttribute(attrs);
+    });
+  });
+});
+
+[initiative].forEach((attrs) => {
+  attrs.forEach((attr) => {
+    on(`change:${attr}`, () => {
+      console.log(attr, "changed, updating initiative...");
+
+      updateModifiedAttribute(attrs);
     });
   });
 });
