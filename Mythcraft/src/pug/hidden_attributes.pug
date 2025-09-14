@@ -1,6 +1,6 @@
 input(type="hidden"  name="attr_bonus" value="0")
 input(type="hidden"  name="attr_action_points_base" value="3")
-input(type="hidden"  name="attr_action_points_per_round" value="3")
+input(type="hidden"  name="attr_action_points_max" value="3")
 //- Hit Points
 input(type="hidden"  name="attr_hit_points_base" value="10")
 input(type="hidden"  name="attr_hit_die_formula" value="10+0+0")
@@ -17,3 +17,4 @@ input(type="hidden"  name="attr_rerolls_max" value="3")
 //- Defenses
 each val in ["armor rating", ...derivedAttributes]
     input(type="hidden"  name=`attr_${attrName(val)}_base` value="10")
+    input(type="hidden"  name=`attr_${attrName(val)}_modifier` value="0")

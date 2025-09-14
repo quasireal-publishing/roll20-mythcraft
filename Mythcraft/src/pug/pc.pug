@@ -29,7 +29,7 @@
 
 
 	.grid.gap-6.main
-		.grid.gap-2.double-border-2.rounded-md.p-2.relative
+		.grid.gap-2.solid-border-2.rounded-md.p-2.relative
 			+title('personality / background')
 			.grid.grid-flow-col.gap-2.personality
 				each val in [ 'values', 'drive', 'quirk']
@@ -47,7 +47,7 @@
 		.grid.grid-flow-cols.gap-4.content-start.p-2.relative.grid-cols-2
 			.grid.gap-6.content-start
 				+repeatingList('inventory', {display: ['name', 'qty', ], collapse: ['tags', "cost"]})
-				.grid.double-border-2.rounded-md.p-2.relative
+				.grid.solid-border-2.rounded-md.p-2.relative
 					+title('currency')
 					.grid.gap-2.items-center.grid-flow-col.mb-2
 						each val in ['a', 'sc', 'q', 'dc']
@@ -57,7 +57,7 @@
 					.grid.mt-1
 						+textarea("currency")
 			.grid.gap-6.content-start
-				.grid.double-border-2.rounded-md.p-2.relative.skills
+				.grid.solid-border-2.rounded-md.p-2.relative.skills
 					+title('skills')
 					+subheaders(['name', 'attribute', 'bonus'])
 					+repeatingSkills('skill')
@@ -66,48 +66,48 @@
 		
 	.grid.gap-6.combat
 		.grid.grid-flow-col.gap-2.hp-row
-			.grid.double-border-2.rounded-md.p-2.relative
+			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("hp & shield")
 				.grid.grid-flow-col.gap-2.hp.mt-1
 					+numberInputWithMax("hp")
 					.grid.justify-center.items-center
 						+numberInput("shield")(class="text-center")
 						+h3Header("shield")
-			.grid.double-border-2.rounded-md.p-2.relative
+			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("death points")
 				.grid.mt-1
 					+numberInputWithMax("death points")
-			.grid.double-border-2.rounded-md.p-2.relative
+			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("AR")
 				.grid.mt-1
 					+textInput("armor rating", 10)(class="text-center")
 					+h3Header("armor rating")
-			.grid.double-border-2.rounded-md.p-2.relative
+			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("speed")
 				.grid.mt-1
 					+textInput("speed","20")(class="text-center")
 					+h3Header("ft")(class="lowercase")
 		.grid.grid.grid-flow-col.gap-2.items-center
-			.grid.double-border-2.rounded-md.p-2.relative
+			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("action points")
 				.grid.grid-flow-col.gap-2.mt-1
 					.grid.justify-center.items-center
 						+numberInput("action points")
 						+h3Header("current")
 					.grid.justify-center.items-center
-						+attrSpan("action points per round")(class="text-center")
+						+attrSpan("action points max")(class="text-center")
 						+h3Header("ap/round")
-			.grid.double-border-2.rounded-md.p-2.relative
+			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("special action points")
 				.grid.mt-1
 					+numberInputWithMax("special action points")
-			.grid.double-border-2.rounded-md.p-2.relative
+			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("luck points")
 				.grid.mt-1
 					+numberInputWithMax("luck points")
-			.grid.double-border-2.rounded-md.p-2.relative
+			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("initiative")
-				.grid.grid-flow-col.gap-2.mt-1
+				.grid.grid-flow-col.gap-2.mt-1.grid-cols-2
 					.grid.justify-center.items-center
 						+numberInput("initiative modifier", 0)
 						+h3Header("modifier")
@@ -117,7 +117,7 @@
 
 		+combatAttributes()
 		
-		.grid.double-border-2.rounded-md.p-2.relative.attacks
+		.grid.solid-border-2.rounded-md.p-2.relative.attacks
 			+title("attacks & spellcasting")
 			+subheaders(["name", "apc", "attribute", "bonus", "damage", "type", "range"])
 			.grid.gap-4
@@ -134,12 +134,12 @@
 	.grid.gap-6.magic
 		.grid.grid-flow-col.gap-2.points-source
 			.grid.gap-6.content-start
-				.grid.double-border-2.rounded-md.p-2.relative
+				.grid.solid-border-2.rounded-md.p-2.relative
 					+title("spell points")
 					.grid.mt-1
 						+numberInputWithMax("spell points")
 				.grid.grid-flow-col.gap-4
-					.grid.double-border-2.rounded-md.p-2.relative
+					.grid.solid-border-2.rounded-md.p-2.relative
 						+title("spellcasting ability")
 						.grid.justify-center.items-center.mt-1
 							select(name="attr_spellcasting_ability")
@@ -147,7 +147,7 @@
 									option(value=`@{${val}}` data-i18n=val)
 										val
 					input(type="hidden" name="attr_primary_source" value="arcane")
-					.grid.double-border-2.rounded-md.p-2.relative
+					.grid.solid-border-2.rounded-md.p-2.relative
 						+title("primary source")
 						.grid.justify-center.items-center.mt-1
 							select(name="attr_primary_source")
@@ -155,7 +155,7 @@
 									option(value=`${val}` data-i18n=val)
 									val
 					
-			.grid.double-border-2.rounded-md.content-start.p-2.source-magic.relative
+			.grid.solid-border-2.rounded-md.content-start.p-2.source-magic.relative
 				+title('source')
 				+subheaders(['name', 'power level'])
 				fieldset(class=`repeating_sources`)
@@ -183,7 +183,7 @@
 								+textarea('description')
 
 		.grid.gap-6.items-center.spell-list
-			.grid.double-border-2.rounded-md.p-2.relative.content-start.spells.spell-cards
+			.grid.solid-border-2.rounded-md.p-2.relative.content-start.spells.spell-cards
 				+title('spells')
 				+repeatingSpellCards()
 	
@@ -203,4 +203,35 @@
 		+repeatingList('abilities', {display: ['name', 'tags'], favorite: true})
 
 	.grid.gap-6.settings
-		+sheetSelect()
+		.grid.gap-4.grid-flow-col.grid-cols-2
+			.grid.solid-border-2.rounded-md.p-2.relative.justify-center.h-max
+				+title('character type')
+				.mt-2
+					+sheetSelect()
+			.grid.solid-border-2.rounded-md.p-2.relative
+				+title('modifiers')
+				+subheaders(['active', 'attribute', 'modifier', 'source'])
+				fieldset(class=`repeating_modifiers`)
+					input(type="hidden" name="attr_link" value="")
+					.grid.gap-2.relative.repeating-grid
+						.grid.grid-flow-col.gap-2.displayed.custom-grid.custom-grid
+							+switch('active')
+							each val in ['attribute', 'modifier', 'source']
+								+attrSpan(val)(class="display ellipse capitalize text-center")
+						+editToggle()
+						+collapseToggle()
+						.collapsible.grid.gap-2
+							+headerSpan(['source'])
+							.description
+								span.display(name='attr_description')
+						.edit.grid.gap-2
+							.grid.gap-2.edit-grid
+								select(name="attr_attribute")
+									each val in [...derivedAttributes].sort()
+										option(value=`${val}` data-i18n=val)
+											val
+								.grid.gap-2.grid-flow-col
+									+editInput('modifier')
+									+editInput('source')
+							.description
+								+textarea('description')

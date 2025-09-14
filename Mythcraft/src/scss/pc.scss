@@ -244,10 +244,6 @@
         grid-template-columns: 1fr 1fr 2fr;
       }
 
-      .attack-toggle {
-        grid-template-columns: 1fr max-content;
-      }
-
       .repeating-grid {
         border: 1px solid $color-neutral-200;
         border-radius: $spacing-2;
@@ -350,5 +346,15 @@ h3[data-i18n="tags"] {
 .favorites {
   .custom-grid {
     grid-template-columns: $button-max-width repeat(1, minmax($spacing-16, 1fr));
+  }
+}
+
+.settings {
+  input[name="attr_modifier"] {
+    @extend .text-center;
+  }
+
+  .custom-grid {
+    grid-template-columns: $spacing-13 1fr $spacing-20 1fr;
   }
 }

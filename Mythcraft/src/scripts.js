@@ -106,11 +106,22 @@ var action_points = ["coordination", "action_points_base"];
 var hit_points = ["endurance", "hit_points_base", "level"];
 var critical_attributes = ["critical_range", "luck", "critical_range_base"];
 var armor_rating = ["armor_rating_base"];
-var anticipation = ["anticipation_base", "awareness"];
-var fortitude = ["fortitude_base", "endurance"];
-var logic = ["logic_base", "intellect"];
-var reflexes = ["reflexes_base", "dexterity"];
-var willpower = ["willpower_base", "charisma"];
+var anticipation = [
+    "anticipation_base",
+    "anticipation_modifier",
+    "awareness",
+];
+var fortitude = ["fortitude_base", "fortitude_modifier", "endurance"];
+var logic = ["logic_base", "logic_modifier", "intellect"];
+var reflexes = ["reflexes_base", "reflexes_modifier", "dexterity"];
+var willpower = ["willpower_base", "willpower_modifier", "charisma"];
+var defenses = [
+    "anticipation",
+    "fortitude",
+    "logic",
+    "reflexes",
+    "willpower",
+];
 var initiative = ["awareness", "initiative_modifier"];
 var dropWarning = function (v) {
     console.log("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
@@ -173,6 +184,27 @@ var handle_drop = function () {
     on("change:drop_".concat(attr), function () {
         handle_drop();
     });
+});
+[anticipation, fortitude, logic, reflexes, willpower].forEach(function (attributes) {
+    attributes.forEach(function (attr) {
+        on("change:".concat(attr), function () {
+            updateDerivedAttribute(attributes);
+        });
+    });
+});
+["modifier", "toggle_active", "attribute"].forEach(function (attribute) {
+    on("change:repeating_modifiers:".concat(attribute), function (event) {
+        updateAttributeModifier(event);
+    });
+});
+on("remove:repeating_modifiers", function (event) {
+    var sourceAttribute = event.sourceAttribute, removedInfo = event.removedInfo;
+    if (removedInfo["".concat(sourceAttribute, "_modifier")] !== "" &&
+        removedInfo["".concat(sourceAttribute, "_modifier")] !== "0" &&
+        removedInfo["".concat(sourceAttribute, "_modifier")] !== undefined &&
+        removedInfo["".concat(sourceAttribute, "_toggle_active")] === "on") {
+        updateAttributeModifier(event);
+    }
 });
 ["attacks", "spells", "reactive-actions"].forEach(function (fieldset) {
     on("change:repeating_".concat(fieldset), function (event) {
@@ -322,7 +354,7 @@ on("change:repeating_spells:source", function (event) {
             _a));
     });
 });
-on("change:repeating_spells:toggle_spell_attack", function (event) {
+on("change:repeating_spells:toggle_attack", function (event) {
     updateSpellRollFormula(event);
 });
 [
@@ -362,7 +394,6 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
                     sections.splice(index, 1);
                 }
             }
-            console.log(sections);
             setAttrs({ creature_sections: sections.join(",") });
         });
     });
@@ -396,21 +427,61 @@ var getRollFormula = function (isPrimarySource, isSpellCard) {
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {
         var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base;
-        var action_points_per_round = action_points_base;
+        var action_points_max = action_points_base;
         switch (coordination) {
             case -1:
             case -2:
-                action_points_per_round = action_points_base - 1 || 0;
+                action_points_max = action_points_base - 1 || 0;
                 break;
             case -3:
-                action_points_per_round = action_points_base - 2 || 0;
+                action_points_max = action_points_base - 2 || 0;
                 break;
             default:
-                action_points_per_round =
-                    Math.floor(coordination / 2) + action_points_base;
+                action_points_max = Math.floor(coordination / 2) + action_points_base;
                 break;
         }
-        setAttrs({ action_points_per_round: action_points_per_round });
+        setAttrs({ action_points_max: action_points_max });
+    });
+};
+var updateAttributeModifier = function (_a) {
+    var sourceAttribute = _a.sourceAttribute, newValue = _a.newValue, previousValue = _a.previousValue, removedInfo = _a.removedInfo;
+    var repeatingRow = getFieldsetRow(sourceAttribute);
+    getSectionIDs("repeating_modifiers", function (ids) {
+        var attrs = [];
+        ids.forEach(function (id) {
+            attrs.push("repeating_modifiers_".concat(id, "_attribute"));
+            attrs.push("repeating_modifiers_".concat(id, "_modifier"));
+            attrs.push("repeating_modifiers_".concat(id, "_toggle_active"));
+        });
+        getAttrs(attrs, function (v) {
+            var update = {};
+            var activeIds = ids.filter(function (id) {
+                return (v["repeating_modifiers_".concat(id, "_toggle_active")] === "on" &&
+                    v["repeating_modifiers_".concat(id, "_modifier")] !== "0" &&
+                    v["repeating_modifiers_".concat(id, "_modifier")] !== "" &&
+                    v["repeating_modifiers_".concat(id, "_modifier")] !== undefined);
+            });
+            var getAttributeSum = function (attribute) {
+                var getAttributeModifiers = function (attribute) {
+                    return activeIds.filter(function (id) {
+                        return v["repeating_modifiers_".concat(id, "_attribute")] === attribute;
+                    });
+                };
+                var attributeModifiers = getAttributeModifiers(attribute);
+                var integers = attributeModifiers.map(function (id) {
+                    return parseInt(v["repeating_modifiers_".concat(id, "_modifier")] || "0", 10);
+                });
+                return sumIntegers(integers);
+            };
+            var attribute = removedInfo && removedInfo["".concat(sourceAttribute, "_attribute")]
+                ? removedInfo["".concat(sourceAttribute, "_attribute")]
+                : v["".concat(repeatingRow, "_attribute")];
+            update["".concat(attribute, "_modifier")] = getAttributeSum(attribute.toString());
+            if (previousValue && defenses.includes(previousValue)) {
+                update["".concat(previousValue, "_modifier")] = getAttributeSum(previousValue);
+            }
+            setAttrs(update);
+        });
     });
 };
 var updateCreatureAttackRollFormula = function (event) {
@@ -454,6 +525,16 @@ var updateCriticalRange = function (attributes) {
                 critical_range: cr
             });
         }
+    });
+};
+var updateDerivedAttribute = function (attributes) {
+    getAttrs(attributes, function (values) {
+        var _a;
+        var sum = sumIntegers(Object.values(parseIntegers(values)));
+        var name = attributes
+            .find(function (e) { return e.includes("base"); })
+            .replace("_base", "");
+        setAttrs((_a = {}, _a[name] = sum, _a));
     });
 };
 var updateHitPoints = function (attributes) {
@@ -596,6 +677,9 @@ var versionOneOne = function () {
     });
     getAttrs(["initiative_bonus"], function (v) {
         setAttrs({ initiative_modifier: v.initiative_bonus });
+    });
+    getAttrs(["action_points_per_round"], function (v) {
+        setAttrs({ action_points_max: v.action_points_per_round });
     });
 };
 var versioning = function (version) { return __awaiter(_this, void 0, void 0, function () {

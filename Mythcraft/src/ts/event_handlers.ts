@@ -1,3 +1,29 @@
+[anticipation, fortitude, logic, reflexes, willpower].forEach((attributes) => {
+  attributes.forEach((attr) => {
+    on(`change:${attr}`, () => {
+      updateDerivedAttribute(attributes);
+    });
+  });
+});
+
+["modifier", "toggle_active", "attribute"].forEach((attribute) => {
+  on(`change:repeating_modifiers:${attribute}`, (event) => {
+    updateAttributeModifier(event);
+  });
+});
+
+on(`remove:repeating_modifiers`, (event) => {
+  const { sourceAttribute, removedInfo } = event;
+  if (
+    removedInfo[`${sourceAttribute}_modifier`] !== "" &&
+    removedInfo[`${sourceAttribute}_modifier`] !== "0" &&
+    removedInfo[`${sourceAttribute}_modifier`] !== undefined &&
+    removedInfo[`${sourceAttribute}_toggle_active`] === "on"
+  ) {
+    updateAttributeModifier(event);
+  }
+});
+
 ["attacks", "spells", "reactive-actions"].forEach((fieldset) => {
   on(`change:repeating_${fieldset}`, (event) => {
     updateLinkedAttribute(event);
@@ -177,7 +203,7 @@ on("change:repeating_spells:source", (event) => {
   });
 });
 
-on("change:repeating_spells:toggle_spell_attack", (event) => {
+on("change:repeating_spells:toggle_attack", (event) => {
   updateSpellRollFormula(event);
 });
 
@@ -220,7 +246,6 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
         }
       }
 
-      console.log(sections);
       setAttrs({ creature_sections: sections.join(",") });
     });
   });

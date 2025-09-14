@@ -14,6 +14,7 @@
   &:hover,
   &:focus {
     background-color: $secondary;
+    border: 1px dotted $fifth;
   }
 }
 
@@ -93,8 +94,8 @@ input[type="radio"] {
   }
 }
 
-.double-border-2 {
-  border: $spacing double $third;
+.solid-border-2 {
+  border: 3px solid $third;
 }
 
 .border-bottom {

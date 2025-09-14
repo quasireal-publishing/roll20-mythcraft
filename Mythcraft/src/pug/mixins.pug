@@ -5,6 +5,15 @@
 - const shortName = name => name.length > 4 ? name.slice(0, 3) : name;
 
 include mixins/inputs.pug
+include mixins/buttons.pug
+include mixins/repeating_spell_cards.pug
+include mixins/repeating_attacks.pug
+include mixins/repeating_skills.pug
+include mixins/repeating_resources.pug
+
+include mixins/combat_attributes.pug
+
+include mixins/toggles.pug
 
 mixin textarea(name)
    textarea(name=`attr_${attrName(name)}` placeholder=name)
@@ -12,8 +21,6 @@ mixin textarea(name)
 mixin attrSpan(name)
    - const attr = attrName(name)
    span(class!=attributes.class name=`attr_${attr}` title=`@{${attr}}`)
-
-include mixins/buttons.pug
 
 mixin headerInput(name, i18n)
    .grid.col-auto-fr.gap-1.grid-flow-col.items-center(class!=attributes.class)
@@ -29,12 +36,6 @@ mixin textInputs(values)
    .grid.gap-2.grid-flow-col(class!=attributes.class)
       each val in values
          +editInput(val)
-
-
-include mixins/repeating_spell_cards.pug
-include mixins/repeating_attacks.pug
-include mixins/repeating_skills.pug
-include mixins/repeating_resources.pug
 
 mixin h3Header(name, i18n)
    h3.ellipse.text-center.capitalize(data-i18n=i18n ? i18n : name)
@@ -84,34 +85,18 @@ mixin repeatingSection(name, values)
                +textarea('description')
 
 mixin repeatingList(name, values)
-   .grid.double-border-2.rounded-md.p-2.relative(class=dashedName(name)).content-start
+   .grid.solid-border-2.rounded-md.p-2.relative(class=dashedName(name)).content-start
       +title(name)
       +subheaders(values.display)
       +repeatingSection(name, values)
 
 
-mixin combatAttributes()
-   .grid.gap-1.justify-between.items-center.attrs
-      each val in combatAttributes
-         .grid.relative.justify-center.items-center(class=`${val}`)
-            .circle.rounded-full.border.grid.justify-center.items-center.font-bold
-               +attributeRoll(shortName(val), `${val}`)
-               +numberInput(val)
-      div
-      each val in derivedAttributes
-         .grid.relative.justify-center.items-center(class=`${val}`)
-            .circle.rounded-full.border.grid.justify-center.items-center.font-bold
-               +h3Header(shortName(val))
-               +numberInput(val)
-               
 mixin sheetSelect()
-   .grid.gap-2.grid-flow-col.col-auto-fr
-      h2.capitalize(data-i18n="character type")
-      .grid.gap-2.grid-flow-col
-         select(name="attr_sheet_type")
-            each val in sheetTypes
-               option(value=`${val}` data-i18n=val  selected=(!!val === 'pc'))
-                  val
+   .grid.gap-2.grid-flow-col
+      select(name="attr_sheet_type")
+         each val in sheetTypes
+            option(value=`${val}` data-i18n=val  selected=(!!val === 'pc'))
+               val
 
 mixin attributeSelect(name)
    .grid.gap-2.grid-flow-col.col-auto-fr.items-center
@@ -121,3 +106,8 @@ mixin attributeSelect(name)
          each val in combatAttributes
             option(value=`@{${val}}` data-i18n=val)
                val
+
+mixin switch(name)
+   label.switch(data-i18n-title=`toggle ${name}`)
+      input(type="checkbox" name=`attr_toggle_${attrName(name)}`)
+      span.slider

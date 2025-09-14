@@ -2,6 +2,7 @@ mixin repeatingSpellCards()
 	fieldset(class="repeating_spells")
 		input(type="hidden" name="attr_link" value="")
 		input(type="hidden" name="attr_roll_formula" value="{{description=@{description}}}")
+		input(type="hidden" name="attr_modifier" value="0")
 		input(type="hidden" name="attr_source" value="arcane")
 		.grid.gap-2.relative.repeating-grid.h-full.content-start.card
 			.grid.grid-flow-col.gap-2.displayed.custom-grid.col-span-full
@@ -36,7 +37,7 @@ mixin repeatingSpellCards()
 								each val in magicSources
 									option(value=`${val}` data-i18n=val)
 										val
-						.grid.gap-2.grid-flow-col.items-center.attack-toggle
+						.grid.gap-2.grid-flow-col.items-center.attack-toggle.col-auto-fr
 							+h4Header("attack")
 							label.switch(data-i18n-title="toggle attack")
 								input(type="checkbox" name="attr_toggle_spell_attack")

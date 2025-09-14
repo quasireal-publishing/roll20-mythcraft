@@ -15,20 +15,22 @@ const hit_points = ["endurance", "hit_points_base", "level"];
 const critical_attributes = ["critical_range", "luck", "critical_range_base"];
 // Defenses
 const armor_rating = ["armor_rating_base"];
-const anticipation = ["anticipation_base", "awareness"];
-const fortitude = ["fortitude_base", "endurance"];
-const logic = ["logic_base", "intellect"];
-const reflexes = ["reflexes_base", "dexterity"];
-const willpower = ["willpower_base", "charisma"];
+const anticipation = [
+  "anticipation_base",
+  "anticipation_modifier",
+  "awareness",
+];
+const fortitude = ["fortitude_base", "fortitude_modifier", "endurance"];
+const logic = ["logic_base", "logic_modifier", "intellect"];
+const reflexes = ["reflexes_base", "reflexes_modifier", "dexterity"];
+const willpower = ["willpower_base", "willpower_modifier", "charisma"];
+
+const defenses = [
+  "anticipation",
+  "fortitude",
+  "logic",
+  "reflexes",
+  "willpower",
+];
 
 const initiative = ["awareness", "initiative_modifier"];
-
-// const skills = [
-//   "awareness",,
-//   "first aid",
-//   "intrigue",
-// ];
-
-// const characteristics = {
-//   movement: ["strength", "dexterity"],
-// };
