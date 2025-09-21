@@ -126,8 +126,8 @@ var defenses = [
     "reflexes",
     "willpower",
 ];
-var initiative = ["awareness", "initiative_modifier"];
-var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points_max", "initiative"], false);
+var initiative = ["initiative_base", "initiative_bonus", "awareness"];
+var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points", "initiative", "armor_rating"], false);
 var dropWarning = function (v) {
     console.log("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
 };
@@ -190,11 +190,16 @@ var handle_drop = function () {
         handle_drop();
     });
 });
-[anticipation, fortitude, logic, reflexes, willpower, armor_rating].forEach(function (attributes) {
-    attributes.forEach(function (attr) {
+[anticipation, fortitude, logic, reflexes, willpower].forEach(function (attrs) {
+    attrs.forEach(function (attr) {
         on("change:".concat(attr), function () {
-            updateDerivedAttribute(attributes);
+            updateDerivedAttribute(attrs);
         });
+    });
+});
+initiative.forEach(function (attr) {
+    on("change:".concat(attr), function () {
+        updateModifiedAttribute(initiative);
     });
 });
 ["modifier", "toggle_active", "attribute"].forEach(function (attribute) {
@@ -302,7 +307,6 @@ on("remove:repeating_modifiers", function (event) {
 });
 action_points.forEach(function (attr) {
     on("change:".concat(attr), function () {
-        console.log("Action Points related attribute changed, updating max...");
         updateActionPointsPerRound(action_points);
     });
 });
@@ -404,22 +408,6 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
         });
     });
 });
-initiative.forEach(function (attr) {
-    on("change:".concat(attr), function (event) {
-        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
-        var otherAttr = attr === "awareness" ? "initiative_modifier" : "awareness";
-        getAttrs([otherAttr], function (values) {
-            var ints = parseIntegers({
-                sourceAttribute: newValue,
-                otherAttr: values[otherAttr]
-            });
-            var sum = sumIntegers(Object.values(ints));
-            setAttrs({
-                initiative_bonus: sum > 0 ? "+".concat(sum) : "".concat(sum)
-            });
-        });
-    });
-});
 var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (isSpellCard) {
         return "{{description=@{description}}}";
@@ -433,22 +421,22 @@ var getRollFormula = function (isPrimarySource, isSpellCard) {
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {
         var _a = parseIntegers(values), coordination = _a.coordination, action_points_base = _a.action_points_base, action_points_modifier = _a.action_points_modifier;
-        var action_points_max = action_points_base;
+        var action_points_per_round = action_points_base;
         switch (coordination) {
             case -1:
             case -2:
-                action_points_max = action_points_base - 1 || 0;
+                action_points_per_round = action_points_base - 1 || 0;
                 break;
             case -3:
-                action_points_max = action_points_base - 2 || 0;
+                action_points_per_round = action_points_base - 2 || 0;
                 break;
             default:
-                action_points_max = Math.floor(coordination / 2) + action_points_base;
+                action_points_per_round =
+                    Math.floor(coordination / 2) + action_points_base;
                 break;
         }
-        action_points_max += action_points_modifier;
-        console.log("Updated Action Points Max:", action_points_max);
-        setAttrs({ action_points_max: action_points_max });
+        action_points_per_round += action_points_modifier || 0;
+        setAttrs({ action_points_per_round: action_points_per_round });
     });
 };
 var updateAttributeModifier = function (_a) {
@@ -617,6 +605,16 @@ var updateLuck = function (attributes) {
         setAttrs(attrs);
     });
 };
+var updateModifiedAttribute = function (attributes) {
+    getAttrs(attributes, function (values) {
+        var _a;
+        var sum = sumIntegers(Object.values(parseIntegers(values)));
+        var name = attributes
+            .find(function (e) { return e.includes("base"); })
+            .replace("_base", "");
+        setAttrs((_a = {}, _a[name] = sum > 0 ? "+".concat(sum) : sum < 0 ? "-".concat(sum) : "0", _a));
+    });
+};
 var updateSpellRollFormula = function (event) {
     var _a;
     var sourceAttribute = event.sourceAttribute, newValue = event.newValue, sourceType = event.sourceType;
@@ -683,11 +681,8 @@ var versionOneOne = function () {
             });
         });
     });
-    getAttrs(["initiative_bonus"], function (v) {
-        setAttrs({ initiative_modifier: v.initiative_bonus });
-    });
-    getAttrs(["action_points_per_round"], function (v) {
-        setAttrs({ action_points_max: v.action_points_per_round });
+    getAttrs(["awareness", "initiative_bonus"], function (v) {
+        setAttrs({ initiative: v.initiative_bonus + v.awareness });
     });
 };
 var versioning = function (version) { return __awaiter(_this, void 0, void 0, function () {
@@ -737,7 +732,7 @@ var parseJSON = function (jsonString) {
         return JSON.parse(jsonString);
     }
     catch (e) {
-        console.log("Error parsing JSON: ".concat(jsonString));
+        console.warn("Error parsing JSON: ".concat(jsonString));
         return undefined;
     }
 };
@@ -835,14 +830,12 @@ var handle_profession = function (page) {
         handle_bop(page);
         return;
     }
-    console.log(page);
     var attrs = ["name", "description"];
     var row = getRow("abilities");
     var update = getUpdate(attrs, page, row);
     if (page.data.profession) {
         update["".concat(row, "_tags")] = page.data.profession;
     }
-    console.log(update);
     setDropAttrs(update);
 };
 var handle_skills = function (page) {

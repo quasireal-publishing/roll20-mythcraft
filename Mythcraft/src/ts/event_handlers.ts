@@ -1,12 +1,16 @@
-[anticipation, fortitude, logic, reflexes, willpower, armor_rating].forEach(
-  (attributes) => {
-    attributes.forEach((attr) => {
-      on(`change:${attr}`, () => {
-        updateDerivedAttribute(attributes);
-      });
+[anticipation, fortitude, logic, reflexes, willpower].forEach((attrs) => {
+  attrs.forEach((attr) => {
+    on(`change:${attr}`, () => {
+      updateDerivedAttribute(attrs);
     });
-  }
-);
+  });
+});
+
+initiative.forEach((attr) => {
+  on(`change:${attr}`, () => {
+    updateModifiedAttribute(initiative);
+  });
+});
 
 ["modifier", "toggle_active", "attribute"].forEach((attribute) => {
   on(`change:repeating_modifiers:${attribute}`, (event) => {
@@ -131,7 +135,6 @@ on(`remove:repeating_modifiers`, (event) => {
 
 action_points.forEach((attr) => {
   on(`change:${attr}`, () => {
-    console.log("Action Points related attribute changed, updating max...");
     updateActionPointsPerRound(action_points);
   });
 });
@@ -250,24 +253,6 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
       }
 
       setAttrs({ creature_sections: sections.join(",") });
-    });
-  });
-});
-
-initiative.forEach((attr) => {
-  on(`change:${attr}`, (event) => {
-    const { sourceAttribute, newValue } = event;
-    const otherAttr =
-      attr === "awareness" ? "initiative_modifier" : "awareness";
-    getAttrs([otherAttr], (values) => {
-      const ints = parseIntegers({
-        sourceAttribute: newValue,
-        otherAttr: values[otherAttr],
-      });
-      const sum = sumIntegers(Object.values(ints));
-      setAttrs({
-        initiative_bonus: sum > 0 ? `+${sum}` : `${sum}`,
-      });
     });
   });
 });

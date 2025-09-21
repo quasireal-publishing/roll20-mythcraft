@@ -7,10 +7,14 @@
   }
 
   .input-span {
+    &:hover > label > input[type="number"],
+    &:focus > label > input[type="number"],
     &:hover > label > input[type="text"],
     &:focus > label > input[type="text"] {
       display: inline;
     }
+
+    grid-template-rows: auto 2.1em;
 
     span {
       display: inherit;
@@ -18,7 +22,8 @@
 
     &:hover > span,
     &:focus > span,
-    input[type="text"] {
+    input[type="text"],
+    input[type="number"] {
       display: none;
     }
   }

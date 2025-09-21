@@ -80,9 +80,7 @@
 			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("AR")
 				.grid.mt-1
-					.input-span
-						+textInput("armor rating base", 10)(class="text-center")
-						+attrSpan("armor rating")(class="text-center")
+					+textInput("armor rating", 10)(class="text-center")
 					+h3Header("armor rating")
 			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("speed")
@@ -97,7 +95,7 @@
 						+numberInput("action points")
 						+h3Header("current")
 					.grid.justify-center.items-center
-						+attrSpan("action points max")(class="text-center")
+						+attrSpan("action points per round")(class="text-center")
 						+h3Header("ap/round")
 			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("special action points")
@@ -109,9 +107,13 @@
 					+numberInputWithMax("luck points")
 			.grid.solid-border-2.rounded-md.p-2.relative.h-full
 				+title("initiative")
-				.grid.gap-2.mt-1
-					+attrSpan("initiative bonus")(class="text-center")
-					+initiativeButton()
+				.grid.grid-flow-col.gap-2.mt-1.grid-cols-2
+					.grid.justify-center.items-center
+						+numberInput("initiative bonus", 0)
+						+h3Header("modifier")
+					.grid.justify-center.items-center
+						+attrSpan("initiative")(class="text-center")
+						+initiativeButton()
 
 		+combatAttributes()
 		
@@ -225,7 +227,7 @@
 						.edit.grid.gap-2
 							.grid.gap-2.edit-grid
 								select(name="attr_attribute")
-									each val in [...derivedAttributes, "action points", "initiative", "armor rating"].sort()
+									each val in [...derivedAttributes].sort()
 										option(value=`${attrName(val)}` data-i18n=val)
 											val
 								.grid.gap-2.grid-flow-col
