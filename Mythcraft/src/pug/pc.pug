@@ -87,6 +87,11 @@
 				.grid.mt-1
 					+textInput("speed","20")(class="text-center")
 					+h3Header("ft")(class="lowercase")
+			.grid.solid-border-2.rounded-md.p-2.relative.h-full
+				+title("initiative")
+				.grid.justify-center.items-center
+					+attrSpan("initiative")(class="text-center")
+					+initiativeButton()
 		.grid.grid.grid-flow-col.gap-2.items-center
 			.grid.solid-border-2.rounded-md.p-2.relative
 				+title("action points")
@@ -106,14 +111,14 @@
 				.grid.mt-1
 					+numberInputWithMax("luck points")
 			.grid.solid-border-2.rounded-md.p-2.relative.h-full
-				+title("initiative")
+				+title("critical")
 				.grid.grid-flow-col.gap-2.mt-1.grid-cols-2
 					.grid.justify-center.items-center
-						+numberInput("initiative bonus", 0)
-						+h3Header("modifier")
+						+attrSpan("critical strike")(class="text-center")
+						+h3Header("strike")
 					.grid.justify-center.items-center
-						+attrSpan("initiative")(class="text-center")
-						+initiativeButton()
+						+attrSpan("critical fumble")(class="text-center")
+						+h3Header("fumble")
 
 		+combatAttributes()
 		
@@ -227,7 +232,7 @@
 						.edit.grid.gap-2
 							.grid.gap-2.edit-grid
 								select(name="attr_attribute")
-									each val in [...derivedAttributes].sort()
+									each val in [...derivedAttributes, "critical range", "critical fail", "initiative"].sort()
 										option(value=`${attrName(val)}` data-i18n=val)
 											val
 								.grid.gap-2.grid-flow-col

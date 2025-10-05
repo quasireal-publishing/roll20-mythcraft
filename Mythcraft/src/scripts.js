@@ -441,7 +441,13 @@ var updateActionPointsPerRound = function (attributes) {
 };
 var updateAttributeModifier = function (_a) {
     var sourceAttribute = _a.sourceAttribute, previousValue = _a.previousValue, removedInfo = _a.removedInfo;
-    var repeatingRow = getFieldsetRow(sourceAttribute);
+    var rowId = getFieldsetRow(sourceAttribute);
+    console.table({
+        sourceAttribute: sourceAttribute,
+        previousValue: previousValue,
+        removedInfo: removedInfo,
+        rowId: rowId
+    });
     getSectionIDs("repeating_modifiers", function (ids) {
         var attrs = [];
         ids.forEach(function (id) {
@@ -458,12 +464,9 @@ var updateAttributeModifier = function (_a) {
                     v["repeating_modifiers_".concat(id, "_modifier")] !== undefined);
             });
             var getAttributeSum = function (attribute) {
-                var getAttributeModifiers = function (attribute) {
-                    return activeIds.filter(function (id) {
-                        return v["repeating_modifiers_".concat(id, "_attribute")] === attribute;
-                    });
-                };
-                var attributeModifiers = getAttributeModifiers(attribute);
+                var attributeModifiers = activeIds.filter(function (id) {
+                    return v["repeating_modifiers_".concat(id, "_attribute")] === attribute;
+                });
                 var integers = attributeModifiers.map(function (id) {
                     return parseInt(v["repeating_modifiers_".concat(id, "_modifier")] || "0", 10);
                 });
@@ -471,8 +474,13 @@ var updateAttributeModifier = function (_a) {
             };
             var attribute = removedInfo && removedInfo["".concat(sourceAttribute, "_attribute")]
                 ? removedInfo["".concat(sourceAttribute, "_attribute")]
-                : v["".concat(repeatingRow, "_attribute")];
-            update["".concat(attribute, "_modifier")] = getAttributeSum(attribute.toString());
+                : v["".concat(rowId, "_attribute")];
+            if (attribute === "initiative") {
+                update["initiative_bonus"] = getAttributeSum("initiative");
+            }
+            else {
+                update["".concat(attribute, "_modifier")] = getAttributeSum(attribute.toString());
+            }
             if (previousValue && modifiers.includes(previousValue)) {
                 update["".concat(previousValue, "_modifier")] = getAttributeSum(previousValue);
             }
@@ -660,12 +668,29 @@ var updateSpellRollFormula = function (event) {
     }
 };
 var _this = this;
-var versioningAttr = "latest_versioning_upgrade";
 on("sheet:opened", function () {
-    getAttrs([versioningAttr], function (v) {
-        versioning(parseFloat(v[versioningAttr]) || 1);
+    getAttrs(["version"], function (v) {
+        versioning(parseFloat(v.version) || 1);
     });
 });
+var versionOneTwo = function () {
+    getAttrs(["initiative_bonus"], function (v) {
+        var _a;
+        var parsedInt = parseInt(v.initiative_bonus || "0", 10);
+        if (parsedInt > 0) {
+            var newRowId = generateRowID();
+            var row = "repeating_modifiers_".concat(newRowId);
+            setAttrs((_a = {},
+                _a["".concat(row, "_attribute")] = "initiative",
+                _a["".concat(row, "_modifier")] = v.initiative_bonus || "0",
+                _a["".concat(row, "_toggle_active")] = "on",
+                _a["".concat(row, "_source")] = "version 1.2",
+                _a["".concat(row, "_toggle_edit")] = false,
+                _a["".concat(row, "_description")] = "Migrated from initiative bonus input in combat tab.",
+                _a));
+        }
+    });
+};
 var versionOneOne = function () {
     var fieldsToUpdate = ["repeating_attacks", "repeating_skills"];
     fieldsToUpdate.forEach(function (fieldset) {
@@ -687,8 +712,7 @@ var versionOneOne = function () {
 };
 var versioning = function (version) { return __awaiter(_this, void 0, void 0, function () {
     var updateMessage;
-    var _a;
-    return __generator(this, function (_b) {
+    return __generator(this, function (_a) {
         updateMessage = function (v) {
             return console.log("%c Sheet is updating to ".concat(v), "color: orange; font-weight:bold");
         };
@@ -702,9 +726,14 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
                 versionOneOne();
                 versioning(1.1);
                 break;
+            case version < 1.2:
+                updateMessage(1.2);
+                versionOneTwo();
+                versioning(1.2);
+                break;
             default:
                 console.log("%c Sheet is update to date.", "color: green; font-weight:bold");
-                setAttrs((_a = { version: version }, _a["".concat(versioningAttr)] = version, _a));
+                setAttrs({ version: version });
         }
         return [2];
     });
