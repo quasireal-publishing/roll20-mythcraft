@@ -145,6 +145,12 @@ critical_attributes.forEach((attr) => {
   });
 });
 
+critical_fail_attributes.forEach((attr) => {
+  on(`change:${attr}`, () => {
+    updateCriticalFailRange(critical_fail_attributes);
+  });
+});
+
 on(`change:luck`, () => {
   updateLuck(["luck"]);
 });

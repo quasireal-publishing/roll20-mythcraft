@@ -108,7 +108,17 @@ var action_points = [
     "action_points_modifier",
 ];
 var hit_points = ["endurance", "hit_points_base", "level"];
-var critical_attributes = ["critical_range", "luck", "critical_range_base"];
+var critical_attributes = [
+    "critical_hit",
+    "luck",
+    "critical_hit_base",
+    "critical_hit_modifier",
+];
+var critical_fail_attributes = [
+    "critical_fail",
+    "critical_fail_base",
+    "critical_fail_modifier",
+];
 var armor_rating = ["armor_rating_base", "armor_rating_modifier"];
 var anticipation = [
     "anticipation_base",
@@ -315,6 +325,11 @@ critical_attributes.forEach(function (attr) {
         updateCriticalRange(critical_attributes);
     });
 });
+critical_fail_attributes.forEach(function (attr) {
+    on("change:".concat(attr), function () {
+        updateCriticalFailRange(critical_fail_attributes);
+    });
+});
 on("change:luck", function () {
     updateLuck(["luck"]);
 });
@@ -484,6 +499,7 @@ var updateAttributeModifier = function (_a) {
             if (previousValue && modifiers.includes(previousValue)) {
                 update["".concat(previousValue, "_modifier")] = getAttributeSum(previousValue);
             }
+            console.log(update);
             setAttrs(update);
         });
     });
@@ -507,26 +523,39 @@ var updateCreatureAttackRollFormula = function (event) {
         _b["".concat(row, "_roll_formula")] = "{{description=@{description}}}",
         _b));
 };
+var updateCriticalFailRange = function (attributes) {
+    getAttrs(attributes, function (values) {
+        var _a = parseIntegers(values), critical_fail_base = _a.critical_fail_base, critical_fail = _a.critical_fail, critical_fail_modifier = _a.critical_fail_modifier;
+        var range = critical_fail_base + critical_fail_modifier;
+        var cr = range < 1 ? 1 : range;
+        if (cr !== critical_fail) {
+            setAttrs({
+                critical_fail: "<".concat(cr)
+            });
+        }
+    });
+};
 var updateCriticalRange = function (attributes) {
     getAttrs(attributes, function (values) {
-        var _a = parseIntegers(values), luck = _a.luck, critical_range_base = _a.critical_range_base, critical_range = _a.critical_range;
+        var _a = parseIntegers(values), luck = _a.luck, critical_hit_base = _a.critical_hit_base, critical_hit = _a.critical_hit, critical_hit_modifier = _a.critical_hit_modifier;
         if (luck < 0) {
             setAttrs({
-                critical_range: 0
+                critical_hit: 0
             });
             return;
         }
-        var range = critical_range_base;
+        var hit = critical_hit_base;
         if (luck >= 12) {
-            range = critical_range_base - 2;
+            hit = critical_hit_base - 2;
         }
         else if (luck >= 6 && luck <= 11) {
-            range = critical_range_base - 1;
+            hit = critical_hit_base - 1;
         }
-        var cr = range < 16 ? 16 : range;
-        if (cr !== critical_range) {
+        hit = hit + critical_hit_modifier;
+        var cr = hit < 16 ? 16 : hit > 20 ? 20 : hit;
+        if (cr !== critical_hit) {
             setAttrs({
-                critical_range: cr
+                critical_hit: ">".concat(cr)
             });
         }
     });
@@ -673,6 +702,16 @@ on("sheet:opened", function () {
         versioning(parseFloat(v.version) || 1);
     });
 });
+var versionOneTwoOne = function () {
+    getAttrs(["critical_range", "critical_range_base"], function (v) {
+        setAttrs({
+            critical_hit: v.critical_range || "20",
+            critical_hit_base: v.critical_range_base || "20",
+            critical_fail_base: "1",
+            critical_fail: "1"
+        });
+    });
+};
 var versionOneTwo = function () {
     getAttrs(["initiative_bonus"], function (v) {
         var _a;
@@ -730,6 +769,11 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
                 updateMessage(1.2);
                 versionOneTwo();
                 versioning(1.2);
+                break;
+            case version < 1.21:
+                updateMessage(1.21);
+                versionOneTwoOne();
+                versioning(1.21);
                 break;
             default:
                 console.log("%c Sheet is update to date.", "color: green; font-weight:bold");

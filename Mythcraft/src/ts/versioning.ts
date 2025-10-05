@@ -5,6 +5,17 @@ on("sheet:opened", () => {
   });
 });
 
+const versionOneTwoOne = () => {
+  getAttrs(["critical_range", "critical_range_base"], (v) => {
+    setAttrs({
+      critical_hit: v.critical_range || "20",
+      critical_hit_base: v.critical_range_base || "20",
+      critical_fail_base: "1",
+      critical_fail: "1",
+    });
+  });
+};
+
 const versionOneTwo = () => {
   getAttrs(["initiative_bonus"], (v) => {
     const parsedInt = parseInt(v.initiative_bonus || "0", 10);
@@ -67,6 +78,11 @@ const versioning = async (version: number) => {
       updateMessage(1.2);
       versionOneTwo();
       versioning(1.2);
+      break;
+    case version < 1.21:
+      updateMessage(1.21);
+      versionOneTwoOne();
+      versioning(1.21);
       break;
     default:
       console.log(

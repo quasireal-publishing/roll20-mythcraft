@@ -17,7 +17,17 @@ const action_points = [
 ];
 
 const hit_points = ["endurance", "hit_points_base", "level"];
-const critical_attributes = ["critical_range", "luck", "critical_range_base"];
+const critical_attributes = [
+  "critical_hit",
+  "luck",
+  "critical_hit_base",
+  "critical_hit_modifier",
+];
+const critical_fail_attributes = [
+  "critical_fail",
+  "critical_fail_base",
+  "critical_fail_modifier",
+];
 
 // Defenses
 const armor_rating = ["armor_rating_base", "armor_rating_modifier"];

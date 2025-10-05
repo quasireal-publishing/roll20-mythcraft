@@ -66,6 +66,8 @@ const updateAttributeModifier = ({
         update[`${previousValue}_modifier`] = getAttributeSum(previousValue);
       }
 
+      console.log(update);
+
       setAttrs(update);
     });
   });
