@@ -5,13 +5,6 @@ const updateAttributeModifier = ({
 }: EventInfo) => {
   const rowId = getFieldsetRow(sourceAttribute);
 
-  console.table({
-    sourceAttribute,
-    previousValue,
-    removedInfo,
-    rowId,
-  });
-
   getSectionIDs("repeating_modifiers", (ids) => {
     const attrs: string[] = [];
 
@@ -65,8 +58,6 @@ const updateAttributeModifier = ({
       if (previousValue && modifiers.includes(previousValue)) {
         update[`${previousValue}_modifier`] = getAttributeSum(previousValue);
       }
-
-      console.log(update);
 
       setAttrs(update);
     });
