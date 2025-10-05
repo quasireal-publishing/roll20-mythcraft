@@ -10,10 +10,10 @@
     text-align: center;
 
     .sheet-template-header {
-      background-color: $primary;
+      background-color: $third;
       h1 {
         @extend .font-h2;
-        color: $color-neutral-50;
+        color: $secondary;
         margin: 0;
       }
 
@@ -53,25 +53,28 @@
 
     /* DICE ROLL STYLES
 		----------------------------- */
-    // .inlinerollresult.fullfail,
-    .inlinerollresult.fullcrit,
-    .inlinerollresult.importantroll {
-      border: none;
-      color: $primary;
-      font-size: $text-4xl;
-    }
-
-    // .inlinerollresult.fullfail,
-    .inlinerollresult.fullcrit {
-      color: $primary;
-    }
-
     .inlinerollresult {
       background-color: transparent;
       border: none;
-      font-size: $text-3xl;
+      @extend .font-h1;
+      color: $third;
       padding: unset;
       cursor: help;
+    }
+
+    .inlinerollresult.fullfail,
+    .inlinerollresult.fullcrit,
+    .inlinerollresult.importantroll {
+      border: none;
+      @extend .font-h1;
+    }
+
+    .inlinerollresult.fullcrit {
+      color: $fourth;
+    }
+
+    .inlinerollresult.fullfail {
+      color: $fifth;
     }
   }
 }
