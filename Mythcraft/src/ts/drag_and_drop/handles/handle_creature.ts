@@ -20,6 +20,6 @@ const handle_creature = (page: CompendiumAttributes) => {
   try {
     setAttrs(update, { silent: true });
   } catch (e) {
-    dropWarning(`Error setting attributes: ${e}`);
+    dropWarning(`Error setting attributes for ${page.name}: ${e}`);
   }
 };
