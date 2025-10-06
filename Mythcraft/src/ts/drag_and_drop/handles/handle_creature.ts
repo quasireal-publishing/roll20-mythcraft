@@ -1,5 +1,6 @@
 const handle_creature = (page: CompendiumAttributes) => {
-  //Add more attributes as needed. This will only handle top level attributes, not repeating sections (arrays with objects)
+  //This will only handle top level attributes, not repeating sections (arrays with objects)
+  //Add more attributes as needed.
   const attrs = ["awareness", "charisma"];
   const update = getUpdate(attrs, page);
 
