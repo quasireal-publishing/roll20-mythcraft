@@ -154,8 +154,18 @@ var handle_drop = function () {
             content: v.drop_content
         };
         var Category = page.data.Category;
+        var repeatingSections = [
+            "skills",
+            "features",
+            "actions",
+            "reactions",
+            "spells",
+        ];
         switch (Category) {
             case "Creatures":
+                handle_creature(page);
+                resetRepeatingRows(repeatingSections);
+                resetSkillList(page.data.skills);
                 break;
             case "Conditions":
                 handle_conditions(page);
@@ -856,6 +866,63 @@ var handle_conditions = function (page) {
     var row = getRow("conditions");
     var update = getUpdate(attrs, page, row);
     setDropAttrs(update);
+};
+var handle_creature = function (page) {
+    var attrs = [
+        "name",
+        "description",
+        "level",
+        "size",
+        "strength",
+        "dexterity",
+        "endurance",
+        "awareness",
+        "intellect",
+        "charisma",
+        "reflexes",
+        "fortitude",
+        "anticipation",
+        "logic",
+        "willpower",
+        "hit_points",
+        "armor_rating",
+        "speed",
+        "dr",
+        "senses",
+        "action_description",
+        "resist",
+        "immune",
+        "vulnerable",
+        "traits",
+    ];
+    var update = getUpdate(attrs, page);
+    update["character_name"] = page.name;
+    var creature_sections = [];
+    var isDataArray = function (data) {
+        return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
+    };
+    var sections = ["skills", "features", "actions", "reactions", "spells"];
+    sections.forEach(function (section) {
+        var sectionData = page.data[section];
+        if (sectionData && isDataArray(sectionData)) {
+            creature_sections.push(section);
+            var processed = processDataArrays(sectionData, function (data) {
+                var row = getRow(section);
+                return getUpdate(Object.keys(data), data, row);
+            });
+            Object.assign(update, processed);
+        }
+    });
+    update.sheet_type = "creature";
+    update.creature_sections = creature_sections.join(",");
+    console.log("%c Handling Creature: ".concat(page.name), "color: green; font-weight:bold");
+    console.log(update);
+    try {
+        setAttrs(update, { silent: true });
+    }
+    catch (e) {
+        dropWarning("Error setting attributes for ".concat(page.name, ": ").concat(e));
+    }
 };
 var handle_equipment = function (page) {
     var attrs = ["name", "description", "cost", "tags"];

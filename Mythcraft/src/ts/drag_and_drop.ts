@@ -20,13 +20,19 @@ const handle_drop = () => {
     };
 
     const { Category } = page.data;
+    const repeatingSections = [
+      "skills",
+      "features",
+      "actions",
+      "reactions",
+      "spells",
+    ];
 
     switch (Category) {
       case "Creatures":
         handle_creature(page);
-        break;
-        // resetRepeatingRows(repeatingSections);
-        // resetSkillList(page.data.skills);
+        resetRepeatingRows(repeatingSections);
+        resetSkillList(page.data.skills);
         break;
       case "Conditions":
         handle_conditions(page);

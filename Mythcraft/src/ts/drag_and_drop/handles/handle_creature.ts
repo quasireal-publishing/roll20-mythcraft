@@ -1,21 +1,67 @@
 const handle_creature = (page: CompendiumAttributes) => {
   //This will only handle top level attributes, not repeating sections (arrays with objects)
   //Add more attributes as needed.
-  const attrs = ["awareness", "charisma"];
+  const attrs = [
+    "name",
+    "description",
+    "level",
+    "size",
+    "strength",
+    "dexterity",
+    "endurance",
+    "awareness",
+    "intellect",
+    "charisma",
+    "reflexes",
+    "fortitude",
+    "anticipation",
+    "logic",
+    "willpower",
+    "hit_points",
+    "armor_rating",
+    "speed",
+    "dr",
+    "senses",
+    "action_description",
+    //Array attrs
+    "resist",
+    "immune",
+    "vulnerable",
+    "traits",
+  ];
   const update = getUpdate(attrs, page);
 
   update["character_name"] = page.name;
 
-  //Write a repeating sections (arrays with objects) similar to this.
-  if (page.data.features && Array.isArray(page.data.features)) {
-    page.data.features.forEach(
-      (feature: { name: string; description: string }) => {
-        const featureRow = getRow("features");
-        update[`${featureRow}_name`] = feature.name;
-        update[`${featureRow}_description`] = feature.description;
-      }
-    );
-  }
+  const creature_sections: string[] = [];
+
+  const isDataArray = (data: unknown): data is string | string[] =>
+    Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
+
+  const sections = ["skills", "features", "actions", "reactions", "spells"];
+
+  sections.forEach((section) => {
+    const sectionData = page.data[section];
+    if (sectionData && isDataArray(sectionData)) {
+      creature_sections.push(section);
+
+      const processed = processDataArrays(sectionData, (data) => {
+        const row = getRow(section);
+        return getUpdate(Object.keys(data), data, row);
+      });
+
+      Object.assign(update, processed);
+    }
+  });
+
+  update.sheet_type = "creature";
+  update.creature_sections = creature_sections.join(",");
+
+  console.log(
+    `%c Handling Creature: ${page.name}`,
+    "color: green; font-weight:bold"
+  );
+  console.log(update);
 
   try {
     setAttrs(update, { silent: true });
