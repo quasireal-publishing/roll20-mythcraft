@@ -154,8 +154,17 @@ var handle_drop = function () {
             content: v.drop_content
         };
         var Category = page.data.Category;
+        var repeatingSections = [
+            "skills",
+            "features",
+            "actions",
+            "reactions",
+            "spells",
+        ];
         switch (Category) {
             case "Creatures":
+                resetRepeatingRows(repeatingSections);
+                handle_creature(page);
                 break;
             case "Conditions":
                 handle_conditions(page);
@@ -695,53 +704,6 @@ on("sheet:opened", function () {
         versioning(parseFloat(v.version) || 1);
     });
 });
-var versionOneTwoOne = function () {
-    getAttrs(["critical_range", "critical_range_base"], function (v) {
-        setAttrs({
-            critical_hit: v.critical_range || "20",
-            critical_hit_base: v.critical_range_base || "20",
-            critical_fail_base: "1",
-            critical_fail: "1"
-        });
-    });
-};
-var versionOneTwo = function () {
-    getAttrs(["initiative_bonus"], function (v) {
-        var _a;
-        var parsedInt = parseInt(v.initiative_bonus || "0", 10);
-        if (parsedInt > 0) {
-            var newRowId = generateRowID();
-            var row = "repeating_modifiers_".concat(newRowId);
-            setAttrs((_a = {},
-                _a["".concat(row, "_attribute")] = "initiative",
-                _a["".concat(row, "_modifier")] = v.initiative_bonus || "0",
-                _a["".concat(row, "_toggle_active")] = "on",
-                _a["".concat(row, "_source")] = "version 1.2",
-                _a["".concat(row, "_toggle_edit")] = false,
-                _a["".concat(row, "_description")] = "Migrated from initiative bonus input in combat tab.",
-                _a));
-        }
-    });
-};
-var versionOneOne = function () {
-    var fieldsToUpdate = ["repeating_attacks", "repeating_skills"];
-    fieldsToUpdate.forEach(function (fieldset) {
-        getSectionIDs(fieldset, function (ids) {
-            var bonuses = ids.map(function (id) { return "".concat(fieldset, "_").concat(id, "_bonus"); });
-            getAttrs(bonuses, function (values) {
-                var updates = {};
-                bonuses.forEach(function (bonus) {
-                    var modifier = bonus.replace("bonus", "modifier");
-                    updates[modifier] = values[bonus] || "0";
-                });
-                setAttrs(updates);
-            });
-        });
-    });
-    getAttrs(["awareness", "initiative_bonus"], function (v) {
-        setAttrs({ initiative: v.initiative_bonus + v.awareness });
-    });
-};
 var versioning = function (version) { return __awaiter(_this, void 0, void 0, function () {
     var updateMessage;
     return __generator(this, function (_a) {
@@ -767,6 +729,11 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
                 updateMessage(1.21);
                 versionOneTwoOne();
                 versioning(1.21);
+                break;
+            case version < 1.3:
+                updateMessage(1.3);
+                versionOneThree();
+                versioning(1.3);
                 break;
             default:
                 console.log("%c Sheet is update to date.", "color: green; font-weight:bold");
@@ -856,6 +823,64 @@ var handle_conditions = function (page) {
     var row = getRow("conditions");
     var update = getUpdate(attrs, page, row);
     setDropAttrs(update);
+};
+var handle_creature = function (page) {
+    var attrs = [
+        "name",
+        "description",
+        "level",
+        "size",
+        "strength",
+        "dexterity",
+        "endurance",
+        "awareness",
+        "intellect",
+        "charisma",
+        "reflexes",
+        "fortitude",
+        "anticipation",
+        "logic",
+        "willpower",
+        "hit_points",
+        "armor_rating",
+        "speed",
+        "dr",
+        "senses",
+        "action_description",
+        "resist",
+        "immune",
+        "vulnerable",
+        "traits",
+    ];
+    var update = getUpdate(attrs, page);
+    update.character_name = page.name;
+    var creature_sections = [];
+    var isDataArray = function (data) {
+        return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
+    };
+    var sections = ["skills", "features", "actions", "reactions", "spells"];
+    sections.forEach(function (section) {
+        var sectionData = page.data[section];
+        if (sectionData && isDataArray(sectionData)) {
+            creature_sections.push(section);
+            var processed = processDataArrays(sectionData, function (data) {
+                return getUpdate(Object.keys(data), data, getRow(section));
+            });
+            Object.assign(update, processed);
+        }
+    });
+    update.sheet_type = "creature";
+    update.creature_sections = creature_sections.join(",");
+    update.toggle_creature_setting = false;
+    update.toggle_edit_creature_edit = false;
+    var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
+    var silent = hasDefenses ? true : false;
+    try {
+        setAttrs(update, { silent: silent });
+    }
+    catch (e) {
+        dropWarning("Error setting attributes for ".concat(page.name, ": ").concat(e));
+    }
 };
 var handle_equipment = function (page) {
     var attrs = ["name", "description", "cost", "tags"];
@@ -1107,3 +1132,66 @@ var parseIntegers = function (values) {
 };
 var sliceAttribute = function (attribute) { return attribute.slice(2, -1); };
 var sumIntegers = function (numbers) { return numbers.reduce(function (a, b) { return a + b; }, 0); };
+var versionOneOne = function () {
+    var fieldsToUpdate = ["repeating_attacks", "repeating_skills"];
+    fieldsToUpdate.forEach(function (fieldset) {
+        getSectionIDs(fieldset, function (ids) {
+            var bonuses = ids.map(function (id) { return "".concat(fieldset, "_").concat(id, "_bonus"); });
+            getAttrs(bonuses, function (values) {
+                var updates = {};
+                bonuses.forEach(function (bonus) {
+                    var modifier = bonus.replace("bonus", "modifier");
+                    updates[modifier] = values[bonus] || "0";
+                });
+                setAttrs(updates);
+            });
+        });
+    });
+    getAttrs(["awareness", "initiative_bonus"], function (v) {
+        setAttrs({ initiative: v.initiative_bonus + v.awareness });
+    });
+};
+var versionOneThree = function () {
+    var fieldsToUpdate = ["repeating_actions"];
+    fieldsToUpdate.forEach(function (fieldset) {
+        getSectionIDs(fieldset, function (ids) {
+            var bonuses = ids.map(function (id) { return "".concat(fieldset, "_").concat(id, "_bonus"); });
+            getAttrs(bonuses, function (values) {
+                var updates = {};
+                bonuses.forEach(function (bonus) {
+                    var modifier = bonus.replace("bonus", "modifier");
+                    updates[modifier] = values[bonus] || "0";
+                });
+                setAttrs(updates);
+            });
+        });
+    });
+};
+var versionOneTwo = function () {
+    getAttrs(["initiative_bonus"], function (v) {
+        var _a;
+        var parsedInt = parseInt(v.initiative_bonus || "0", 10);
+        if (parsedInt > 0) {
+            var newRowId = generateRowID();
+            var row = "repeating_modifiers_".concat(newRowId);
+            setAttrs((_a = {},
+                _a["".concat(row, "_attribute")] = "initiative",
+                _a["".concat(row, "_modifier")] = v.initiative_bonus || "0",
+                _a["".concat(row, "_toggle_active")] = "on",
+                _a["".concat(row, "_source")] = "version 1.2",
+                _a["".concat(row, "_toggle_edit")] = false,
+                _a["".concat(row, "_description")] = "Migrated from initiative bonus input in combat tab.",
+                _a));
+        }
+    });
+};
+var versionOneTwoOne = function () {
+    getAttrs(["critical_range", "critical_range_base"], function (v) {
+        setAttrs({
+            critical_hit: v.critical_range || "20",
+            critical_hit_base: v.critical_range_base || "20",
+            critical_fail_base: "1",
+            critical_fail: "1"
+        });
+    });
+};

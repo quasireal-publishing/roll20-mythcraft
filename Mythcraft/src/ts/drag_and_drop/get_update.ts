@@ -1,6 +1,6 @@
 const getUpdate = (
   attrs: string[],
-  page: CompendiumAttributes,
+  page: CompendiumAttributes | Partial<CompendiumAttributes>,
   repeatingRow?: string
 ) => {
   let update: { [key: string]: AttrValue } = {};
