@@ -57,8 +57,12 @@ const handle_creature = (page: CompendiumAttributes) => {
   update.toggle_creature_setting = false;
   update.toggle_edit_creature_edit = false;
 
+  //Familiars do not have the derived attributes so the sheetworkers need to calculate them
+  const hasDefenses = defenses.some((attr) => page.data[attr]);
+  const silent = hasDefenses ? true : false;
+
   try {
-    setAttrs(update, { silent: true });
+    setAttrs(update, { silent });
   } catch (e) {
     dropWarning(`Error setting attributes for ${page.name}: ${e}`);
   }

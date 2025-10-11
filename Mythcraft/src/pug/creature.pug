@@ -131,7 +131,7 @@
 							span(name='attr_description')
 							+attrSpan("range")(class="italic")
 							+attrSpan("type")(class="italic")
-							+attrSpan("bonus")
+							+attrSpan("modifier")
 							span.vs vs
 							+attrSpan("defense")
 							span.hit.font-bold(data-i18n="hit")
@@ -152,7 +152,7 @@
 							each val in ['range', 'type']
 								+headerInput(val)
 						.grid.gap-2.grid-flow-col.items-center.bonus
-							+headerInput('bonus')(class="text-center")
+							+headerInput('modifier')(class="text-center")
 							span vs
 							+headerInput('defense')
 						+h3Header("hit")
