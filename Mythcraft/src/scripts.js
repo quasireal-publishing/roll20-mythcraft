@@ -163,9 +163,8 @@ var handle_drop = function () {
         ];
         switch (Category) {
             case "Creatures":
-                handle_creature(page);
                 resetRepeatingRows(repeatingSections);
-                resetSkillList(page.data.skills);
+                handle_creature(page);
                 break;
             case "Conditions":
                 handle_conditions(page);
@@ -896,7 +895,7 @@ var handle_creature = function (page) {
         "traits",
     ];
     var update = getUpdate(attrs, page);
-    update["character_name"] = page.name;
+    update.character_name = page.name;
     var creature_sections = [];
     var isDataArray = function (data) {
         return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
@@ -907,16 +906,15 @@ var handle_creature = function (page) {
         if (sectionData && isDataArray(sectionData)) {
             creature_sections.push(section);
             var processed = processDataArrays(sectionData, function (data) {
-                var row = getRow(section);
-                return getUpdate(Object.keys(data), data, row);
+                return getUpdate(Object.keys(data), data, getRow(section));
             });
             Object.assign(update, processed);
         }
     });
     update.sheet_type = "creature";
     update.creature_sections = creature_sections.join(",");
-    console.log("%c Handling Creature: ".concat(page.name), "color: green; font-weight:bold");
-    console.log(update);
+    update.toggle_creature_setting = false;
+    update.toggle_edit_creature_edit = false;
     try {
         setAttrs(update, { silent: true });
     }

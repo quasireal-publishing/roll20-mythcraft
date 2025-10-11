@@ -30,9 +30,8 @@ const handle_drop = () => {
 
     switch (Category) {
       case "Creatures":
-        handle_creature(page);
         resetRepeatingRows(repeatingSections);
-        resetSkillList(page.data.skills);
+        handle_creature(page);
         break;
       case "Conditions":
         handle_conditions(page);

@@ -23,7 +23,6 @@ const handle_creature = (page: CompendiumAttributes) => {
     "dr",
     "senses",
     "action_description",
-    //Array attrs
     "resist",
     "immune",
     "vulnerable",
@@ -31,7 +30,7 @@ const handle_creature = (page: CompendiumAttributes) => {
   ];
   const update = getUpdate(attrs, page);
 
-  update["character_name"] = page.name;
+  update.character_name = page.name;
 
   const creature_sections: string[] = [];
 
@@ -46,8 +45,7 @@ const handle_creature = (page: CompendiumAttributes) => {
       creature_sections.push(section);
 
       const processed = processDataArrays(sectionData, (data) => {
-        const row = getRow(section);
-        return getUpdate(Object.keys(data), data, row);
+        return getUpdate(Object.keys(data), data, getRow(section));
       });
 
       Object.assign(update, processed);
@@ -56,12 +54,8 @@ const handle_creature = (page: CompendiumAttributes) => {
 
   update.sheet_type = "creature";
   update.creature_sections = creature_sections.join(",");
-
-  console.log(
-    `%c Handling Creature: ${page.name}`,
-    "color: green; font-weight:bold"
-  );
-  console.log(update);
+  update.toggle_creature_setting = false;
+  update.toggle_edit_creature_edit = false;
 
   try {
     setAttrs(update, { silent: true });
