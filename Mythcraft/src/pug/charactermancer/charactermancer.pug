@@ -1,0 +1,49 @@
+
+charmancer.sheet-charmancer-start
+    .grid.gap-4.solid-border-2.rounded-md.p-2.relative
+        +slideTemplate()
+            p Welcome to the Mythcraft Charactermancer! This tool will guide you the steps by which you create a hero for your MythCraft game. Character creation involves both thinking about your backstory and your place in the world, and choosing what mechanical abilities you have.
+
+            p As you pick your character’s abilities, think about how that fits in with their personality and backstory. Designing your character’s mechanics involves six steps:
+
+            ol.list-decimal.list-inside
+                li Choose a Lineage
+                li Assign Attribute Points
+                li Note your Stats
+                li Determine your Background
+                li Pick a Profession
+                li Take a Starting Talent
+
+charmancer.sheet-charmancer-lineage
+    +slideTemplate("Lineage")
+        p First, what is your character’s lineage? Pick from well-known fantasy lineages like dwarf or elf, or play a unique lineage like a squirrelly kleppin or a biotechnical raedeen. 
+        p Each lineage allows you to make a choice when you first create your character, as no lineage is a monolith. You will either pick a sublineage, or you will pick from a list of lineage abilities to make yourself unique. Some lineage options give you Skill Points.
+
+        .grid.grid-flow-col.gap-2.justify-center.items-center
+            .grid
+                select(name="attr_lineage")
+                    //- option(value="" data-i18n="select lineage" selected disabled) Select Lineage
+                    //- each val in lineages
+                    //-     option(value=`${val}` data-i18n=val)
+                    //-     val
+            .grid.sheet-compendium-page.sheet-example(accept="Rules:Lineages")
+
+charmancer.sheet-charmancer-attributes
+    +slideTemplate("Attributes")
+        p Your character has six core attributes that define their physical and mental capabilities. You have a pool of points to distribute among these attributes, with certain minimums and maximums based on your chosen lineage.
+
+charmancer.sheet-charmancer-stats
+    +slideTemplate("Stats")
+        p Your character has several stats that represent their health, energy, and other vital measures. These stats are influenced by your attributes and lineage.        
+
+charmancer.sheet-charmancer-background
+    +slideTemplate("Background")
+        p Your character’s background reflects their history and experiences before the start of the game. Choose a background that fits your character’s story and provides useful skills or resources.
+
+charmancer.sheet-charmancer-profession
+    +slideTemplate("Profession")
+        p Your character’s profession defines their role in the world and the skills they bring to the table. Choose a profession that complements your background and attributes.
+
+charmancer.sheet-charmancer-talent
+    +slideTemplate("Talent")
+        p Finally, select a starting talent for your character. Talents are special abilities or powers that give your character unique advantages. Choose one that fits your character’s concept and enhances their capabilities.

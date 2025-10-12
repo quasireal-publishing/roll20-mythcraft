@@ -61,3 +61,5 @@ declare type CompendiumAttributes = {
   };
   content: string;
 };
+
+declare function startCharactermancer(arg: string): unknown;

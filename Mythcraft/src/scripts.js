@@ -742,6 +742,28 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
         return [2];
     });
 }); };
+on("clicked:launch_charactermancer", function () {
+    startCharactermancer("start");
+});
+on("sheet:opened", function () {
+    startCharactermancer("start");
+});
+[
+    "start",
+    "lineage",
+    "attributes",
+    "stats",
+    "background",
+    "profession",
+    "talent",
+    "review",
+].forEach(function (step) {
+    on("clicked:charactermancer_".concat(step), function () {
+        startCharactermancer(step);
+    });
+});
+on("page:importer", function () {
+});
 var getRow = function (section) { return "repeating_".concat(section, "_").concat(generateRowID()); };
 var getUpdate = function (attrs, page, repeatingRow) {
     var update = {};
