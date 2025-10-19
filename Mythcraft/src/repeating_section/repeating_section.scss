@@ -1,0 +1,29 @@
+/* Repeating Sections */
+.repcontrol {
+  margin-top: 5%;
+}
+
+.repcontrol_del {
+  font-family: "pictos";
+  position: relative;
+}
+
+.repcontrol {
+  margin-bottom: 5px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.itemcontrol {
+  z-index: 100;
+  position: absolute;
+
+  .repcontrol_del {
+    background-color: $color-red-900;
+    font-family: "pictos";
+  }
+}
+
+.repitem {
+  margin-bottom: $spacing;
+}

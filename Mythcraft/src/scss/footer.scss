@@ -1,6 +1,7 @@
 .footer {
   display: block;
   text-align: center;
+  color: $secondary;
 
   span[name="attr_version"] {
     &::after {

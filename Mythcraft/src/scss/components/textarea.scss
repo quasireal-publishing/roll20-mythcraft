@@ -1,0 +1,14 @@
+textarea {
+  font-weight: normal;
+  line-height: $spacing-4;
+  margin-bottom: 0px;
+  min-height: $spacing-12;
+  overflow-wrap: break-word;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow: hidden;
+  padding: $spacing-2;
+  resize: vertical;
+  text-align: left;
+  vertical-align: top;
+}

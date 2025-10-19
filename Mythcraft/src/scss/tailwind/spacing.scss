@@ -18,6 +18,9 @@ $spacing-48: calc(#{$spacing} * 48); // 192px
 $spacing-64: calc(#{$spacing} * 64); // 256px
 $spacing-80: calc(#{$spacing} * 80); // 320px
 $spacing-100: calc(#{$spacing} * 100); // 400px
+$spacing-150: calc(#{$spacing} * 150); // 600px
+$spacing-180: calc(#{$spacing} * 180); // 720px
+$spacing-200: calc(#{$spacing} * 200); // 800px
 
 .gap-0 {
   gap: 0;

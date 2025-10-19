@@ -3,8 +3,7 @@
 	
 	.grid.gap-4
 		.flex.flex-wrap.flex-row.gap-4
-			.logo.grow-0
-				img(src='https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/Mythcraft-Logo-Badge-Textured-Black.png' alt="Mythcraft Logo" title="Mythcraft Logo")
+			+logo()
 			.grid.gap-1.grow.bio
 				.grid.grid-flow-col.gap-2.name-row
 					+headerInput('character name')

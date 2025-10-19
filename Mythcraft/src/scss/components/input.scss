@@ -1,0 +1,48 @@
+input {
+  &[type="checkbox"],
+  &[type="radio"] {
+    height: 100%;
+    min-height: $spacing-6;
+    min-width: $spacing-6;
+    width: 100%;
+  }
+
+  &[type="text"],
+  &[type="number"] {
+    @extend .font-base;
+    background-color: transparent;
+    border-bottom: 2px solid $color-neutral-900;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: $secondary;
+      border: 1px dotted $fifth;
+    }
+
+    border: {
+      left: 0em;
+      radius: 0em;
+      right: 0em;
+      top: 0em;
+    }
+
+    height: 2.1em;
+    width: 100%;
+
+    &::placeholder {
+      background-color: $color-neutral-100;
+      padding-left: 2px;
+    }
+  }
+  &[type="number"] {
+    -moz-appearance: textfield;
+    text-align: center;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
+}

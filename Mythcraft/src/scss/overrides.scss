@@ -4,76 +4,44 @@
   font-family: sans-serif;
 }
 
+.sheet-darkmode .sheetform,
+.sheetform {
+  background: transparent;
+}
+
 .characterviewer label {
   margin: 0px;
   padding: 0px;
 }
 
-.dropzone {
+.ui-dialog .charsheet {
   padding: 0px;
-  border: none;
-  background: transparent;
-}
 
-.ui-dialog .charsheet input[type="number"] {
-  width: 100%;
-}
-
-.ui-dialog .charsheet button[type="roll"],
-.ui-dialog .charsheet button[type="action"],
-.ui-dialog .charsheet button {
-  padding: 2px 4px;
-  margin: 0px;
-  font-size: $text-base;
-  background-image: none;
-  text-shadow: none;
-}
-
-/* Repeating Sections */
-.repcontrol {
-  margin-top: 5%;
-}
-
-.repcontrol_del {
-  font-family: "pictos";
-  position: relative;
-}
-
-.repcontrol {
-  margin-bottom: 5px;
-  margin-top: 5px;
-  width: 100%;
-}
-
-.itemcontrol {
-  z-index: 100;
-  position: absolute;
-
-  .repcontrol_del {
-    background-color: $color-red-900;
-    font-family: "pictos";
+  input[type="number"] {
+    width: 100%;
   }
 }
 
-.repitem {
-  margin-bottom: $spacing;
-}
-
-/* Roll Templates */
-.inlinerollresult.fullfail,
-.inlinerollresult.fullcrit,
-.inlinerollresult.importantroll {
-  border: none;
-}
-
-.inlinerollresult.fullfail,
-.inlinerollresult.fullcrit {
-  color: $color-neutral-950;
-}
-
-.inlinerollresult {
+.charsheet {
+  @extend .font-base;
+  @extend .min-w-lg;
   background-color: transparent;
-  border: none;
-  font-size: 2em;
-  padding: unset;
+
+  fieldset {
+    background-color: transparent;
+  }
+
+  @import "components/headers";
+  @import "components/button";
+  @import "components/input";
+  @import "components/select";
+  @import "components/textarea";
+
+  p {
+    @extend .font-base;
+  }
+
+  option {
+    font-weight: bold;
+  }
 }

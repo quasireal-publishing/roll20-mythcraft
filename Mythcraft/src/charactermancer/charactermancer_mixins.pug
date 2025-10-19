@@ -2,18 +2,20 @@ mixin slideMenu()
     .grid.grid-flow-col.gap-2.justify-center.items-center.slide-menu
         each val in ["start", "lineage", "attributes", "stats", "background", "profession", "talent", "review"]
             button(type="action" name=`act_charactermancer_${val}` data-i18n=`${val}` class="w-full my-1 capitalize")
-        button(type="action" name=`act_charactermancer_cancel` data-i18n=`cancel` class="w-full my-1 capitalize")
+        button(type="cancel" name=`act_charactermancer_cancel` data-i18n=`cancel` class="w-full my-1 capitalize" value="example")
+
+
 
 
 mixin slideTemplate(name)
-    .grid.gap-4.solid-border-2.rounded-md.p-2.relative
-        +title("Mythcraft Charactermancer")
-        +slideMenu()
-        if name
-            +h3Header(name)
+    .grid.gap-4.items-start.rounded-md.py-2.px-4.relative.h-full.slide
+        .grid.gap-2.grid-flow-col.mb-2.slide-header
+            +logo()
+            +slideMenu()
         if block
             block
         else
             p No content provided
 
 
+<div class="sheet-compendium-page sheet-example" accept="CategoryIndex:Backgrounds"></div>

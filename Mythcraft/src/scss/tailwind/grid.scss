@@ -42,6 +42,10 @@
   align-items: center;
 }
 
+.items-start {
+  align-items: start;
+}
+
 .auto-cols-min {
   grid-auto-columns: min-content;
 }
@@ -52,6 +56,10 @@
 
 .auto-rows-max {
   grid-auto-rows: max-content;
+}
+
+.auto-rows-min {
+  grid-auto-rows: min-content;
 }
 
 .content-start {

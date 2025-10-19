@@ -742,28 +742,6 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
         return [2];
     });
 }); };
-on("clicked:launch_charactermancer", function () {
-    startCharactermancer("start");
-});
-on("sheet:opened", function () {
-    startCharactermancer("start");
-});
-[
-    "start",
-    "lineage",
-    "attributes",
-    "stats",
-    "background",
-    "profession",
-    "talent",
-    "review",
-].forEach(function (step) {
-    on("clicked:charactermancer_".concat(step), function () {
-        startCharactermancer(step);
-    });
-});
-on("page:importer", function () {
-});
 var getRow = function (section) { return "repeating_".concat(section, "_").concat(generateRowID()); };
 var getUpdate = function (attrs, page, repeatingRow) {
     var update = {};
@@ -1217,3 +1195,75 @@ var versionOneTwoOne = function () {
         });
     });
 };
+on("clicked:launch_charactermancer", function () {
+    startCharactermancer("start");
+});
+on("sheet:opened", function () {
+    startCharactermancer("start");
+});
+[
+    "start",
+    "lineage",
+    "attributes",
+    "stats",
+    "background",
+    "profession",
+    "talent",
+    "review",
+].forEach(function (step) {
+    on("clicked:charactermancer_".concat(step), function () {
+        startCharactermancer(step);
+    });
+});
+on("mancer:cancel", function (event) {
+    console.log("Cancel charactermancer", event);
+});
+on("mancerfinish:name", function (event) {
+    console.log("Finished charactermancer with name:", event);
+});
+on("page:lineage", function () {
+    var data = getCharmancerData();
+    console.log("Lineage data:", data);
+});
+on("page:final", function () {
+    finishCharactermancer();
+});
+on("mancerchange:lineage", function (event) {
+    var pageName = event.newValue.includes("?expansion")
+        ? event.newValue.split("?")[0]
+        : event.newValue;
+    changeCompendiumPage("sheet-iframe", pageName);
+    getCompendiumPage(pageName, function (page) {
+        var _a = page.data, appearance = _a.appearance, base_speed = _a.base_speed, height = _a.height, lifespan = _a.lifespan, size = _a.size, weight = _a.weight;
+        console.log("Lineage data:", page);
+        var show = [];
+        var hide = [];
+        var LINEAGE_ATTRIBUTES = [
+            "appearance",
+            "height",
+            "lifespan",
+            "size",
+            "weight",
+        ];
+        LINEAGE_ATTRIBUTES.forEach(function (attr) {
+            if (page.data[attr]) {
+                show.push("sheet-choice-".concat(attr));
+            }
+            else {
+                hide.push("sheet-choice-".concat(attr));
+            }
+        });
+        show.length && showChoices(show);
+        hide.length && hideChoices(hide);
+        setAttrs({
+            appearance: appearance || "",
+            speed: base_speed || "",
+            height: height || "",
+            lifespan: lifespan || "",
+            size: size || "",
+            weight: weight || "",
+            lineage: page.name || ""
+        });
+        console.log(show, hide);
+    });
+});

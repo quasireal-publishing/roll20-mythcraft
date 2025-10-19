@@ -1,0 +1,47 @@
+%button {
+  background-color: $third;
+  background-image: none;
+  text-shadow: none;
+  border: {
+    bottom-right-radius: 0.01em;
+    bottom: 2px solid $color-neutral-900;
+    color: $color-neutral-500;
+    radius: 0.25em;
+    right: 0.02em solid $color-neutral-800;
+    style: outset;
+  }
+  box-shadow: $box-shadow;
+  color: $secondary;
+  font-size: $text-base;
+  margin: 0px;
+  min-height: $spacing-6;
+  padding: 2px 4px;
+}
+
+%buttons {
+  font-family: serif;
+  transition: transform 0.1s ease;
+  @extend %ellipsis;
+
+  &:before {
+    display: none;
+  }
+  &:focus,
+  &:hover,
+  &:active {
+    @extend %hover;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+button {
+  @extend %buttons;
+
+  &[type="roll"],
+  &[type="action"] {
+    @extend %button;
+  }
+}

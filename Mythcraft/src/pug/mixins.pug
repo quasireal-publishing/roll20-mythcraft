@@ -10,9 +10,7 @@ include mixins/repeating_spell_cards.pug
 include mixins/repeating_attacks.pug
 include mixins/repeating_skills.pug
 include mixins/repeating_resources.pug
-
 include mixins/combat_attributes.pug
-
 include mixins/toggles.pug
 
 mixin textarea(name)
@@ -111,3 +109,7 @@ mixin switch(name)
    label.switch(data-i18n-title=`toggle ${name}`)
       input(type="checkbox" name=`attr_toggle_${attrName(name)}`)
       span.slider
+
+mixin logo()
+   .logo.grow-0
+      img(src='https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/Mythcraft-Logo-Badge-Textured-Black.png' alt="Mythcraft Logo" title="Mythcraft Logo")   

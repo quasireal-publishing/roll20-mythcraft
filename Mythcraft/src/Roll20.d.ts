@@ -63,3 +63,39 @@ declare type CompendiumAttributes = {
 };
 
 declare function startCharactermancer(arg: string): unknown;
+
+declare function finishCharactermancer(): unknown;
+
+declare function getCharmancerData(): { [key: string]: unknown };
+
+declare function changeCompendiumPage(
+  iframeClass: string,
+  pageName: string
+): void;
+
+declare function getCompendiumPage(
+  pageName: string,
+  callback: (data: CompendiumAttributes) => void
+): void;
+
+declare function showChoices(classNames: string[]): void;
+
+declare function hideChoices(classNames: string[]): void;
+
+declare function deleteCharmancerData(
+  slides: string[],
+  callback?: () => void
+): void;
+
+declare function setCharmancerOptions(
+  className: string,
+  selectOptions: string,
+  settings: {
+    add: string[];
+    category: string;
+    disable?: string[];
+    selected?: string;
+    show_source?: boolean;
+  },
+  callback?: () => void
+): void;

@@ -147,5 +147,11 @@
   "weight": "weight",
   "wil": "wil",
   "willpower": "willpower",
-  "charactermancer": "charactermancer"
+  "charactermancer": "charactermancer",
+  "start": "start",
+  "stats": "stats",
+  "talent": "talent",
+  "review": "review",
+  "choose lineage": "choose lineage",
+  "appearance description": "appearance description"
 }

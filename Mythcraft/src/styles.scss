@@ -19,10 +19,11 @@
 //Customer Variables for branding
 $primary: rgb(23, 67, 69);
 $secondary: rgb(254, 235, 179);
+$background: oklch(0.95 0.02 84.45);
 $third: rgb(44, 37, 34);
 $fourth: rgb(41, 135, 140);
 $fifth: rgb(252, 101, 67);
-$box-shadow: 2px 2px 3px 1px $color-neutral-500;
+$box-shadow: $shadow-md;
 
 // Normal Text: Tinos 11pt -> closest is $text-sm: 14px
 // H1: Gideon Roman, bold, 30pt -> closest is $text-2xl: 24px
@@ -66,7 +67,6 @@ $box-shadow: 2px 2px 3px 1px $color-neutral-500;
 
 //Override & restyle Roll20's default styling
 @import "scss/overrides";
-@import "scss/charsheet";
 @import "scss/dropzone";
 
 .pc,
@@ -85,14 +85,6 @@ $box-shadow: 2px 2px 3px 1px $color-neutral-500;
 @import "scss/shared_classes";
 @import "scss/typography";
 
-/* PC
-    ============================= */
-@import "scss/pc";
-
-/* CREATURE
-    ============================= */
-@import "scss/creature";
-
 /*  SHOW & HIDE SECTIONS
   ============================= */
 @import "scss/visibility";
@@ -100,8 +92,15 @@ $box-shadow: 2px 2px 3px 1px $color-neutral-500;
 /*  COMPONENTS
   ============================= */
 @import "scss/components/checkbox";
-@import "scss/components/roll_template";
 @import "scss/components/switch";
+
+/* Roll20 Components
+    ============================= */
+@import "repeating_section/repeating_section";
+@import "roll_template/roll_template";
+@import "charactermancer/charactermancer";
+@import "scss/creature";
+@import "scss/pc";
 
 /*  FOOTER
   ============================= */

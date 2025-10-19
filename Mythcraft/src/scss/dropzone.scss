@@ -1,3 +1,9 @@
+.dropzone {
+  padding: 0px;
+  border: none;
+  background: transparent;
+}
+
 .dropzone.active-drop-target.dropping {
   -moz-transition: opacity 0.15s ease-in-out;
   -webkit-transition: opacity 0.15s ease-in-out;
