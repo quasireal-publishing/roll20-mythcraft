@@ -31,8 +31,7 @@ on("mancerfinish:name", (event) => {
 });
 
 on("page:lineage", () => {
-  const data = getCharmancerData();
-  console.log("Lineage data:", data);
+  console.log("%c Lineage page opened", "color: blue; font-weight: bold;");
 });
 
 on("page:final", () => {
@@ -47,10 +46,6 @@ on("mancerchange:lineage", (event) => {
   changeCompendiumPage("sheet-iframe", pageName);
 
   getCompendiumPage(pageName, (page: CompendiumAttributes) => {
-    const { appearance, base_speed, height, lifespan, size, weight } =
-      page.data;
-    console.log("Lineage data:", page); // Handle the retrieved data
-
     const show: string[] = [];
     const hide: string[] = [];
 
@@ -59,6 +54,7 @@ on("mancerchange:lineage", (event) => {
       "height",
       "lifespan",
       "size",
+      "speed",
       "weight",
     ];
 
@@ -73,17 +69,30 @@ on("mancerchange:lineage", (event) => {
     show.length && showChoices(show);
     hide.length && hideChoices(hide);
 
-    setAttrs({
-      appearance: appearance || "",
-      speed: base_speed || "",
-      height: height || "",
-      lifespan: lifespan || "",
-      size: size || "",
-      weight: weight || "",
-      lineage: page.name || "",
+    const { lineage } = getCharmancerData();
+    const { values } = lineage ?? {};
+    const update: Record<string, any> = {
+      lineage: page.name,
+    };
+
+    console.log("Page Data:", page.data);
+    console.log("Charmancer Values:", values);
+
+    //loop through the key value pairs of values
+
+    Object.entries(page.data).forEach(([key, value]) => {
+      if (update[key] || !LINEAGE_ATTRIBUTES.includes(key)) {
+        return;
+      }
+
+      update[key] = page.data[key];
     });
 
-    console.log(show, hide);
+    console.log("Updating lineage with:", update);
+
+    setAttrs(update);
+
+    //console.log(show, hide);
 
     //deleteCharmancerData([<pages>], <Callback>)
   });

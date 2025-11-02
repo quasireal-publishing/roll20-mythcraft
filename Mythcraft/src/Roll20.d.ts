@@ -66,7 +66,15 @@ declare function startCharactermancer(arg: string): unknown;
 
 declare function finishCharactermancer(): unknown;
 
-declare function getCharmancerData(): { [key: string]: unknown };
+declare function getCharmancerData(): {
+  [key: string]: {
+    data: {
+      blobs: { [key: string]: unknown };
+      [key: string]: string;
+    };
+    values: { [key: string]: string };
+  };
+};
 
 declare function changeCompendiumPage(
   iframeClass: string,

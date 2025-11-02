@@ -1222,8 +1222,7 @@ on("mancerfinish:name", function (event) {
     console.log("Finished charactermancer with name:", event);
 });
 on("page:lineage", function () {
-    var data = getCharmancerData();
-    console.log("Lineage data:", data);
+    console.log("%c Lineage page opened", "color: blue; font-weight: bold;");
 });
 on("page:final", function () {
     finishCharactermancer();
@@ -1234,8 +1233,6 @@ on("mancerchange:lineage", function (event) {
         : event.newValue;
     changeCompendiumPage("sheet-iframe", pageName);
     getCompendiumPage(pageName, function (page) {
-        var _a = page.data, appearance = _a.appearance, base_speed = _a.base_speed, height = _a.height, lifespan = _a.lifespan, size = _a.size, weight = _a.weight;
-        console.log("Lineage data:", page);
         var show = [];
         var hide = [];
         var LINEAGE_ATTRIBUTES = [
@@ -1243,6 +1240,7 @@ on("mancerchange:lineage", function (event) {
             "height",
             "lifespan",
             "size",
+            "speed",
             "weight",
         ];
         LINEAGE_ATTRIBUTES.forEach(function (attr) {
@@ -1255,15 +1253,21 @@ on("mancerchange:lineage", function (event) {
         });
         show.length && showChoices(show);
         hide.length && hideChoices(hide);
-        setAttrs({
-            appearance: appearance || "",
-            speed: base_speed || "",
-            height: height || "",
-            lifespan: lifespan || "",
-            size: size || "",
-            weight: weight || "",
-            lineage: page.name || ""
+        var lineage = getCharmancerData().lineage;
+        var values = (lineage !== null && lineage !== void 0 ? lineage : {}).values;
+        var update = {
+            lineage: page.name
+        };
+        console.log("Page Data:", page.data);
+        console.log("Charmancer Values:", values);
+        Object.entries(page.data).forEach(function (_a) {
+            var key = _a[0], value = _a[1];
+            if (update[key] || !LINEAGE_ATTRIBUTES.includes(key)) {
+                return;
+            }
+            update[key] = page.data[key];
         });
-        console.log(show, hide);
+        console.log("Updating lineage with:", update);
+        setAttrs(update);
     });
 });
