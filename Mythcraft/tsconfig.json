@@ -10,9 +10,5 @@
     "skipLibCheck": true,
     "sourceMap": false
   },
-  "include": [
-    "src/ts/**/*",
-    "src/Roll20.d.ts",
-    "src/charactermancer/charactermancer.ts"
-  ]
+  "include": ["src/ts/**/*", "src/Roll20.d.ts", "src/charactermancer/**/*"]
 }

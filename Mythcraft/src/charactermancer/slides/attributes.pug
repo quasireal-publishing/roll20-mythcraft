@@ -1,3 +1,22 @@
 charmancer.sheet-charmancer-attributes
     +slideTemplate("attributes")
-        p Your character has six core attributes that define their physical and mental capabilities. You have a pool of points to distribute among these attributes, with certain minimums and maximums based on your chosen lineage.
+        .instructions
+            p Your character has six core attributes that define their physical and mental capabilities. You have a pool of points to distribute among these attributes, with certain minimums and maximums based on your chosen lineage.
+
+        .grid.grid-flow-col.gap-4.items-start.h-full.iframe-grid
+            .grid.gap-4.h-full
+                .grid.gap-2.h-full.auto-rows-min.items-start
+                    h3.capitalize(data-i18n="choose lineage")
+                    span(name="comp_starting_attribute_points")
+                each val in [...physicalAttributes, ...mentalAttributes, ...metaphysicAttributes]
+                    .grid.gap-2(class=`sheet-choice-${val}`)
+                        h4.capitalize(data-i18n=`${val}`)
+                        .grid.grid-flow-col.gap-2
+                            button(name=`act_decrease_attribute` data-i18n-title=`decrease ${val}` title=`decrease ${val}` type="action" value=val)
+                                span -
+                            input.w-full(type="number" name=`comp_${val}` data-i18n-placeholder=`${val}` value="0" min="-3" max="2" title=`@{${val}}`)
+                            button(name="act_increase_attribute" data-i18n-title=`increase ${val}` title=`increase ${val}` type="action" value=val)
+                                span +
+
+            .grid.h-full.sheet-compendium-page.sheet-iframe(accept="Rules:Attributes")
+

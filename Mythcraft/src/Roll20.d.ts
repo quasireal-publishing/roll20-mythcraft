@@ -8,6 +8,7 @@ declare type EventInfo = {
   sourceAttribute: string;
   sourceType: string;
   triggerName: string;
+  htmlAttributes?: { [key: string]: string }; //Action buttons
 };
 
 declare type AttrValue = string | number | boolean;

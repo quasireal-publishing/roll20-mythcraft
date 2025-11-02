@@ -1224,6 +1224,9 @@ on("mancerfinish:name", function (event) {
 on("page:lineage", function () {
     console.log("%c Lineage page opened", "color: cyan; font-weight: bold;");
 });
+on("page:attributes", function () {
+    console.log("%c Attributes page opened", "color: cyan; font-weight: bold;");
+});
 on("page:review", function () {
     console.log("%c Review page opened", "color: cyan; font-weight: bold;");
     var charmancerData = getCharmancerData();
@@ -1231,6 +1234,51 @@ on("page:review", function () {
 });
 on("page:final", function () {
     finishCharactermancer();
+});
+var valueCheck = function (value) {
+    if (value > 2)
+        return 2;
+    if (value < -3)
+        return -3;
+    if (isNaN(value))
+        return 0;
+    return value;
+};
+attributes.forEach(function (attr) {
+    on("mancerchange:".concat(attr), function (event) {
+        console.log(event);
+        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+        var value = parseInteger(newValue);
+        var charmancerData = getCharmancerData();
+        var values = charmancerData.attributes.values;
+        console.log("Attribute values:", values);
+        var pointsAvailable = 5;
+        for (var key in values) {
+            var int = parseInteger(values[key]);
+            if (int > 0) {
+                pointsAvailable -= int;
+            }
+            else if (int < 0) {
+                pointsAvailable += Math.abs(int);
+            }
+        }
+        console.table({ pointsAvailable: pointsAvailable });
+    });
+});
+var updateAttribute = function (attribute, change) {
+    var _a;
+    var charmancerData = getCharmancerData();
+    var value = charmancerData.attributes.values[attribute];
+    var int = valueCheck(parseInteger(value) + change);
+    setAttrs((_a = {}, _a[attribute] = int, _a));
+};
+on("clicked:decrease_attribute", function (event) {
+    var attribute = event.htmlAttributes.value;
+    updateAttribute(attribute, -1);
+});
+on("clicked:increase_attribute", function (event) {
+    var attribute = event.htmlAttributes.value;
+    updateAttribute(attribute, 1);
 });
 on("mancerchange:lineage", function (event) {
     var pageName = event.newValue.includes("?expansion")
