@@ -17,6 +17,15 @@
 .ui-dialog .charsheet {
   padding: 0px;
 
+  button.btn {
+    background-image: none;
+    text-shadow: none;
+  }
+
+  button[type="roll"] {
+    @extend .font-base;
+  }
+
   input[type="number"] {
     width: 100%;
   }
