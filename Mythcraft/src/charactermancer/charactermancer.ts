@@ -24,6 +24,7 @@ on("sheet:opened", () => {
 
 on("mancer:cancel", (event) => {
   console.log("Cancel charactermancer", event);
+  //deleteCharmancerData([<pages>], <Callback>)
 });
 
 on("mancerfinish:name", (event) => {
@@ -31,7 +32,13 @@ on("mancerfinish:name", (event) => {
 });
 
 on("page:lineage", () => {
-  console.log("%c Lineage page opened", "color: blue; font-weight: bold;");
+  console.log("%c Lineage page opened", "color: cyan; font-weight: bold;");
+});
+
+on("page:review", () => {
+  console.log("%c Review page opened", "color: cyan; font-weight: bold;");
+  const charmancerData = getCharmancerData();
+  console.log("Charmancer:", charmancerData);
 });
 
 on("page:final", () => {
@@ -39,7 +46,6 @@ on("page:final", () => {
 });
 
 on("mancerchange:lineage", (event) => {
-  //Lineages:Deep Dwarf?expansion=34979
   const pageName = event.newValue.includes("?expansion")
     ? event.newValue.split("?")[0]
     : event.newValue;
@@ -69,31 +75,6 @@ on("mancerchange:lineage", (event) => {
     show.length && showChoices(show);
     hide.length && hideChoices(hide);
 
-    const { lineage } = getCharmancerData();
-    const { values } = lineage ?? {};
-    const update: Record<string, any> = {
-      lineage: page.name,
-    };
-
-    console.log("Page Data:", page.data);
-    console.log("Charmancer Values:", values);
-
-    //loop through the key value pairs of values
-
-    Object.entries(page.data).forEach(([key, value]) => {
-      if (update[key] || !LINEAGE_ATTRIBUTES.includes(key)) {
-        return;
-      }
-
-      update[key] = page.data[key];
-    });
-
-    console.log("Updating lineage with:", update);
-
-    setAttrs(update);
-
-    //console.log(show, hide);
-
-    //deleteCharmancerData([<pages>], <Callback>)
+    setAttrs({ name: page.name }, { silent: true });
   });
 });

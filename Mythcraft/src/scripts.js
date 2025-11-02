@@ -1222,7 +1222,12 @@ on("mancerfinish:name", function (event) {
     console.log("Finished charactermancer with name:", event);
 });
 on("page:lineage", function () {
-    console.log("%c Lineage page opened", "color: blue; font-weight: bold;");
+    console.log("%c Lineage page opened", "color: cyan; font-weight: bold;");
+});
+on("page:review", function () {
+    console.log("%c Review page opened", "color: cyan; font-weight: bold;");
+    var charmancerData = getCharmancerData();
+    console.log("Charmancer:", charmancerData);
 });
 on("page:final", function () {
     finishCharactermancer();
@@ -1253,21 +1258,6 @@ on("mancerchange:lineage", function (event) {
         });
         show.length && showChoices(show);
         hide.length && hideChoices(hide);
-        var lineage = getCharmancerData().lineage;
-        var values = (lineage !== null && lineage !== void 0 ? lineage : {}).values;
-        var update = {
-            lineage: page.name
-        };
-        console.log("Page Data:", page.data);
-        console.log("Charmancer Values:", values);
-        Object.entries(page.data).forEach(function (_a) {
-            var key = _a[0], value = _a[1];
-            if (update[key] || !LINEAGE_ATTRIBUTES.includes(key)) {
-                return;
-            }
-            update[key] = page.data[key];
-        });
-        console.log("Updating lineage with:", update);
-        setAttrs(update);
+        setAttrs({ name: page.name }, { silent: true });
     });
 });
