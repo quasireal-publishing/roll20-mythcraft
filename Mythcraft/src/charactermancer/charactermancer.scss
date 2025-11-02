@@ -46,4 +46,11 @@
   .iframe-grid {
     grid-template-columns: 1fr minmax(300px, 500px);
   }
+
+  .sheet-charmancer-attributes {
+    input {
+      @extend .font-h2;
+      border-bottom: none;
+    }
+  }
 }

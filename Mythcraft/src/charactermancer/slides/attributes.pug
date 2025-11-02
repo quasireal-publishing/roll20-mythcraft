@@ -14,7 +14,7 @@ charmancer.sheet-charmancer-attributes
                         .grid.grid-flow-col.gap-2
                             button(name=`act_decrease_attribute` data-i18n-title=`decrease ${val}` title=`decrease ${val}` type="action" value=val)
                                 span -
-                            input.w-full(type="number" name=`comp_${val}` data-i18n-placeholder=`${val}` value="0" min="-3" max="2" title=`@{${val}}`)
+                            input.w-full(type="number" name=`comp_${val}` data-i18n-placeholder=`${val}` value="0" min="-3" max="2" disabled)
                             button(name="act_increase_attribute" data-i18n-title=`increase ${val}` title=`increase ${val}` type="action" value=val)
                                 span +
 
