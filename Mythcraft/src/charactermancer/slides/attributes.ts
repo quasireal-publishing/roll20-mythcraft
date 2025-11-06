@@ -1,9 +1,9 @@
-const valueCheck = (value: any) {
-    if (value > 2) return 2;
-    if (value < -3) return -3;
-    if (isNaN(value)) return 0;
-    return value;
-}
+const valueCheck = (value: any) => {
+  if (value > 2) return 2;
+  if (value < -3) return -3;
+  if (isNaN(value)) return 0;
+  return value;
+};
 
 attributes.forEach((attr) => {
   on(`mancerchange:${attr}`, (event) => {
@@ -36,20 +36,18 @@ attributes.forEach((attr) => {
 });
 
 const updateAttribute = (attribute: string, change: number) => {
-    const charmancerData = getCharmancerData();
-    const value = charmancerData.attributes.values[attribute]
-    const int = valueCheck(parseInteger(value) + change);
-    setAttrs({[attribute]: int});
-}
-
-
+  const charmancerData = getCharmancerData();
+  const value = charmancerData.attributes.values[attribute];
+  const int = valueCheck(parseInteger(value) + change);
+  setAttrs({ [attribute]: int });
+};
 
 on("clicked:decrease_attribute", (event) => {
-    const attribute = event.htmlAttributes.value
-    updateAttribute(attribute, -1);
+  const attribute = event.htmlAttributes.value;
+  updateAttribute(attribute, -1);
 });
 
 on("clicked:increase_attribute", (event) => {
-    const attribute = event.htmlAttributes.value
-    updateAttribute(attribute, 1);
+  const attribute = event.htmlAttributes.value;
+  updateAttribute(attribute, 1);
 });
