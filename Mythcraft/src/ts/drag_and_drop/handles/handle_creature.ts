@@ -81,8 +81,9 @@ const handle_creature = (page: CompendiumAttributes) => {
   });
 
   Object.entries(update).forEach(([key, value]) => {
+    const repeatingRow = getFieldsetRow(key);
+
     if (key.startsWith("repeating_skills_") && key.endsWith("_attribute")) {
-      const repeatingRow = getFieldsetRow(key);
       update[`${repeatingRow}_attribute`] = `@{${value}}`;
       update[`${repeatingRow}_attribute_abbreviation`] =
         getAttributeAbbreviation(`${value}`);
@@ -96,6 +97,11 @@ const handle_creature = (page: CompendiumAttributes) => {
         const sum = sumIntegers(ints);
         update[`${repeatingRow}_bonus`] = sum > 0 ? `+${sum}` : `${sum}`;
       }
+    }
+
+    if (key.startsWith("repeating_skills_") && key.endsWith("_modifier")) {
+      const int = parseInteger(`${value ?? "0"}`);
+      update[`${repeatingRow}_modifier`] = int > 0 ? `+${int}` : `${int}`;
     }
   });
 

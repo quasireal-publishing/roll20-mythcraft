@@ -891,8 +891,8 @@ var handle_creature = function (page) {
     });
     Object.entries(update).forEach(function (_a) {
         var key = _a[0], value = _a[1];
+        var repeatingRow = getFieldsetRow(key);
         if (key.startsWith("repeating_skills_") && key.endsWith("_attribute")) {
-            var repeatingRow = getFieldsetRow(key);
             update["".concat(repeatingRow, "_attribute")] = "@{".concat(value, "}");
             update["".concat(repeatingRow, "_attribute_abbreviation")] =
                 getAttributeAbbreviation("".concat(value));
@@ -905,6 +905,10 @@ var handle_creature = function (page) {
                 var sum = sumIntegers(ints);
                 update["".concat(repeatingRow, "_bonus")] = sum > 0 ? "+".concat(sum) : "".concat(sum);
             }
+        }
+        if (key.startsWith("repeating_skills_") && key.endsWith("_modifier")) {
+            var int = parseInteger("".concat(value !== null && value !== void 0 ? value : "0"));
+            update["".concat(repeatingRow, "_modifier")] = int > 0 ? "+".concat(int) : "".concat(int);
         }
     });
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
