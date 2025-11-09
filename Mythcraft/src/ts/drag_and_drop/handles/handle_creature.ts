@@ -2,35 +2,39 @@ const handle_creature = (page: CompendiumAttributes) => {
   //This will only handle top level attributes, not repeating sections (arrays with objects)
   //Add more attributes as needed.
   const attrs = [
-    "name",
-    "description",
-    "level",
-    "size",
-    "strength",
-    "dexterity",
-    "endurance",
-    "awareness",
-    "intellect",
-    "charisma",
-    "reflexes",
-    "fortitude",
-    "anticipation",
-    "logic",
-    "willpower",
-    "hit_points",
-    "armor_rating",
-    "speed",
-    "dr",
-    "senses",
     "action_description",
-    "resist",
+    "anticipation",
+    "armor_rating",
+    "awareness",
+    "charisma",
+    "description",
+    "dexterity",
+    "dr",
+    "endurance",
+    "fortitude",
+    "hp",
     "immune",
-    "vulnerable",
+    "intellect",
+    "level",
+    "logic",
+    "name",
+    "reflexes",
+    "resist",
+    "senses",
+    "size",
+    "speed",
+    "strength",
+    "tags",
     "traits",
+    "vulnerable",
+    "willpower",
   ];
   const update = getUpdate(attrs, page);
 
   update.character_name = page.name;
+  update.sheet_type = "creature";
+  update.toggle_creature_setting = false;
+  update.toggle_edit_creature_edit = false;
 
   const creature_sections: string[] = [];
 
@@ -52,14 +56,54 @@ const handle_creature = (page: CompendiumAttributes) => {
     }
   });
 
-  update.sheet_type = "creature";
   update.creature_sections = creature_sections.join(",");
-  update.toggle_creature_setting = false;
-  update.toggle_edit_creature_edit = false;
+
+  console.log(`%c Creature Drop for ${page.name}`, "color: orange;");
+
+  //Attacks need special handling
+  const attackActions: string[] = [];
+  Object.keys(update).forEach((key) => {
+    if (
+      key.startsWith("repeating_actions_") &&
+      (key.endsWith("_damage") ||
+        key.endsWith("_damage_average") ||
+        key.endsWith("_modifier"))
+    ) {
+      const repeatingRow = getFieldsetRow(key);
+      !attackActions.includes(repeatingRow) && attackActions.push(repeatingRow);
+    }
+  });
+
+  //Attacks need toggle_action_attack and roll template for attacks
+  attackActions.forEach((row) => {
+    update[`${row}_toggle_action_attack`] = "on";
+    update[`${row}_roll_formula`] = getCreatureAttackRollFormula(true);
+  });
+
+  Object.entries(update).forEach(([key, value]) => {
+    if (key.startsWith("repeating_skills_") && key.endsWith("_attribute")) {
+      const repeatingRow = getFieldsetRow(key);
+      update[`${repeatingRow}_attribute`] = `@{${value}}`;
+      update[`${repeatingRow}_attribute_abbreviation`] =
+        getAttributeAbbreviation(`${value}`);
+
+      if (typeof value === "string" && attributes.includes(value)) {
+        const numbers = [
+          page.data[value],
+          page.data[`${repeatingRow}_modifier`],
+        ];
+        const ints = numbers.map((attr) => parseInteger(`${attr ?? "0"}`));
+        const sum = sumIntegers(ints);
+        update[`${repeatingRow}_bonus`] = sum > 0 ? `+${sum}` : `${sum}`;
+      }
+    }
+  });
 
   //Familiars do not have the derived attributes so the sheetworkers need to calculate them
   const hasDefenses = defenses.some((attr) => page.data[attr]);
   const silent = hasDefenses ? true : false;
+
+  console.log(update);
 
   try {
     setAttrs(update, { silent });

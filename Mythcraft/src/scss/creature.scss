@@ -8,13 +8,22 @@
     @extend .uppercase;
     @extend .text-primary;
     @extend .font-bold;
+    @extend .text-center;
+  }
+
+  input[name="attr_modifier"] {
+    text-align: center;
   }
 
   p > *:not(:first-child) {
     margin-left: $spacing;
   }
 
-  .display h3 {
+  .stats {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .display-mode h3 {
     font-weight: 700;
     @extend .font-base;
   }
@@ -88,6 +97,24 @@
     }
   }
 
+  div.section-skills .repcontainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing;
+
+    button[type="roll"] {
+      min-width: 100px;
+    }
+
+    // .plus {
+    //   display: none;
+    // }
+
+    // .attribute::after {
+    //   content: "+";
+    // }
+  }
+
   div.repeating_skills {
     .category {
       display: none;
@@ -95,6 +122,10 @@
 
     .custom-grid {
       grid-auto-columns: min-content;
+    }
+
+    .edit .modifier {
+      grid-area: 2 / 1 / 3 / 3;
     }
   }
 
@@ -121,12 +152,8 @@
       grid-template-columns: $spacing-48 1fr;
     }
 
-    .bonus {
+    .modifier {
       grid-template-columns: $spacing-38 auto 1fr;
-
-      input[name="attr_bonus"] {
-        text-align: center;
-      }
     }
 
     @mixin hide-action-elements {
@@ -164,7 +191,7 @@
     }
 
     .damage {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: min-content 1fr 1fr;
     }
 
     .dmg {

@@ -506,24 +506,24 @@ var updateAttributeModifier = function (_a) {
         });
     });
 };
+var getCreatureAttackRollFormula = function (isAttack) {
+    if (isAttack) {
+        return "{{dice=[[1d20+(@{bonus})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{bonus} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}";
+    }
+    return "{{description=@{description}}}";
+};
 var updateCreatureAttackRollFormula = function (event) {
-    var _a, _b;
+    var _a;
     var sourceAttribute = event.sourceAttribute, newValue = event.newValue, sourceType = event.sourceType;
     if (sourceType !== "player") {
         return;
     }
     var row = getFieldsetRow(sourceAttribute);
     var isAttack = newValue === "on";
-    if (isAttack) {
-        var update = (_a = {},
-            _a["".concat(row, "_roll_formula")] = "{{dice=[[1d20+(@{bonus})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{bonus} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}",
-            _a);
-        setAttrs(update);
-        return;
-    }
-    setAttrs((_b = {},
-        _b["".concat(row, "_roll_formula")] = "{{description=@{description}}}",
-        _b));
+    var attackRollFormula = getCreatureAttackRollFormula(isAttack);
+    setAttrs((_a = {},
+        _a["".concat(row, "_roll_formula")] = attackRollFormula,
+        _a));
 };
 var updateCriticalFailRange = function (attributes) {
     getAttrs(attributes, function (values) {
@@ -826,34 +826,38 @@ var handle_conditions = function (page) {
 };
 var handle_creature = function (page) {
     var attrs = [
-        "name",
-        "description",
-        "level",
-        "size",
-        "strength",
-        "dexterity",
-        "endurance",
-        "awareness",
-        "intellect",
-        "charisma",
-        "reflexes",
-        "fortitude",
-        "anticipation",
-        "logic",
-        "willpower",
-        "hit_points",
-        "armor_rating",
-        "speed",
-        "dr",
-        "senses",
         "action_description",
-        "resist",
+        "anticipation",
+        "armor_rating",
+        "awareness",
+        "charisma",
+        "description",
+        "dexterity",
+        "dr",
+        "endurance",
+        "fortitude",
+        "hp",
         "immune",
-        "vulnerable",
+        "intellect",
+        "level",
+        "logic",
+        "name",
+        "reflexes",
+        "resist",
+        "senses",
+        "size",
+        "speed",
+        "strength",
+        "tags",
         "traits",
+        "vulnerable",
+        "willpower",
     ];
     var update = getUpdate(attrs, page);
     update.character_name = page.name;
+    update.sheet_type = "creature";
+    update.toggle_creature_setting = false;
+    update.toggle_edit_creature_edit = false;
     var creature_sections = [];
     var isDataArray = function (data) {
         return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
@@ -869,12 +873,43 @@ var handle_creature = function (page) {
             Object.assign(update, processed);
         }
     });
-    update.sheet_type = "creature";
     update.creature_sections = creature_sections.join(",");
-    update.toggle_creature_setting = false;
-    update.toggle_edit_creature_edit = false;
+    console.log("%c Creature Drop for ".concat(page.name), "color: orange;");
+    var attackActions = [];
+    Object.keys(update).forEach(function (key) {
+        if (key.startsWith("repeating_actions_") &&
+            (key.endsWith("_damage") ||
+                key.endsWith("_damage_average") ||
+                key.endsWith("_modifier"))) {
+            var repeatingRow = getFieldsetRow(key);
+            !attackActions.includes(repeatingRow) && attackActions.push(repeatingRow);
+        }
+    });
+    attackActions.forEach(function (row) {
+        update["".concat(row, "_toggle_action_attack")] = "on";
+        update["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(true);
+    });
+    Object.entries(update).forEach(function (_a) {
+        var key = _a[0], value = _a[1];
+        if (key.startsWith("repeating_skills_") && key.endsWith("_attribute")) {
+            var repeatingRow = getFieldsetRow(key);
+            update["".concat(repeatingRow, "_attribute")] = "@{".concat(value, "}");
+            update["".concat(repeatingRow, "_attribute_abbreviation")] =
+                getAttributeAbbreviation("".concat(value));
+            if (typeof value === "string" && attributes.includes(value)) {
+                var numbers = [
+                    page.data[value],
+                    page.data["".concat(repeatingRow, "_modifier")],
+                ];
+                var ints = numbers.map(function (attr) { return parseInteger("".concat(attr !== null && attr !== void 0 ? attr : "0")); });
+                var sum = sumIntegers(ints);
+                update["".concat(repeatingRow, "_bonus")] = sum > 0 ? "+".concat(sum) : "".concat(sum);
+            }
+        }
+    });
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
     var silent = hasDefenses ? true : false;
+    console.log(update);
     try {
         setAttrs(update, { silent: silent });
     }

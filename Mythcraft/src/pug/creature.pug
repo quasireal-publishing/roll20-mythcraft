@@ -15,7 +15,7 @@
 				span.italic(name="attr_level")
 			.grid.gap-1.grid-flow-col.items-center.auto-cols-max
 				each val in ['size', 'tags']
-					+attrSpan(val)(class='italic')
+					+attrSpan(val)(class='italic capitalize')
 		.inputs.grid.gap-2
 			.grid.gap-2.grid-flow-col.bio
 				.grid.grid-flow-col.gap-2
@@ -29,31 +29,29 @@
 
 		+combatAttributes()
 
-		.display-mode.grid
-			.grid.gap-4.grid-flow-col.items-center.auto-cols-max
-				each val in ['hp', 'armor rating']
-					.grid.gap-2.grid-flow-cols.col-auto-fr.items-center.display-span
+		.display-mode.grid.gap-4.grid-flow-col.stats
+			.grid.auto-rows-min
+				each val in ['armor rating', 'hp', 'speed']
+					.grid.gap-1.grid-flow-col.col-auto-fr.items-center.display-span
 						+h3Header(val)
 						+attrSpan(val)(class='font-base')
-			.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
-				+h3Header("speed")
-				+attrSpan("speed")(class='font-base')
-			.grid.gap-2.items-center.auto-cols-max.grid-flow-col
-				each val in ['resist', 'immune']
-					.grid.gap-2.grid-flow-col.items-center.auto-cols-max.display-span.display-span
+
+			.grid.auto-rows-min
+				.grid.gap-2.items-center.auto-cols-max.grid-flow-col
+					each val in ['resist', 'immune']
+						.grid.gap-2.grid-flow-col.items-center.auto-cols-max.display-span.display-span
+							+h3Header(val)
+							+attrSpan(val)(class='font-base')
+				.grid.gap-2.items-center.auto-cols-max.grid-flow-col
+					each val in ['vulnerable', 'damage reduction']
+						.grid.gap-2.grid-flow-col.items-center.auto-cols-max.display-span
+							+h3Header(val)
+							+attrSpan(val)(class='font-base')
+				each val in ['senses', 'traits']
+					.grid.gap-2.grid-flow-col.items-center.items-center.auto-cols-max.display-span
 						+h3Header(val)
 						+attrSpan(val)(class='font-base')
-			.grid.gap-2.items-center.auto-cols-max.grid-flow-col
-				each val in ['vulnerable', 'damage reduction']
-					.grid.gap-2.grid-flow-col.items-center.auto-cols-max.display-span
-						+h3Header(val)
-						+attrSpan(val)(class='font-base')
-			.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
-				+h3Header("senses")
-				+attrSpan("senses")(class='font-base')
-			.grid.gap-2.grid-flow-col.items-center.items-center.mb-2.auto-cols-max.display-span
-				+h3Header("traits")
-				+attrSpan("traits")(class='font-base')
+
 
 		.inputs.grid.gap-4
 			.grid.gap-2.grid-flow-col.items-center.hp-armor-speed
@@ -73,7 +71,7 @@
 				each val in ['senses', 'traits']
 					+headerInput(val)
 
-		.grid.gap-2.items-center.section-skills
+		.grid.items-center.section-skills
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="skills")
 				label.switch(data-i18n-title="toggle skills")
@@ -81,7 +79,7 @@
 					span.slider
 			+repeatingSkills()(class="repeating_skills")
 
-		.grid.gap-2.items-center.section-features
+		.grid.items-center.section-features
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="features")
 				label.switch(data-i18n-title="toggle features")
@@ -108,13 +106,13 @@
 							+textarea('description')
 
 
-		.grid.gap-2.items-center.actions.section-actions
+		.grid.items-center.actions.section-actions
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="actions")
 				label.switch(data-i18n-title="toggle actions")
 					input(type="checkbox" name="attr_section_actions")
 					span.slider
-			.display-mode
+			.display-mode.mb-2
 				span(name='attr_action_description')
 			.inputs
 				textarea(name='attr_action_description' title='@{action_description}')
@@ -151,12 +149,12 @@
 						.grid.gap-2.grid-flow-col.range
 							each val in ['range', 'type']
 								+headerInput(val)
-						.grid.gap-2.grid-flow-col.items-center.bonus
+						.grid.gap-2.grid-flow-col.items-center.modifier
 							+headerInput('modifier')(class="text-center")
 							span vs
 							+headerInput('defense')
-						+h3Header("hit")
 						.grid.gap-2.grid-flow-col.damage
+							+h3Header("hit")
 							.grid.col-auto-fr.gap-1.grid-flow-col.items-center
 								+h3Header("damage")
 								.grid.grid-flow-col.items-center.dmg
@@ -170,7 +168,7 @@
 						.description
 							+textarea('description')
 
-		.grid.gap-2.items-center.section-reactions
+		.grid.items-center.section-reactions
 			.grid.gap-2.header-toggle
 				h2.ellipse.capitalize.text-primary(data-i18n="reactions")
 				label.switch(data-i18n-title="toggle reactions")
@@ -190,7 +188,7 @@
 						+textarea('description')
 
 
-		.grid.gap-2.items-center.section-spells
+		.grid.items-center.section-spells
 			.grid.gap-2.header-toggle
 				h2.ellipse.capitalize.text-primary(data-i18n="spells")
 				label.switch(data-i18n-title="toggle spells")

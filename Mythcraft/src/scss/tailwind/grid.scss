@@ -54,6 +54,10 @@
   grid-auto-rows: max-content;
 }
 
+.auto-rows-min {
+  grid-auto-rows: min-content;
+}
+
 .content-start {
   align-content: start;
 }

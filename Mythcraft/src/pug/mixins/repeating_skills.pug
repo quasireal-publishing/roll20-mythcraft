@@ -16,14 +16,14 @@ mixin repeatingSkills()
 			.edit.grid.gap-2
 				each val in ["name", "category"]
 					+editInput(val)(class=`${val}`)
-				.grid.gap-2.grid-flow-col.items-center
+				.grid.gap-2.grid-flow-col.items-center.attribute
 					.grid.gap-2.col-auto-fr.items-center
 						+h4Header("attribute")
 						select(name="attr_attribute")
 							each val in coreAttributes
 								option(value=`@{${val}}` data-i18n=val)
 									val
-					span.text-center
+					span.text-center.plus
 						| +
 					+editInput("modifier")(class=`modifier`)
 				.description
