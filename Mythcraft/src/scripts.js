@@ -508,9 +508,9 @@ var updateAttributeModifier = function (_a) {
 };
 var getCreatureAttackRollFormula = function (isAttack) {
     if (isAttack) {
-        return "{{dice=[[1d20+(@{bonus})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{bonus} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}";
+        return "{{dice=[[1d20+(@{modifier})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{modifier} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}";
     }
-    return "{{description=@{description}}}";
+    return "{{description=@{effect} @{description}}}";
 };
 var updateCreatureAttackRollFormula = function (event) {
     var _a;
@@ -875,51 +875,27 @@ var handle_creature = function (page) {
     });
     update.creature_sections = creature_sections.join(",");
     console.log("%c Creature Drop for ".concat(page.name), "color: orange;");
-    var attackActions = [];
-    Object.keys(update).forEach(function (key) {
-        if (key.startsWith("repeating_actions_") &&
-            (key.endsWith("_damage") ||
-                key.endsWith("_damage_average") ||
-                key.endsWith("_modifier"))) {
-            var repeatingRow = getFieldsetRow(key);
-            !attackActions.includes(repeatingRow) && attackActions.push(repeatingRow);
-        }
-    });
-    attackActions.forEach(function (row) {
-        update["".concat(row, "_toggle_action_attack")] = "on";
-        update["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(true);
-    });
-    Object.entries(update).forEach(function (_a) {
+    Object.entries(__assign({}, update)).forEach(function (_a) {
         var key = _a[0], value = _a[1];
-        var repeatingRow = getFieldsetRow(key);
-        if (key.startsWith("repeating_skills_") && key.endsWith("_attribute")) {
-            update["".concat(repeatingRow, "_attribute")] = "@{".concat(value, "}");
-            update["".concat(repeatingRow, "_attribute_abbreviation")] =
-                getAttributeAbbreviation("".concat(value));
-            if (typeof value === "string" && attributes.includes(value)) {
-                var numbers = [
-                    page.data[value],
-                    page.data["".concat(repeatingRow, "_modifier")],
-                ];
-                var ints = numbers.map(function (attr) { return parseInteger("".concat(attr !== null && attr !== void 0 ? attr : "0")); });
-                var sum = sumIntegers(ints);
-                update["".concat(repeatingRow, "_bonus")] = sum > 0 ? "+".concat(sum) : "".concat(sum);
-            }
+        var row = getFieldsetRow(key);
+        if (key.endsWith("_defense")) {
+            update["".concat(row, "_toggle_action_attack")] = "on";
+            update["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(true);
         }
-        if (key.startsWith("repeating_skills_") && key.endsWith("_modifier")) {
-            var int = parseInteger("".concat(value !== null && value !== void 0 ? value : "0"));
-            update["".concat(repeatingRow, "_modifier")] = int > 0 ? "+".concat(int) : "".concat(int);
+        if (key.endsWith("_modifier")) {
+            var int = parseInteger("".concat(value));
+            update["".concat(row, "_modifier")] = int > 0 ? "+".concat(int) : "".concat(int);
+        }
+        if (key.endsWith("_attribute")) {
+            update["".concat(row, "_attribute")] = "@{".concat(value, "}");
+            var abbr = getAttributeAbbreviation("".concat(value));
+            update["".concat(row, "_attribute_abbreviation")] = "(".concat(abbr, ")");
         }
     });
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
     var silent = hasDefenses ? true : false;
     console.log(update);
-    try {
-        setAttrs(update, { silent: silent });
-    }
-    catch (e) {
-        dropWarning("Error setting attributes for ".concat(page.name, ": ").concat(e));
-    }
+    setDropAttrs(update, { silent: silent });
 };
 var handle_equipment = function (page) {
     var attrs = ["name", "description", "cost", "tags"];

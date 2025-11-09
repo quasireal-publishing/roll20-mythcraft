@@ -100,7 +100,7 @@
   div.section-skills .repcontainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: $spacing;
+    gap: $spacing-2;
 
     button[type="roll"] {
       min-width: 100px;

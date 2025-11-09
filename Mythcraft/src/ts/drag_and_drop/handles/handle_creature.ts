@@ -60,48 +60,25 @@ const handle_creature = (page: CompendiumAttributes) => {
 
   console.log(`%c Creature Drop for ${page.name}`, "color: orange;");
 
-  //Attacks need special handling
-  const attackActions: string[] = [];
-  Object.keys(update).forEach((key) => {
-    if (
-      key.startsWith("repeating_actions_") &&
-      (key.endsWith("_damage") ||
-        key.endsWith("_damage_average") ||
-        key.endsWith("_modifier"))
-    ) {
-      const repeatingRow = getFieldsetRow(key);
-      !attackActions.includes(repeatingRow) && attackActions.push(repeatingRow);
-    }
-  });
+  //Skills & Attacks need special handling
+  Object.entries({ ...update }).forEach(([key, value]) => {
+    const row = getFieldsetRow(key);
 
-  //Attacks need toggle_action_attack and roll template for attacks
-  attackActions.forEach((row) => {
-    update[`${row}_toggle_action_attack`] = "on";
-    update[`${row}_roll_formula`] = getCreatureAttackRollFormula(true);
-  });
-
-  Object.entries(update).forEach(([key, value]) => {
-    const repeatingRow = getFieldsetRow(key);
-
-    if (key.startsWith("repeating_skills_") && key.endsWith("_attribute")) {
-      update[`${repeatingRow}_attribute`] = `@{${value}}`;
-      update[`${repeatingRow}_attribute_abbreviation`] =
-        getAttributeAbbreviation(`${value}`);
-
-      if (typeof value === "string" && attributes.includes(value)) {
-        const numbers = [
-          page.data[value],
-          page.data[`${repeatingRow}_modifier`],
-        ];
-        const ints = numbers.map((attr) => parseInteger(`${attr ?? "0"}`));
-        const sum = sumIntegers(ints);
-        update[`${repeatingRow}_bonus`] = sum > 0 ? `+${sum}` : `${sum}`;
-      }
+    if (key.endsWith("_defense")) {
+      update[`${row}_toggle_action_attack`] = "on";
+      update[`${row}_roll_formula`] = getCreatureAttackRollFormula(true);
     }
 
-    if (key.startsWith("repeating_skills_") && key.endsWith("_modifier")) {
-      const int = parseInteger(`${value ?? "0"}`);
-      update[`${repeatingRow}_modifier`] = int > 0 ? `+${int}` : `${int}`;
+    if (key.endsWith("_modifier")) {
+      const int = parseInteger(`${value}`);
+      update[`${row}_modifier`] = int > 0 ? `+${int}` : `${int}`;
+    }
+
+    if (key.endsWith("_attribute")) {
+      update[`${row}_attribute`] = `@{${value}}`;
+
+      const abbr = getAttributeAbbreviation(`${value}`);
+      update[`${row}_attribute_abbreviation`] = `(${abbr})`;
     }
   });
 
@@ -111,9 +88,5 @@ const handle_creature = (page: CompendiumAttributes) => {
 
   console.log(update);
 
-  try {
-    setAttrs(update, { silent });
-  } catch (e) {
-    dropWarning(`Error setting attributes for ${page.name}: ${e}`);
-  }
+  setDropAttrs(update, { silent });
 };

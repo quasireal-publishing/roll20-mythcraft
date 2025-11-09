@@ -27,8 +27,7 @@ mixin repeatingRollButton(name, includeDescription = false)
 	button.text-left.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{dice=[[1d20+${attribute}+${bonus}+${luckEffect}]]}} {${description}}}`)
 		span(name='attr_name')
 
-mixin repeatingAttackRollButton(name, includeDescription = false)
-	- const description = includeDescription ? "{{description=@{description}}" : ""
+mixin repeatingAttackRollButton(name)
 	button.text-left.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} @{roll_formula}`)
 		span(name='attr_name')
 
@@ -47,3 +46,10 @@ mixin repeatingChatIconButton(name)
 mixin repeatingChatButton(name)
 	button.text-left.chat(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{description=@{description}}}`)
 		span(name='attr_name')
+
+//TODO: Damage roll needs to be different for attack rolls that only have effect such as vampires charm
+// Drag & Drop need to update the damage formula to exclude the dice roll for damage
+// This need an even handler as well to update damage roll when effect is added but damage is empty
+mixin repeatingCreatureDamageButton(name)
+	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}}  {{type=@{damage_type}}} {{dice=[[@{damage}[damage]+0]]}} {{description=@{effect} @{description}}}`)
+		span(name='attr_damage')

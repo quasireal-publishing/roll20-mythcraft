@@ -113,11 +113,12 @@
 					input(type="checkbox" name="attr_section_actions")
 					span.slider
 			.display-mode.mb-2
-				span(name='attr_action_description')
+				i
+					span(name='attr_action_description')
 			.inputs
 				textarea(name='attr_action_description' title='@{action_description}')
 			fieldset(class=`repeating_actions`)
-				input(type="hidden" name="attr_roll_formula" value=`{{dice=[[1d20+(?{TA/TD|0}[tactical bonus])]]}} {{description=@{description}}}`)
+				input(type="hidden" name="attr_roll_formula" value=`{{description=@{effect} @{description}}}`)
 				.grid.gap-2.relative.repeating-grid
 					input(type='hidden' name='attr_name')
 					.grid.grid-flow-col.gap-2.displayed.custom-grid
@@ -126,7 +127,7 @@
 						input(type="hidden" name="attr_toggle_action_attack")
 						p
 							+repeatingAttackRollButton('name')
-							span(name='attr_description')
+							span(name='attr_description') 
 							+attrSpan("range")(class="italic")
 							+attrSpan("type")(class="italic")
 							+attrSpan("modifier")
@@ -134,7 +135,7 @@
 							+attrSpan("defense")
 							span.hit.font-bold(data-i18n="hit")
 							+attrSpan("damage average")(class="text-center mr-1")
-							+repeatingDamageButton("damage")
+							+repeatingCreatureDamageButton("damage")
 							+attrSpan("damage type")(class="ml-1")
 							+attrSpan("effect")
 					+editToggle()

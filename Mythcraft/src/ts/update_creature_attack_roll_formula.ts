@@ -1,9 +1,9 @@
 const getCreatureAttackRollFormula = (isAttack: boolean) => {
   if (isAttack) {
-    return "{{dice=[[1d20+(@{bonus})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{bonus} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}";
+    return "{{dice=[[1d20+(@{modifier})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{modifier} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}";
   }
 
-  return "{{description=@{description}}}";
+  return "{{description=@{effect} @{description}}}";
 };
 
 const updateCreatureAttackRollFormula = (event: EventInfo) => {
