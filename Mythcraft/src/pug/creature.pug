@@ -2,6 +2,7 @@
 	input.settings-creature(type='hidden' name="attr_toggle_creature_settings")
 	input.edit-creature(type="hidden" name="attr_toggle_edit_creature_edit" value="true")
 	input.sections(type="hidden" name="attr_creature_sections" value="")
+
 	.grid.grid-flow-col.auto-cols-min.gap-2.settings-toggle.absolute
 		.grid.relative.grid-flow-col.auto-cols-min.gap-2
 			+editToggle('creature edit', true)
@@ -119,6 +120,7 @@
 				textarea(name='attr_action_description' title='@{action_description}')
 			fieldset(class=`repeating_actions`)
 				input(type="hidden" name="attr_roll_formula" value=`{{description=@{effect} @{description}}}`)
+				+repeatingCreatureEffect('effect')
 				.grid.gap-2.relative.repeating-grid
 					input(type='hidden' name='attr_name')
 					.grid.grid-flow-col.gap-2.displayed.custom-grid

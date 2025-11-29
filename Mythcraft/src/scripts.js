@@ -412,6 +412,24 @@ on("change:repeating_spells:toggle_attack", function (event) {
 on("change:repeating_actions:toggle_action_attack", function (event) {
     updateCreatureAttackRollFormula(event);
 });
+["damage", "effect", "toggle_action_attack"].forEach(function (attr) {
+    on("change:repeating_actions:".concat(attr), function (event) {
+        var sourceAttribute = event.sourceAttribute;
+        var row = getFieldsetRow(sourceAttribute);
+        getAttrs(["".concat(row, "_damage"), "".concat(row, "_effect"), "".concat(row, "_toggle_action_attack")], function (values) {
+            var _a;
+            var isAttack = values["".concat(row, "_toggle_action_attack")] === "on";
+            setAttrs((_a = {},
+                _a["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(isAttack, {
+                    includeDice: true,
+                    includeDefense: !!values["".concat(row, "_defense")],
+                    includeDamage: !!values["".concat(row, "_damage")],
+                    includeEffect: !!values["".concat(row, "_effect")]
+                }),
+                _a));
+        });
+    });
+});
 ["skills", "features", "actions", "reactions", "spells"].forEach(function (section) {
     on("change:section_".concat(section), function (event) {
         var newValue = event.newValue;
@@ -506,11 +524,36 @@ var updateAttributeModifier = function (_a) {
         });
     });
 };
-var getCreatureAttackRollFormula = function (isAttack) {
+var getCreatureAttackRollFormula = function (isAttack, options) {
+    if (isAttack === void 0) { isAttack = false; }
+    if (options === void 0) { options = {
+        includeDamage: true,
+        includeDefense: true,
+        includeDice: true,
+        includeEffect: true
+    }; }
+    var dice = "{{dice=[[1d20+(@{modifier})+(?{TA/TD|0}[tactical bonus])]]}}";
+    var defense = "{{action=@{range} @{type}. @{modifier} vs @{defense} }}";
+    var damage = "{{damage=[Damage](~repeating_actions-roll_damage)}}";
+    var effect = "{{effect=[Effect](~repeating_actions-roll_effect)}}";
+    var description = "{{description=@{description}}}";
     if (isAttack) {
-        return "{{dice=[[1d20+(@{modifier})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{modifier} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}";
+        var formula = "";
+        if (options.includeDice) {
+            formula += "".concat(dice);
+        }
+        if (options.includeDefense) {
+            formula += " ".concat(defense);
+        }
+        if (options.includeDamage) {
+            formula += " ".concat(damage);
+        }
+        if (options.includeEffect) {
+            formula += " ".concat(effect);
+        }
+        return formula.trim();
     }
-    return "{{description=@{effect} @{description}}}";
+    return description;
 };
 var updateCreatureAttackRollFormula = function (event) {
     var _a;
@@ -520,10 +563,24 @@ var updateCreatureAttackRollFormula = function (event) {
     }
     var row = getFieldsetRow(sourceAttribute);
     var isAttack = newValue === "on";
-    var attackRollFormula = getCreatureAttackRollFormula(isAttack);
-    setAttrs((_a = {},
-        _a["".concat(row, "_roll_formula")] = attackRollFormula,
-        _a));
+    if (!isAttack) {
+        setAttrs((_a = {},
+            _a["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(false),
+            _a));
+        return;
+    }
+    getAttrs(["".concat(row, "_damage")], function (values) {
+        var _a;
+        var hasDamage = values["".concat(row, "_damage")];
+        var attackRollFormula = getCreatureAttackRollFormula(true, {
+            includeDice: true,
+            includeDefense: true,
+            includeDamage: !!hasDamage
+        });
+        setAttrs((_a = {},
+            _a["".concat(row, "_roll_formula")] = attackRollFormula,
+            _a));
+    });
 };
 var updateCriticalFailRange = function (attributes) {
     getAttrs(attributes, function (values) {
@@ -880,7 +937,12 @@ var handle_creature = function (page) {
         var row = getFieldsetRow(key);
         if (key.endsWith("_defense")) {
             update["".concat(row, "_toggle_action_attack")] = "on";
-            update["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(true);
+            update["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(true, {
+                includeDice: true,
+                includeDefense: !!update["".concat(row, "_defense")],
+                includeDamage: !!update["".concat(row, "_damage")],
+                includeEffect: !!update["".concat(row, "_effect")]
+            });
         }
         if (key.endsWith("_modifier")) {
             var int = parseInteger("".concat(value));

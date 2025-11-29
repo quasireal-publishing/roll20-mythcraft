@@ -43,11 +43,9 @@
         text-align: left;
       }
 
-      .sheet-template-damage {
-        a[href^="~"] {
-          @extend %buttons;
-          @extend %button;
-        }
+      a[href^="~"] {
+        @extend %buttons;
+        @extend %button;
       }
     }
 

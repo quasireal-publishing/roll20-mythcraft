@@ -66,7 +66,13 @@ const handle_creature = (page: CompendiumAttributes) => {
 
     if (key.endsWith("_defense")) {
       update[`${row}_toggle_action_attack`] = "on";
-      update[`${row}_roll_formula`] = getCreatureAttackRollFormula(true);
+
+      update[`${row}_roll_formula`] = getCreatureAttackRollFormula(true, {
+        includeDice: true,
+        includeDefense: !!update[`${row}_defense`],
+        includeDamage: !!update[`${row}_damage`],
+        includeEffect: !!update[`${row}_effect`],
+      });
     }
 
     if (key.endsWith("_modifier")) {

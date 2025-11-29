@@ -47,9 +47,12 @@ mixin repeatingChatButton(name)
 	button.text-left.chat(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{description=@{description}}}`)
 		span(name='attr_name')
 
-//TODO: Damage roll needs to be different for attack rolls that only have effect such as vampires charm
-// Drag & Drop need to update the damage formula to exclude the dice roll for damage
+
 // This need an even handler as well to update damage roll when effect is added but damage is empty
 mixin repeatingCreatureDamageButton(name)
-	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}}  {{type=@{damage_type}}} {{dice=[[@{damage}[damage]+0]]}} {{description=@{effect} @{description}}}`)
+	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}}  {{type=@{damage_type}}} {{dice=[[@{damage}[damage]+0]]}} {{effect=@{effect}}} {{description=@{description}}}`)
 		span(name='attr_damage')
+
+mixin repeatingCreatureEffect(name)
+	button.ellipsis.font-weight-bold.hidden(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}}  {{type=@{damage_type}}} {{effect=@{effect}}} {{description=@{description}}}`)
+		span(data-i18n="effect" )
