@@ -1,5 +1,5 @@
 const dropWarning = (v: string) => {
-  console.log(
+  console.warn(
     `%c Compendium Drop Error: ${v}`,
     "color: orange; font-weight:bold"
   );
@@ -30,7 +30,6 @@ const handle_drop = () => {
 
     switch (Category) {
       case "Creatures":
-        resetRepeatingRows(repeatingSections);
         handle_creature(page);
         break;
       case "Conditions":
