@@ -92,7 +92,5 @@ const handle_creature = (page: CompendiumAttributes) => {
   const hasDefenses = defenses.some((attr) => page.data[attr]);
   const silent = hasDefenses ? true : false;
 
-  console.log(update);
-
   setDropAttrs(update, { silent });
 };

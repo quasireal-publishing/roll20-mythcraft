@@ -139,7 +139,7 @@ var defenses = [
 var initiative = ["initiative_base", "initiative_bonus", "awareness"];
 var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points", "initiative", "armor_rating"], false);
 var dropWarning = function (v) {
-    console.log("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
+    console.warn("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
 };
 var dropAttrs = ["drop_name", "drop_data", "drop_content"];
 var handle_drop = function () {
@@ -163,7 +163,6 @@ var handle_drop = function () {
         ];
         switch (Category) {
             case "Creatures":
-                resetRepeatingRows(repeatingSections);
                 handle_creature(page);
                 break;
             case "Conditions":
@@ -450,6 +449,37 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
         });
     });
 });
+var getCreatureAttackRollFormula = function (isAttack, options) {
+    if (isAttack === void 0) { isAttack = false; }
+    if (options === void 0) { options = {
+        includeDamage: true,
+        includeDefense: true,
+        includeDice: true,
+        includeEffect: true
+    }; }
+    var dice = "{{dice=[[1d20+(@{modifier})+(?{TA/TD|0}[tactical bonus])]]}}";
+    var defense = "{{action=@{range} @{type}. @{modifier} vs @{defense} }}";
+    var damage = "{{damage=[Damage](~repeating_actions-roll_damage)}}";
+    var effect = "{{effect=[Effect](~repeating_actions-roll_effect)}}";
+    var description = "{{description=@{description}}}";
+    if (isAttack) {
+        var formula = "";
+        if (options.includeDice) {
+            formula += "".concat(dice);
+        }
+        if (options.includeDefense) {
+            formula += " ".concat(defense);
+        }
+        if (options.includeDamage) {
+            formula += " ".concat(damage);
+        }
+        if (options.includeEffect) {
+            formula += " ".concat(effect);
+        }
+        return formula.trim();
+    }
+    return description;
+};
 var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (isSpellCard) {
         return "{{description=@{description}}}";
@@ -523,37 +553,6 @@ var updateAttributeModifier = function (_a) {
             setAttrs(update);
         });
     });
-};
-var getCreatureAttackRollFormula = function (isAttack, options) {
-    if (isAttack === void 0) { isAttack = false; }
-    if (options === void 0) { options = {
-        includeDamage: true,
-        includeDefense: true,
-        includeDice: true,
-        includeEffect: true
-    }; }
-    var dice = "{{dice=[[1d20+(@{modifier})+(?{TA/TD|0}[tactical bonus])]]}}";
-    var defense = "{{action=@{range} @{type}. @{modifier} vs @{defense} }}";
-    var damage = "{{damage=[Damage](~repeating_actions-roll_damage)}}";
-    var effect = "{{effect=[Effect](~repeating_actions-roll_effect)}}";
-    var description = "{{description=@{description}}}";
-    if (isAttack) {
-        var formula = "";
-        if (options.includeDice) {
-            formula += "".concat(dice);
-        }
-        if (options.includeDefense) {
-            formula += " ".concat(defense);
-        }
-        if (options.includeDamage) {
-            formula += " ".concat(damage);
-        }
-        if (options.includeEffect) {
-            formula += " ".concat(effect);
-        }
-        return formula.trim();
-    }
-    return description;
 };
 var updateCreatureAttackRollFormula = function (event) {
     var _a;
@@ -834,18 +833,6 @@ var processDataArrays = function (array, callback) {
     var map = parsed.map(function (e) { return callback(e); });
     return map === null || map === void 0 ? void 0 : map.reduce(function (acc, val) { return (__assign(__assign({}, acc), val)); });
 };
-var resetRepeatingRows = function (sections) {
-    sections.forEach(function (section) {
-        getSectionIDs("repeating_".concat(section), function (ids) {
-            ids.forEach(function (id) {
-                removeRepeatingRow("repeating_".concat(section, "_").concat(id));
-            });
-        });
-    });
-};
-var resetSkillList = function (npcSkills) {
-    console.log(npcSkills);
-};
 var roll20Attribute = function (attr, value) {
     if (attr === "attribute" && typeof value === "string") {
         return "@{".concat(createAttributeName(value), "}");
@@ -956,7 +943,6 @@ var handle_creature = function (page) {
     });
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
     var silent = hasDefenses ? true : false;
-    console.log(update);
     setDropAttrs(update, { silent: silent });
 };
 var handle_equipment = function (page) {
