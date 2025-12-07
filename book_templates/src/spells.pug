@@ -1,0 +1,40 @@
+listresult 
+    .template.grid.gap-2
+        .header.grid
+            h1.primary.font-h1 
+                |{{Name}}
+            i.font-base.third {{#source}} {{source}} {{/source}} {{#type}} {{type}}, {{/type}} {{#function}} {{function}}, {{/function}} {{#function_note}} {{function_note}} {{/function_note}}
+        .body.font-base.third.grid.gap-2
+            .grid
+                .grid.gap-4.grid-flow-col.auto-cols-min
+                    .grid.gap-2.grid-flow-col.auto-cols-min
+                        | {{#apc}}
+                        span.font-bold.capitalize apc:
+                        span.capitalize {{apc}} 
+                        | {{/apc}}
+                    .grid.gap-2.grid-flow-col.auto-cols-min
+                        | {{#spc}}
+                        span.font-bold.capitalize spc:
+                        span.capitalize {{spc}} 
+                        | {{/spc}}
+                each val in [ "arcane_power_level", "arcane_power_level_description", "casting_time",  "damage", "damage_type", "data-List", "divine_power_level", "divine_power_level_description", "duration",  "liturgy_apc", "liturgy_spc", "materials", "occult_power_level", "occult_power_level_description", "prerequisites", "primal_tier", "primal_tier_description", "range", "reactive", "recharge", "requires",]
+                    | {{##{val}}}
+                    .grid.gap-2.grid-flow-col.col-auto-fr
+                        span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
+                        span.capitalize {{#{val}}}  
+                    | {{/#{val}}} 
+
+            |{{#upcharge}}
+            .grid
+                .font-bold.capitalize upcharge
+                .font-base.third.grid
+                | {{upcharge}}
+            | {{/upcharge}}
+
+
+            |{{#description}}
+            .grid
+                .font-bold.capitalize description
+                .font-base.third.grid
+                | {{description}}
+            | {{/description}}

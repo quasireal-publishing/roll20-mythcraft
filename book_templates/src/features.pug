@@ -5,9 +5,9 @@ listresult
                 |{{Name}}
             i.font-base.third {{#tags}} {{tags}} {{/tags}}
         .body.font-base.third.grid
-            each val in ["ant", "apc", "ar", "attribute", "cost", "damage", "damage_type", "description", "dex_max", "fort", "log", "range", "ref", "resist", "size", "spd", "str_min", "subcategory", "type", "uses", "will"]
+            each val in ["incompatibilities", "lineage", "prerequisites", "profession", "repeatable"]
                 | {{##{val}}}
                 .grid.grid-flow-col.gap-2.col-auto-fr
                     span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
                     span.capitalize {{#{val}}}  
-                | {{/#{val}}} 
+                | {{/#{val}}}
