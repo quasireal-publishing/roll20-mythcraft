@@ -1,3 +1,5 @@
+@use "./colors.scss";
+
 $radius-2xl: 16px;
 $radius-3xl: 24px;
 $radius-4xl: 32px;
@@ -8,7 +10,7 @@ $radius-xl: 12px;
 $radius-xs: 2px;
 
 .border {
-  border: 1px solid $color-neutral-900;
+  border: 1px solid colors.$color-neutral-900;
 }
 .rounded-xs {
   border-radius: $radius-xs;

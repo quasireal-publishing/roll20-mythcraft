@@ -1,0 +1,50 @@
+@use "../branding.scss";
+
+@use "../tailwind/colors.scss";
+@use "../tailwind/spacing.scss";
+@use "../tailwind/typography.scss";
+@use "../tailwind/grid.scss";
+@use "../tailwind/border.scss";
+@use "../tailwind/visibility.scss";
+
+.template {
+  background-image: url(branding.$paper-background);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  border: 2px solid branding.$third;
+  border-radius: calc(4px * 2);
+  padding: spacing.$spacing-4;
+}
+
+.primary {
+  color: branding.$primary;
+}
+
+.secondary {
+  color: branding.$secondary;
+}
+
+.third {
+  color: branding.$third;
+}
+
+h1,
+h2,
+hr {
+  margin: 0; // Remove default margin
+}
+
+.col-auto-fr {
+  grid-template-columns: auto 1fr;
+}
+
+.circle {
+  background-color: branding.$secondary;
+  border-radius: 50%;
+  border: 3px solid branding.$third;
+  height: spacing.$spacing-14;
+  padding: spacing.$spacing-2;
+  width: spacing.$spacing-14;
+}

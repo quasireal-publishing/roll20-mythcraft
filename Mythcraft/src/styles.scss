@@ -3,66 +3,22 @@
 @import url("https://fonts.googleapis.com/css?family=Gideon+Roman&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap");
 
-// COLORS & OTHER VARIABLES
+// TAILWIND
 //  ============================= *
-@import "scss/tailwind/colors";
-@import "scss/tailwind/border";
-@import "scss/tailwind/flex";
-@import "scss/tailwind/grid";
-@import "scss/tailwind/height";
-@import "scss/tailwind/position";
-@import "scss/tailwind/shadow";
-@import "scss/tailwind/spacing";
-@import "scss/tailwind/typography";
-@import "scss/tailwind/width";
+@import "../../tailwind/colors";
+@import "../../tailwind/border";
+@import "../../tailwind/flex";
+@import "../../tailwind/grid";
+@import "../../tailwind/height";
+@import "../../tailwind/position";
+@import "../../tailwind/shadow";
+@import "../../tailwind/spacing";
+@import "../../tailwind/typography";
+@import "../../tailwind/width";
 
-//Customer Variables for branding
-$primary: rgb(23, 67, 69);
-$secondary: rgb(254, 235, 179);
-$third: rgb(44, 37, 34);
-$fourth: rgb(41, 135, 140);
-$fifth: rgb(252, 101, 67);
-$box-shadow: 2px 2px 3px 1px $color-neutral-500;
-
-// Normal Text: Tinos 11pt -> closest is $text-sm: 14px
-// H1: Gideon Roman, bold, 30pt -> closest is $text-2xl: 24px
-// H2: Josefin Sans 18pt -> closest is $text-2xl: 24px
-// H3: Tinos 16pt -> closest is $text-lg: 18px
-// H4: Josefin Sans, bold, 12 pt  -> closest is $text-base: 16px
-
-.font-base {
-  font-family: "Tinos";
-  font-size: $text-sm;
-  font-weight: $font-weight-normal;
-  line-height: $text-sm--line-height;
-}
-
-.font-h1 {
-  font-family: "Gideon Roman";
-  font-size: $text-4xl;
-  font-weight: $font-weight-bold;
-  line-height: $text-4xl--line-height;
-}
-
-.font-h2 {
-  font-family: "Josefin Sans";
-  font-size: $text-2xl;
-  font-weight: $font-weight-medium;
-  line-height: $text-2xl--line-height;
-}
-
-.font-h3 {
-  font-family: "Tinos";
-  font-size: $text-lg;
-  font-weight: $font-weight-medium;
-  line-height: $text-lg--line-height;
-}
-
-.font-h4 {
-  font-family: "Josefin Sans";
-  font-size: $text-base;
-  font-weight: $font-weight-bold;
-}
+// BRANDING
+//  ============================= *
+@import "../../branding.scss";
 
 //Override & restyle Roll20's default styling
 @import "scss/overrides";
