@@ -139,7 +139,7 @@ var defenses = [
 var initiative = ["initiative_base", "initiative_bonus", "awareness"];
 var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points", "initiative", "armor_rating"], false);
 var dropWarning = function (v) {
-    console.log("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
+    console.warn("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
 };
 var dropAttrs = ["drop_name", "drop_data", "drop_content"];
 var handle_drop = function () {
@@ -163,7 +163,6 @@ var handle_drop = function () {
         ];
         switch (Category) {
             case "Creatures":
-                resetRepeatingRows(repeatingSections);
                 handle_creature(page);
                 break;
             case "Conditions":
@@ -412,6 +411,24 @@ on("change:repeating_spells:toggle_attack", function (event) {
 on("change:repeating_actions:toggle_action_attack", function (event) {
     updateCreatureAttackRollFormula(event);
 });
+["damage", "effect", "toggle_action_attack"].forEach(function (attr) {
+    on("change:repeating_actions:".concat(attr), function (event) {
+        var sourceAttribute = event.sourceAttribute;
+        var row = getFieldsetRow(sourceAttribute);
+        getAttrs(["".concat(row, "_damage"), "".concat(row, "_effect"), "".concat(row, "_toggle_action_attack")], function (values) {
+            var _a;
+            var isAttack = values["".concat(row, "_toggle_action_attack")] === "on";
+            setAttrs((_a = {},
+                _a["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(isAttack, {
+                    includeDice: true,
+                    includeDefense: !!values["".concat(row, "_defense")],
+                    includeDamage: !!values["".concat(row, "_damage")],
+                    includeEffect: !!values["".concat(row, "_effect")]
+                }),
+                _a));
+        });
+    });
+});
 ["skills", "features", "actions", "reactions", "spells"].forEach(function (section) {
     on("change:section_".concat(section), function (event) {
         var newValue = event.newValue;
@@ -432,6 +449,37 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
         });
     });
 });
+var getCreatureAttackRollFormula = function (isAttack, options) {
+    if (isAttack === void 0) { isAttack = false; }
+    if (options === void 0) { options = {
+        includeDamage: true,
+        includeDefense: true,
+        includeDice: true,
+        includeEffect: true
+    }; }
+    var dice = "{{dice=[[1d20+(@{modifier})+(?{TA/TD|0}[tactical bonus])]]}}";
+    var defense = "{{action=@{range} @{type}. @{modifier} vs @{defense} }}";
+    var damage = "{{damage=[Damage](~repeating_actions-roll_damage)}}";
+    var effect = "{{effect=[Effect](~repeating_actions-roll_effect)}}";
+    var description = "{{description=@{description}}}";
+    if (isAttack) {
+        var formula = "";
+        if (options.includeDice) {
+            formula += "".concat(dice);
+        }
+        if (options.includeDefense) {
+            formula += " ".concat(defense);
+        }
+        if (options.includeDamage) {
+            formula += " ".concat(damage);
+        }
+        if (options.includeEffect) {
+            formula += " ".concat(effect);
+        }
+        return formula.trim();
+    }
+    return description;
+};
 var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (isSpellCard) {
         return "{{description=@{description}}}";
@@ -507,23 +555,31 @@ var updateAttributeModifier = function (_a) {
     });
 };
 var updateCreatureAttackRollFormula = function (event) {
-    var _a, _b;
+    var _a;
     var sourceAttribute = event.sourceAttribute, newValue = event.newValue, sourceType = event.sourceType;
     if (sourceType !== "player") {
         return;
     }
     var row = getFieldsetRow(sourceAttribute);
     var isAttack = newValue === "on";
-    if (isAttack) {
-        var update = (_a = {},
-            _a["".concat(row, "_roll_formula")] = "{{dice=[[1d20+(@{bonus})+(?{TA/TD|0}[tactical bonus])]]}} {{action=@{range} @{type}. @{bonus} vs @{defense} }} {{damage=[Damage](~repeating_actions-roll_damage)}}",
-            _a);
-        setAttrs(update);
+    if (!isAttack) {
+        setAttrs((_a = {},
+            _a["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(false),
+            _a));
         return;
     }
-    setAttrs((_b = {},
-        _b["".concat(row, "_roll_formula")] = "{{description=@{description}}}",
-        _b));
+    getAttrs(["".concat(row, "_damage")], function (values) {
+        var _a;
+        var hasDamage = values["".concat(row, "_damage")];
+        var attackRollFormula = getCreatureAttackRollFormula(true, {
+            includeDice: true,
+            includeDefense: true,
+            includeDamage: !!hasDamage
+        });
+        setAttrs((_a = {},
+            _a["".concat(row, "_roll_formula")] = attackRollFormula,
+            _a));
+    });
 };
 var updateCriticalFailRange = function (attributes) {
     getAttrs(attributes, function (values) {
@@ -777,18 +833,6 @@ var processDataArrays = function (array, callback) {
     var map = parsed.map(function (e) { return callback(e); });
     return map === null || map === void 0 ? void 0 : map.reduce(function (acc, val) { return (__assign(__assign({}, acc), val)); });
 };
-var resetRepeatingRows = function (sections) {
-    sections.forEach(function (section) {
-        getSectionIDs("repeating_".concat(section), function (ids) {
-            ids.forEach(function (id) {
-                removeRepeatingRow("repeating_".concat(section, "_").concat(id));
-            });
-        });
-    });
-};
-var resetSkillList = function (npcSkills) {
-    console.log(npcSkills);
-};
 var roll20Attribute = function (attr, value) {
     if (attr === "attribute" && typeof value === "string") {
         return "@{".concat(createAttributeName(value), "}");
@@ -826,34 +870,38 @@ var handle_conditions = function (page) {
 };
 var handle_creature = function (page) {
     var attrs = [
-        "name",
-        "description",
-        "level",
-        "size",
-        "strength",
-        "dexterity",
-        "endurance",
-        "awareness",
-        "intellect",
-        "charisma",
-        "reflexes",
-        "fortitude",
-        "anticipation",
-        "logic",
-        "willpower",
-        "hit_points",
-        "armor_rating",
-        "speed",
-        "dr",
-        "senses",
         "action_description",
-        "resist",
+        "anticipation",
+        "armor_rating",
+        "awareness",
+        "charisma",
+        "description",
+        "dexterity",
+        "dr",
+        "endurance",
+        "fortitude",
+        "hp",
         "immune",
-        "vulnerable",
+        "intellect",
+        "level",
+        "logic",
+        "name",
+        "reflexes",
+        "resist",
+        "senses",
+        "size",
+        "speed",
+        "strength",
+        "tags",
         "traits",
+        "vulnerable",
+        "willpower",
     ];
     var update = getUpdate(attrs, page);
     update.character_name = page.name;
+    update.sheet_type = "creature";
+    update.toggle_creature_setting = false;
+    update.toggle_edit_creature_edit = false;
     var creature_sections = [];
     var isDataArray = function (data) {
         return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
@@ -869,18 +917,33 @@ var handle_creature = function (page) {
             Object.assign(update, processed);
         }
     });
-    update.sheet_type = "creature";
     update.creature_sections = creature_sections.join(",");
-    update.toggle_creature_setting = false;
-    update.toggle_edit_creature_edit = false;
+    console.log("%c Creature Drop for ".concat(page.name), "color: orange;");
+    Object.entries(__assign({}, update)).forEach(function (_a) {
+        var key = _a[0], value = _a[1];
+        var row = getFieldsetRow(key);
+        if (key.endsWith("_defense")) {
+            update["".concat(row, "_toggle_action_attack")] = "on";
+            update["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(true, {
+                includeDice: true,
+                includeDefense: !!update["".concat(row, "_defense")],
+                includeDamage: !!update["".concat(row, "_damage")],
+                includeEffect: !!update["".concat(row, "_effect")]
+            });
+        }
+        if (key.endsWith("_modifier")) {
+            var int = parseInteger("".concat(value));
+            update["".concat(row, "_modifier")] = int > 0 ? "+".concat(int) : "".concat(int);
+        }
+        if (key.endsWith("_attribute")) {
+            update["".concat(row, "_attribute")] = "@{".concat(value, "}");
+            var abbr = getAttributeAbbreviation("".concat(value));
+            update["".concat(row, "_attribute_abbreviation")] = "(".concat(abbr, ")");
+        }
+    });
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
     var silent = hasDefenses ? true : false;
-    try {
-        setAttrs(update, { silent: silent });
-    }
-    catch (e) {
-        dropWarning("Error setting attributes for ".concat(page.name, ": ").concat(e));
-    }
+    setDropAttrs(update, { silent: silent });
 };
 var handle_equipment = function (page) {
     var attrs = ["name", "description", "cost", "tags"];

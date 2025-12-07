@@ -241,6 +241,28 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
   updateCreatureAttackRollFormula(event);
 });
 
+["damage", "effect", "toggle_action_attack"].forEach((attr) => {
+  on(`change:repeating_actions:${attr}`, (event) => {
+    const { sourceAttribute } = event;
+    const row = getFieldsetRow(sourceAttribute);
+
+    getAttrs(
+      [`${row}_damage`, `${row}_effect`, `${row}_toggle_action_attack`],
+      (values) => {
+        const isAttack = values[`${row}_toggle_action_attack`] === "on";
+        setAttrs({
+          [`${row}_roll_formula`]: getCreatureAttackRollFormula(isAttack, {
+            includeDice: true,
+            includeDefense: !!values[`${row}_defense`],
+            includeDamage: !!values[`${row}_damage`],
+            includeEffect: !!values[`${row}_effect`],
+          }),
+        });
+      }
+    );
+  });
+});
+
 ["skills", "features", "actions", "reactions", "spells"].forEach((section) => {
   on(`change:section_${section}`, (event) => {
     const { newValue } = event;

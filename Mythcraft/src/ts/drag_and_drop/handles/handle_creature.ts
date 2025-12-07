@@ -2,35 +2,39 @@ const handle_creature = (page: CompendiumAttributes) => {
   //This will only handle top level attributes, not repeating sections (arrays with objects)
   //Add more attributes as needed.
   const attrs = [
-    "name",
-    "description",
-    "level",
-    "size",
-    "strength",
-    "dexterity",
-    "endurance",
-    "awareness",
-    "intellect",
-    "charisma",
-    "reflexes",
-    "fortitude",
-    "anticipation",
-    "logic",
-    "willpower",
-    "hit_points",
-    "armor_rating",
-    "speed",
-    "dr",
-    "senses",
     "action_description",
-    "resist",
+    "anticipation",
+    "armor_rating",
+    "awareness",
+    "charisma",
+    "description",
+    "dexterity",
+    "dr",
+    "endurance",
+    "fortitude",
+    "hp",
     "immune",
-    "vulnerable",
+    "intellect",
+    "level",
+    "logic",
+    "name",
+    "reflexes",
+    "resist",
+    "senses",
+    "size",
+    "speed",
+    "strength",
+    "tags",
     "traits",
+    "vulnerable",
+    "willpower",
   ];
   const update = getUpdate(attrs, page);
 
   update.character_name = page.name;
+  update.sheet_type = "creature";
+  update.toggle_creature_setting = false;
+  update.toggle_edit_creature_edit = false;
 
   const creature_sections: string[] = [];
 
@@ -52,18 +56,41 @@ const handle_creature = (page: CompendiumAttributes) => {
     }
   });
 
-  update.sheet_type = "creature";
   update.creature_sections = creature_sections.join(",");
-  update.toggle_creature_setting = false;
-  update.toggle_edit_creature_edit = false;
+
+  console.log(`%c Creature Drop for ${page.name}`, "color: orange;");
+
+  //Skills & Attacks need special handling
+  Object.entries({ ...update }).forEach(([key, value]) => {
+    const row = getFieldsetRow(key);
+
+    if (key.endsWith("_defense")) {
+      update[`${row}_toggle_action_attack`] = "on";
+
+      update[`${row}_roll_formula`] = getCreatureAttackRollFormula(true, {
+        includeDice: true,
+        includeDefense: !!update[`${row}_defense`],
+        includeDamage: !!update[`${row}_damage`],
+        includeEffect: !!update[`${row}_effect`],
+      });
+    }
+
+    if (key.endsWith("_modifier")) {
+      const int = parseInteger(`${value}`);
+      update[`${row}_modifier`] = int > 0 ? `+${int}` : `${int}`;
+    }
+
+    if (key.endsWith("_attribute")) {
+      update[`${row}_attribute`] = `@{${value}}`;
+
+      const abbr = getAttributeAbbreviation(`${value}`);
+      update[`${row}_attribute_abbreviation`] = `(${abbr})`;
+    }
+  });
 
   //Familiars do not have the derived attributes so the sheetworkers need to calculate them
   const hasDefenses = defenses.some((attr) => page.data[attr]);
   const silent = hasDefenses ? true : false;
 
-  try {
-    setAttrs(update, { silent });
-  } catch (e) {
-    dropWarning(`Error setting attributes for ${page.name}: ${e}`);
-  }
+  setDropAttrs(update, { silent });
 };
