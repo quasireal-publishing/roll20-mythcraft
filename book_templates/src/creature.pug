@@ -47,9 +47,7 @@ listresult
 
                 |{{!skills}}
                 .grid
-                    |{{[Name]}}
-                    span ({{[Attribute]}})
-                    span +{{[Modifier]}}
+                    span {{[name]}} ({{[attribute]}}) +{{[modifier]}}
                 | {{/skills}}
             | {{/skills}}
 
@@ -59,8 +57,10 @@ listresult
                 h2.uppercase.primary.text-center features
 
                 |{{!features}}
-                .grid
-                    |{{[Name]}}
+                .grid.gap-1
+                    span 
+                        strong {{[name]}}. 
+                        | {{[description]}}
                 | {{/features}}
             | {{/features}}
 
@@ -74,11 +74,44 @@ listresult
                     |{{action_description}}
                 |{{/action_description}}
 
-                |{{!actions}}
-                span.font-bold.capitalize {{[Name]}}
-                span.capitalize 
-                |{{/actions}}
-            
+                .grid.gap-1
+                    |{{!actions}}
+                    p
+                        strong {{[name]}}. 
+
+                        |{{[#range]}}
+                        em {{[range]}}
+                        |{{[/range]}}
+
+                        |{{[#type]}}
+                        em {{[type]}}.
+                        |{{[/type]}}
+
+                        |{{[#modifier]}}
+                        span  +{{[modifier]}} vs 
+                        |{{[/modifier]}}
+
+                        |{{[#defense]}}
+                        span {{[defense]}}.
+                        |{{[/defense]}}
+                        
+                        | {{[#damage_average]}}
+                        span {{[damage_average]}}
+                        | {{[/damage_average]}}
+
+                        | {{[#damage]}}
+                        span ({{[damage]}})
+                        | {{[/damage]}}
+
+                        | {{[#damage_type]}}
+                        span {{[damage_type]}}
+                        | {{[/damage_type]}}
+
+                        | {{[#effect]}}
+                        span {{[effect]}}
+                        | {{[/effect]}}
+
+                    | {{/actions}}
             | {{/actions}}
                 
             | {{#reactions}}
@@ -87,15 +120,16 @@ listresult
 
                 |{{!reactions}}
                 .grid
-                    |{{[Name]}}
+                    strong {{[name]}}
+                    span {{[description]}}
                 | {{/reactions}}
             | {{/reactions}}
 
 
 
-            each val in ["data-List",  "dr", "dt",  ]
-                | {{##{val}}}
-                .grid.grid-flow-col.gap-2.col-auto-fr
-                    span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
-                    span.capitalize {{#{val}}}  
-                | {{/#{val}}} 
+        each val in ["data-List",  "dr", "dt",  ]
+            | {{##{val}}}
+            .grid.grid-flow-col.gap-2.col-auto-fr
+                span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
+                span.capitalize {{#{val}}}  
+            | {{/#{val}}} 
