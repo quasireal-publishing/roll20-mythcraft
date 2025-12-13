@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "run-p --race  \"build:pug -- -w\" \"build:sass -- --watch\"",
     "build": "run-p --race build:pug build:sass",
-    "build:pug": "pug -o . ./src",
+    "build:pug": "pug -o ./html ./src",
     "build:sass": "sass --no-source-map --style compressed ./styles.scss ./styles.css"
   },
   "repository": {

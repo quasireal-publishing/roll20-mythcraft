@@ -17,12 +17,13 @@ listresult
                         span.font-bold.capitalize spc:
                         span.capitalize {{spc}} 
                         | {{/spc}}
-                each val in [ "arcane_power_level", "arcane_power_level_description", "casting_time",  "damage", "damage_type", "data-List", "divine_power_level", "divine_power_level_description", "duration",  "liturgy_apc", "liturgy_spc", "materials", "occult_power_level", "occult_power_level_description", "prerequisites", "primal_tier", "primal_tier_description", "range", "reactive", "recharge", "requires",]
+                each val in [  "casting_time",  "damage", "damage_type", "duration",  "liturgy_apc", "liturgy_spc", "materials",  "prerequisites", "range", "reactive", "recharge", "requires",]
                     | {{##{val}}}
                     .grid.gap-2.grid-flow-col.col-auto-fr
                         span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
                         span.capitalize {{#{val}}}  
                     | {{/#{val}}} 
+
 
             |{{#upcharge}}
             .grid
@@ -34,7 +35,26 @@ listresult
 
             |{{#description}}
             .grid
-                .font-bold.capitalize description
                 .font-base.third.grid
                 | {{description}}
             | {{/description}}
+
+            each val in ['divine', 'arcane', 'occult', 'primal']
+                | {{##{val}_power_level_description}}
+                .grid
+                    .font-base.third.grid
+                    em {{#{val}_power_level_description}}
+                |{{/#{val}_power_level_description}}
+
+                |{{##{val}_power_level}}
+                .grid
+                    .font-base.third.grid
+                    | {{!#{val}_power_level}}
+                    em
+                        strong #{val.charAt(0).toUpperCase() + val.slice(1)} Power {{[level]}}: 
+                        span {{[description]}}
+                    | {{/#{val}_power_level}} 
+                | {{/#{val}_power_level}}
+
+
+
