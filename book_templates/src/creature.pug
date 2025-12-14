@@ -13,32 +13,33 @@ listresult
             i.font-base.third {{#level}} Monster Level: {{level}} {{/level}}
             i.font-base.third.capitalize {{#size}} {{size}}. {{/size}} {{#tags}} {{tags}} {{/tags}}
         .body.font-base.third.grid.gap-4
-            .grid.gap-2
-                .attributes.grid.grid-flow-col.gap-2.w-full.h-full.auto-cols-min.justify-around
-                    -const coreAttributes = ["strength", "dexterity", "endurance", "awareness", "intellect", "charisma"];
-                    each val in coreAttributes
-                        .grid.justify-center.items-center
-                            .circle.rounded-full.border.grid.justify-center.items-center.font-bold
-                                span.uppercase.text-center #{val.slice(0, 3)}
-                                span.text-center {{##{val}}} {{#{val}}} {{/#{val}}}
-                    - const derivedAttributes = ['reflexes', 'fortitude', 'anticipation', 'logic', 'willpower'];
-                .derived.grid.grid-flow-col.gap-2.w-full.h-full.auto-cols-min.justify-around
-                    .circle.invisible
-                    each val in derivedAttributes
-                        .grid.justify-center.items-center
-                            .circle.rounded-full.border.grid.justify-center.items-center.font-bold
-                                -const shortNames =  val === "luck" ? val : val.slice(0, 3);
-                                span.uppercase.text-center #{shortNames}
-                                span.text-center {{##{val}}} {{#{val}}} {{/#{val}}}
+            .attributes.grid.grid-flow-col.gap-2.w-full.h-full.auto-cols-min.justify-around
+                -const coreAttributes = [["strength", null], ["dexterity", "reflexes"], ["endurance", "fortitude"], ["awareness", "anticipation"], ["intellect", "logic"], ["charisma", "willpower"]];
+                each val in coreAttributes
+                    - const abr = val === "awareness" ? "AWR" : val[0].slice(0, 3).toUpperCase();
+                    - const [attr, derivedAttr] = val;
+                    .grid.gap-2.justify-center.items-start.auto-rows-min
+                        .grid.justify-center.items-center.font-bold
+                            span.uppercase.text-center #{abr}
+                            span.text-center {{##{attr}}} {{#{attr}}} {{/#{attr}}}
+    
+                        .grid.grid-flow-col.gap-1.justify-center.items-center.font-bold
+                            if derivedAttr
+                                - const shortNames = derivedAttr.slice(0, 3);
+                                span.capitalize.text-center #{shortNames}:
+                                span.text-center {{##{derivedAttr}}} {{#{derivedAttr}}} {{/#{derivedAttr}}}                  
             .stats.grid.grid-flow-col.gap-2.w-full.h-full 
                 .armor.grid.w-full.h-full.content-start
                     each val in ["armor_rating", "hp", "speed"]
                         +statLabel(val)
-                .resist.grid.w-full.h-full.content-start
-                    .grid.gap-2.grid-flow-col.items-center.auto-cols-max
+                .resist.grid.grid-gap-2.w-full.h-full.content-start
+                    .resist.grid.gap-2.grid-flow-col.items-center.auto-cols-max
                         each val in ["resist", "immune"]
                             +statLabel(val)
-                    each val in ["vulnerable",  "senses",  "traits"]
+                    .vulnerable.grid.gap-2.grid-flow-col.items-center.auto-cols-max
+                        each val in ["vulnerable", "dr"]
+                            +statLabel(val)
+                    each val in [ "senses",  "traits"]
                         +statLabel(val)
 
             | {{#skills}}

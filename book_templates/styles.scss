@@ -4,6 +4,7 @@
 @use "../tailwind/spacing.scss";
 @use "../tailwind/typography.scss";
 @use "../tailwind/grid.scss";
+@use "../tailwind/flex.scss";
 @use "../tailwind/border.scss";
 @use "../tailwind/visibility.scss";
 
@@ -41,11 +42,19 @@ p {
   grid-template-columns: auto 1fr;
 }
 
-.circle {
-  background-color: branding.$secondary;
-  border-radius: 50%;
-  border: 3px solid branding.$third;
-  height: spacing.$spacing-14;
-  padding: spacing.$spacing-2;
-  width: spacing.$spacing-14;
+.inapp {
+  .template {
+    padding: spacing.$spacing-2;
+    max-width: 305px;
+  }
+
+  .attributes {
+    grid-template-columns: repeat(3, auto);
+  }
+
+  .vulnerable,
+  .resist {
+    grid-auto-flow: row;
+    gap: 0;
+  }
 }
