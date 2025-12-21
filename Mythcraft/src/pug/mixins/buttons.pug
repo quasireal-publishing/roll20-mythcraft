@@ -44,7 +44,7 @@ mixin repeatingChatIconButton(name)
 		span.pictos q
 
 mixin repeatingChatButton(name)
-	button.text-left.chat(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{description=@{description}}}`)
+	button.text-left.ellipsis.chat(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{description=@{description}}}`)
 		span(name='attr_name')
 
 
