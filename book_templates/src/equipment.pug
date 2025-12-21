@@ -3,7 +3,7 @@
         h1.primary.font-h1 
             |{{Name}}
         i.font-base.third {{#tags}} {{tags}} {{/tags}}
-    .body.font-base.third.grid
+    .body.font-base.third.grid.gap-2
         .grid
             each val in ["ant", "apc", "ar", "attribute", "cost", "damage", "damage_type", "dex_max", "fort", "log", "range", "ref", "resist", "size", "spd", "str_min", "subcategory", "type", "uses", "will"]
                 | {{##{val}}}
@@ -11,7 +11,7 @@
                     span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
                     span.capitalize {{#{val}}}  
                 | {{/#{val}}}
-                
+
         |{{#description}}
         .grid
             .font-bold.capitalize description

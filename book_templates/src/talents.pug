@@ -5,7 +5,7 @@
         i.font-base.third {{#tags}} {{tags}} {{/tags}}
     .body.font-base.third.grid.gap-2
         .grid
-            each val in ["ap", "incompatibilities", "prerequisites", "reactive", "repeatable", "source","stack", "tags", "track"]
+            each val in ["ap", "incompatibilities", "prerequisites", "reactive", "repeatable", "source","stack", "track"]
                 | {{##{val}}}
                 .grid.grid-flow-col.gap-2.col-auto-fr
                     span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
