@@ -1,13 +1,12 @@
-listresult 
-    .template.grid.gap-2
-        .header.grid
-            h1.primary.font-h1 
-                |{{Name}}
-            i.font-base.third {{#tags}} {{tags}} {{/tags}}
-        .body.font-base.third.grid
-            each val in ["incompatibilities", "lineage", "prerequisites", "profession", "repeatable"]
-                | {{##{val}}}
-                .grid.grid-flow-col.gap-2.col-auto-fr
-                    span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
-                    span.capitalize {{#{val}}}  
-                | {{/#{val}}}
+.template.grid.gap-2
+    .header.grid
+        h1.primary.font-h1 
+            |{{Name}}
+        i.font-base.third {{#tags}} {{tags}} {{/tags}}
+    .body.font-base.third.grid
+        each val in ["incompatibilities", "lineage", "prerequisites", "profession", "repeatable"]
+            | {{##{val}}}
+            .grid.grid-flow-col.gap-2.col-auto-fr
+                span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
+                span.capitalize {{#{val}}}  
+            | {{/#{val}}}

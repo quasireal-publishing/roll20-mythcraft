@@ -1,21 +1,20 @@
-listresult 
-    .template.grid.gap-2
-        .header.grid
-            h1.primary.font-h1 
-                |{{Name}}
-            i.font-base.third {{#tags}} {{tags}} {{/tags}}
-        .body.font-base.third.grid.gap-2
-            .grid
-                each val in ["occupation"]
-                    | {{##{val}}}
-                    .grid.grid-flow-col.gap-2.col-auto-fr
-                        span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
-                        span.capitalize {{#{val}}}  
-                    | {{/#{val}}} 
-            
-            |{{#description}}
-            .grid
-                .font-bold.capitalize description
-                .font-base.third.grid
-                | {{description}}
-            | {{/description}}
+.template.grid.gap-2
+    .header.grid
+        h1.primary.font-h1 
+            |{{Name}}
+        i.font-base.third {{#tags}} {{tags}} {{/tags}}
+    .body.font-base.third.grid.gap-2
+        .grid
+            each val in ["occupation"]
+                | {{##{val}}}
+                .grid.grid-flow-col.gap-2.col-auto-fr
+                    span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
+                    span.capitalize {{#{val}}}  
+                | {{/#{val}}} 
+        
+        |{{#description}}
+        .grid
+            .font-bold.capitalize description
+            .font-base.third.grid
+            | {{description}}
+        | {{/description}}

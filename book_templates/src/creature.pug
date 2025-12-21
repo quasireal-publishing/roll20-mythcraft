@@ -5,132 +5,132 @@ mixin statLabel(name)
         span.capitalize {{#{name}}}  
     | {{/#{name}}}
 
-listresult 
-    .creature.template.grid.gap-2
-        .header.grid
-            h1.primary.font-h1 
-                |{{Name}}
-            i.font-base.third {{#level}} Monster Level: {{level}} {{/level}}
-            i.font-base.third.capitalize {{#size}} {{size}}. {{/size}} {{#tags}} {{tags}} {{/tags}}
-        .body.font-base.third.grid.gap-4
-            .attributes.grid.grid-flow-col.gap-2.w-full.h-full.auto-cols-min.justify-around
-                -const coreAttributes = [["strength", null], ["dexterity", "reflexes"], ["endurance", "fortitude"], ["awareness", "anticipation"], ["intellect", "logic"], ["charisma", "willpower"]];
-                each val in coreAttributes
-                    - const abr = val === "awareness" ? "AWR" : val[0].slice(0, 3).toUpperCase();
-                    - const [attr, derivedAttr] = val;
-                    .grid.gap-2.justify-center.items-start.auto-rows-min
-                        .grid.justify-center.items-center.font-bold
-                            span.uppercase.text-center #{abr}
-                            span.text-center {{##{attr}}} {{#{attr}}} {{/#{attr}}}
-    
-                        .grid.grid-flow-col.gap-1.justify-center.items-center.font-bold
-                            if derivedAttr
-                                - const shortNames = derivedAttr.slice(0, 3);
-                                span.capitalize.text-center #{shortNames}:
-                                span.text-center {{##{derivedAttr}}} {{#{derivedAttr}}} {{/#{derivedAttr}}}                  
-            .stats.grid.grid-flow-col.gap-2.w-full.h-full 
-                .armor.grid.w-full.h-full.content-start
-                    each val in ["armor_rating", "hp", "speed"]
-                        +statLabel(val)
-                .resist.grid.grid-gap-2.w-full.h-full.content-start
-                    .resist.grid.gap-2.grid-flow-col.items-center.auto-cols-max
-                        each val in ["resist", "immune"]
-                            +statLabel(val)
-                    .vulnerable.grid.gap-2.grid-flow-col.items-center.auto-cols-max
-                        each val in ["vulnerable", "dr"]
-                            +statLabel(val)
-                    each val in [ "senses",  "traits"]
-                        +statLabel(val)
 
-            | {{#skills}}
-            .grid.gap-2.w-full.h-full
-                h2.uppercase.primary.text-center skills
+.creature.template.grid.gap-2
+    .header.grid
+        h1.primary.font-h1 
+            |{{Name}}
+        i.font-base.third {{#level}} Monster Level: {{level}} {{/level}}
+        i.font-base.third.capitalize {{#size}} {{size}}. {{/size}} {{#tags}} {{tags}} {{/tags}}
+    .body.font-base.third.grid.gap-4
+        .attributes.grid.grid-flow-col.gap-2.w-full.h-full.auto-cols-min.justify-around
+            -const coreAttributes = [["strength", null], ["dexterity", "reflexes"], ["endurance", "fortitude"], ["awareness", "anticipation"], ["intellect", "logic"], ["charisma", "willpower"]];
+            each val in coreAttributes
+                - const abr = val === "awareness" ? "AWR" : val[0].slice(0, 3).toUpperCase();
+                - const [attr, derivedAttr] = val;
+                .grid.gap-2.justify-center.items-start.auto-rows-min
+                    .grid.justify-center.items-center.font-bold
+                        span.uppercase.text-center #{abr}
+                        span.text-center {{##{attr}}} {{#{attr}}} {{/#{attr}}}
 
-                |{{!skills}}
-                .grid
-                    span {{[name]}} ({{[attribute]}}) +{{[modifier]}}
-                | {{/skills}}
+                    .grid.grid-flow-col.gap-1.justify-center.items-center.font-bold
+                        if derivedAttr
+                            - const shortNames = derivedAttr.slice(0, 3);
+                            span.capitalize.text-center #{shortNames}:
+                            span.text-center {{##{derivedAttr}}} {{#{derivedAttr}}} {{/#{derivedAttr}}}                  
+        .stats.grid.grid-flow-col.gap-2.w-full.h-full 
+            .armor.grid.w-full.h-full.content-start
+                each val in ["armor_rating", "hp", "speed"]
+                    +statLabel(val)
+            .resist.grid.grid-gap-2.w-full.h-full.content-start
+                .resist.grid.gap-2.grid-flow-col.items-center.auto-cols-max
+                    each val in ["resist", "immune"]
+                        +statLabel(val)
+                .vulnerable.grid.gap-2.grid-flow-col.items-center.auto-cols-max
+                    each val in ["vulnerable", "dr"]
+                        +statLabel(val)
+                each val in [ "senses",  "traits"]
+                    +statLabel(val)
+
+        | {{#skills}}
+        .grid.gap-2.w-full.h-full
+            h2.uppercase.primary.text-center skills
+
+            |{{!skills}}
+            .grid
+                span {{[name]}} ({{[attribute]}}) +{{[modifier]}}
             | {{/skills}}
+        | {{/skills}}
 
 
-            | {{#features}}
-            .grid.gap-2.w-full.h-full
-                h2.uppercase.primary.text-center features
+        | {{#features}}
+        .grid.gap-2.w-full.h-full
+            h2.uppercase.primary.text-center features
 
-                |{{!features}}
-                .grid.gap-1
-                    span 
-                        strong {{[name]}}. 
-                        | {{[description]}}
-                | {{/features}}
+            |{{!features}}
+            .grid.gap-1
+                span 
+                    strong {{[name]}}. 
+                    | {{[description]}}
             | {{/features}}
+        | {{/features}}
 
 
-            | {{#actions}}
-            .grid.gap-2.w-full.h-full
-                h2.uppercase.primary.text-center actions
+        | {{#actions}}
+        .grid.gap-2.w-full.h-full
+            h2.uppercase.primary.text-center actions
 
-                |{{#action_description}}
-                .grid
-                    |{{action_description}}
-                |{{/action_description}}
+            |{{#action_description}}
+            .grid
+                |{{action_description}}
+            |{{/action_description}}
 
-                .grid.gap-1
-                    |{{!actions}}
-                    p
-                        strong {{[name]}}. 
+            .grid.gap-1
+                |{{!actions}}
+                p
+                    strong {{[name]}}. 
 
-                        |{{[#range]}}
-                        em {{[range]}}
-                        |{{[/range]}}
+                    |{{[#range]}}
+                    em {{[range]}}
+                    |{{[/range]}}
 
-                        |{{[#type]}}
-                        em {{[type]}}.
-                        |{{[/type]}}
+                    |{{[#type]}}
+                    em {{[type]}}.
+                    |{{[/type]}}
 
-                        |{{[#modifier]}}
-                        span  +{{[modifier]}} vs 
-                        |{{[/modifier]}}
+                    |{{[#modifier]}}
+                    span  +{{[modifier]}} vs 
+                    |{{[/modifier]}}
 
-                        |{{[#defense]}}
-                        span {{[defense]}}.
-                        |{{[/defense]}}
-                        
-                        | {{[#damage_average]}}
-                        span {{[damage_average]}}
-                        | {{[/damage_average]}}
+                    |{{[#defense]}}
+                    span {{[defense]}}.
+                    |{{[/defense]}}
+                    
+                    | {{[#damage_average]}}
+                    span {{[damage_average]}}
+                    | {{[/damage_average]}}
 
-                        | {{[#damage]}}
-                        span ({{[damage]}})
-                        | {{[/damage]}}
+                    | {{[#damage]}}
+                    span ({{[damage]}})
+                    | {{[/damage]}}
 
-                        | {{[#damage_type]}}
-                        span {{[damage_type]}}
-                        | {{[/damage_type]}}
+                    | {{[#damage_type]}}
+                    span {{[damage_type]}}
+                    | {{[/damage_type]}}
 
-                        | {{[#effect]}}
-                        span {{[effect]}}
-                        | {{[/effect]}}
+                    | {{[#effect]}}
+                    span {{[effect]}}
+                    | {{[/effect]}}
 
-                    | {{/actions}}
-            | {{/actions}}
-                
-            | {{#reactions}}
-            .grid.gap-2.w-full.h-full
-                h2.uppercase.primary.text-center reactions
+                | {{/actions}}
+        | {{/actions}}
+            
+        | {{#reactions}}
+        .grid.gap-2.w-full.h-full
+            h2.uppercase.primary.text-center reactions
 
-                |{{!reactions}}
-                .grid
-                    strong {{[name]}}
-                    span {{[description]}}
-                | {{/reactions}}
+            |{{!reactions}}
+            .grid
+                strong {{[name]}}
+                span {{[description]}}
             | {{/reactions}}
+        | {{/reactions}}
 
 
 
-        each val in ["data-List",  "dr", "dt",  ]
-            | {{##{val}}}
-            .grid.grid-flow-col.gap-2.col-auto-fr
-                span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
-                span.capitalize {{#{val}}}  
-            | {{/#{val}}} 
+    each val in ["data-List",  "dr", "dt",  ]
+        | {{##{val}}}
+        .grid.grid-flow-col.gap-2.col-auto-fr
+            span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
+            span.capitalize {{#{val}}}  
+        | {{/#{val}}} 
