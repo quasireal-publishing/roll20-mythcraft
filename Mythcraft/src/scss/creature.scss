@@ -133,6 +133,12 @@
     }
   }
 
+  textarea[name="attr_action_description"],
+  textarea[name="attr_skill_description"] {
+    height: $spacing-20;
+    white-space: pre-wrap;
+  }
+
   .actions {
     p > span:empty,
     p > button[type="roll"][name="roll_damage"]:has(span:empty) {
@@ -141,11 +147,6 @@
 
     span.or {
       display: none;
-    }
-
-    textarea[name="attr_action_description"] {
-      height: $spacing-20;
-      white-space: pre-wrap;
     }
 
     span[name="attr_action_description"] {

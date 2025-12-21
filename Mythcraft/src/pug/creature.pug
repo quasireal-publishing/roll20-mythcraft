@@ -78,6 +78,11 @@
 				label.switch(data-i18n-title="toggle skills")
 					input(type="checkbox" name="attr_section_skills")
 					span.slider
+			.display-mode.mb-2
+				i
+					span(name='attr_skill_description')
+			.inputs
+				textarea(name='attr_skill_description' title='@{skill_description}')
 			+repeatingSkills(true)(class="repeating_skills")
 
 		.grid.items-center.section-features
