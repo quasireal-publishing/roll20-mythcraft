@@ -5,18 +5,18 @@
         i.font-base.third {{#source}} {{source}} {{/source}} {{#type}} {{type}}, {{/type}} {{#function}} {{function}}, {{/function}} {{#function_note}} {{function_note}} {{/function_note}}
     .body.font-base.third.grid.gap-2
         .grid
-            .grid.gap-4.grid-flow-col.auto-cols-min
-                .grid.gap-2.grid-flow-col.auto-cols-min
-                    | {{#apc}}
-                    span.font-bold.capitalize apc:
-                    span.capitalize {{apc}} 
-                    | {{/apc}}
-                .grid.gap-2.grid-flow-col.auto-cols-min
-                    | {{#spc}}
-                    span.font-bold.capitalize spc:
-                    span.capitalize {{spc}} 
-                    | {{/spc}}
-            each val in [  "casting_time",  "damage", "damage_type", "duration",  "liturgy_apc", "liturgy_spc", "materials",  "prerequisites", "range", "reactive", "recharge", "requires",]
+            //- .grid.gap-4.grid-flow-col.auto-cols-min
+            //-     .grid.gap-2.grid-flow-col.auto-cols-min
+            //-         | {{#apc}}
+            //-         span.font-bold.capitalize apc:
+            //-         span.capitalize {{apc}} 
+            //-         | {{/apc}}
+            //-     .grid.gap-2.grid-flow-col.auto-cols-min
+            //-         | {{#spc}}
+            //-         span.font-bold.capitalize spc:
+            //-         span.capitalize {{spc}} 
+            //-         | {{/spc}}
+            each val in [ "apc", "spc", "casting_time",  "damage", "damage_type", "duration",  "liturgy_apc", "liturgy_spc", "materials",  "prerequisites", "range", "reactive", "recharge", "requires",]
                 | {{##{val}}}
                 .grid.gap-2.grid-flow-col.col-auto-fr
                     span.font-bold.capitalize #{val.replace(/_/g, ' ')}:

@@ -45,11 +45,13 @@ mixin statLabel(name)
         | {{#skills}}
         .grid.gap-2.w-full.h-full
             h2.uppercase.primary.text-center skills
-
-            |{{!skills}}
-            .grid
-                span {{[name]}} ({{[attribute]}}) +{{[modifier]}}
-            | {{/skills}}
+            div
+                |{{!skills}}
+                span.mr-2 
+                    span.font-bold {{[name]}} 
+                    |({{[attribute]}}) 
+                    | +{{[modifier]}},
+                    | {{/skills}}
         | {{/skills}}
 
 
