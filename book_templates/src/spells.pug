@@ -5,17 +5,6 @@
         i.font-base.third {{#source}} {{source}} {{/source}} {{#type}} {{type}}, {{/type}} {{#function}} {{function}}, {{/function}} {{#function_note}} {{function_note}} {{/function_note}}
     .body.font-base.third.grid.gap-2
         .grid
-            //- .grid.gap-4.grid-flow-col.auto-cols-min
-            //-     .grid.gap-2.grid-flow-col.auto-cols-min
-            //-         | {{#apc}}
-            //-         span.font-bold.capitalize apc:
-            //-         span.capitalize {{apc}} 
-            //-         | {{/apc}}
-            //-     .grid.gap-2.grid-flow-col.auto-cols-min
-            //-         | {{#spc}}
-            //-         span.font-bold.capitalize spc:
-            //-         span.capitalize {{spc}} 
-            //-         | {{/spc}}
             each val in [ "apc", "spc", "casting_time",  "damage", "damage_type", "duration",  "liturgy_apc", "liturgy_spc", "materials",  "prerequisites", "range", "reactive", "recharge", "requires",]
                 | {{##{val}}}
                 .grid.gap-2.grid-flow-col.col-auto-fr
@@ -24,36 +13,31 @@
                 | {{/#{val}}} 
 
 
-        |{{#upcharge}}
+        each val in ["upcharge", "description"]
+            |{{##{val}}}
+            .grid
+                .font-bold.capitalize #{val}
+                .font-base.third.grid
+                | {{#{val}}}
+            | {{/#{val}}} 
+
+
+        | {{#power_level_description}}
         .grid
-            .font-bold.capitalize upcharge
-            .font-base.third.grid
-            | {{upcharge}}
-        | {{/upcharge}}
-
-
-        |{{#description}}
-        .grid
-            .font-base.third.grid
-            | {{description}}
-        | {{/description}}
-
-        each val in ['divine', 'arcane', 'occult', 'primal']
-            | {{##{val}_power_level_description}}
             .grid
                 .font-base.third.grid
-                em {{#{val}_power_level_description}}
-            |{{/#{val}_power_level_description}}
-
-            |{{##{val}_power_level}}
+                em {{power_level_description}}
+            | {{#power_level}}
             .grid
                 .font-base.third.grid
-                | {{!#{val}_power_level}}
+                | {{!power_level}}
                 em
-                    strong #{val.charAt(0).toUpperCase() + val.slice(1)} Power {{[level]}}: 
+                    strong {{power_level_descriptor}} {{[level]}}: 
                     span {{[description]}}
-                | {{/#{val}_power_level}} 
-            | {{/#{val}_power_level}}
+                | {{/power_level}} 
+            | {{/power_level}}
+        | {{/power_level_description}}
+
 
 
 
