@@ -107,42 +107,7 @@ const handle_creature = (page: CompendiumAttributes) => {
     bar1_value: hp,
     bar1_max: hp,
     bar2_value: armorRating,
-    height: 70,
-    width: 70,
   };
 
-  if (page.data["size"]) {
-    const sizeMap: { [key: string]: number } = {
-      fine: 20,
-      diminutive: 28,
-      tiny: 35,
-      small: 50,
-      medium: 70,
-      large: 140,
-      huge: 210,
-      gargantuan: 280,
-      colossal: 350,
-      titan: 420,
-    };
-
-    const sizeKey = Object.keys(sizeMap).find((key) =>
-      page.data["size"].toLowerCase().includes(key)
-    );
-    const sizeValue = sizeKey ? sizeMap[sizeKey] : undefined;
-    if (sizeValue) {
-      tokenDefaults.width = sizeValue;
-      tokenDefaults.height = sizeValue;
-    }
-  }
-
-  Object.entries(tokenDefaults).forEach(([key, value]) => {
-    if (typeof value === "boolean") {
-      console.warn(
-        `Token default ${key} is a boolean. Setting to 0.`,
-        "color: orange; font-weight:bold"
-      );
-    }
-  });
-
-  setDefaultToken(tokenDefaults);
+  updateDefaultToken(tokenDefaults, page.data["size"]);
 };

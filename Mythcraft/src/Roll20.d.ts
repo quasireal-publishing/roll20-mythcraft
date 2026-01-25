@@ -42,7 +42,7 @@ declare function getTranslationByKey(key: string): string | false;
 
 declare function getTranslationLanguage(): string;
 
-declare function setDefaultToken(values: {
+declare type TokenValues = {
   bar1_link?: string | number;
   bar1_max?: string | number;
   bar1_value?: string | number;
@@ -55,7 +55,9 @@ declare function setDefaultToken(values: {
   width: number;
   height: number;
   light_radius?: number;
-}): void;
+};
+
+declare function setDefaultToken(values: TokenValues): void;
 
 declare function on(
   event: string,

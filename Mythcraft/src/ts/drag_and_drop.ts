@@ -18,15 +18,7 @@ const handle_drop = () => {
       data: parseJSON(v.drop_data) ?? v.drop_data,
       content: v.drop_content,
     };
-
     const { Category } = page.data;
-    const repeatingSections = [
-      "skills",
-      "features",
-      "actions",
-      "reactions",
-      "spells",
-    ];
 
     switch (Category) {
       case "Creatures":

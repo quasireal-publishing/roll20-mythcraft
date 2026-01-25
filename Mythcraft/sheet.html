@@ -13,6 +13,17 @@
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __rest = (this && this.__rest) || function (s, e) {
     var t = {};
     for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
@@ -59,17 +70,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
-};
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
 };
 var attackFieldsetAttributes = [
     "name",
@@ -160,13 +160,6 @@ var handle_drop = function () {
             content: v.drop_content
         };
         var Category = page.data.Category;
-        var repeatingSections = [
-            "skills",
-            "features",
-            "actions",
-            "reactions",
-            "spells",
-        ];
         switch (Category) {
             case "Creatures":
                 handle_creature(page);
@@ -634,6 +627,38 @@ var updateDerivedAttribute = function (attributes) {
         setAttrs((_a = {}, _a[name] = sum, _a));
     });
 };
+var updateDefaultToken = function (values, size) {
+    var update = __assign(__assign({}, values), { width: 70, height: 70 });
+    if (size) {
+        var sizeMap = {
+            fine: 20,
+            diminutive: 28,
+            tiny: 35,
+            small: 50,
+            medium: 70,
+            large: 140,
+            huge: 210,
+            gargantuan: 280,
+            colossal: 350,
+            titan: 420
+        };
+        var sizeKey = Object.keys(sizeMap).find(function (key) {
+            return size.toLowerCase().includes(key);
+        });
+        var sizeValue = sizeKey ? sizeMap[sizeKey] : undefined;
+        if (sizeValue) {
+            update.width = sizeValue;
+            update.height = sizeValue;
+        }
+    }
+    Object.entries(update).forEach(function (_a) {
+        var key = _a[0], value = _a[1];
+        if (typeof value === "boolean") {
+            console.warn("Token default ".concat(key, " is a boolean. Setting to 0."), "color: orange; font-weight:bold");
+        }
+    });
+    setDefaultToken(update);
+};
 var updateHitPoints = function (attributes) {
     getAttrs(attributes, function (values) {
         var _a = parseIntegers(values), endurance = _a.endurance, hit_points_base = _a.hit_points_base, level = _a.level;
@@ -958,39 +983,9 @@ var handle_creature = function (page) {
     var tokenDefaults = {
         bar1_value: hp,
         bar1_max: hp,
-        bar2_value: armorRating,
-        height: 70,
-        width: 70
+        bar2_value: armorRating
     };
-    if (page.data["size"]) {
-        var sizeMap = {
-            fine: 20,
-            diminutive: 28,
-            tiny: 35,
-            small: 50,
-            medium: 70,
-            large: 140,
-            huge: 210,
-            gargantuan: 280,
-            colossal: 350,
-            titan: 420
-        };
-        var sizeKey = Object.keys(sizeMap).find(function (key) {
-            return page.data["size"].toLowerCase().includes(key);
-        });
-        var sizeValue = sizeKey ? sizeMap[sizeKey] : undefined;
-        if (sizeValue) {
-            tokenDefaults.width = sizeValue;
-            tokenDefaults.height = sizeValue;
-        }
-    }
-    Object.entries(tokenDefaults).forEach(function (_a) {
-        var key = _a[0], value = _a[1];
-        if (typeof value === "boolean") {
-            console.warn("Token default ".concat(key, " is a boolean. Setting to 0."), "color: orange; font-weight:bold");
-        }
-    });
-    setDefaultToken(tokenDefaults);
+    updateDefaultToken(tokenDefaults, page.data["size"]);
 };
 var handle_equipment = function (page) {
     var attrs = ["name", "description", "cost", "tags"];
