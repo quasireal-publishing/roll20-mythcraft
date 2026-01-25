@@ -42,7 +42,20 @@ declare function getTranslationByKey(key: string): string | false;
 
 declare function getTranslationLanguage(): string;
 
-declare function setDefaultToken(values: { [key: string]: string }): void;
+declare function setDefaultToken(values: {
+  bar1_link?: string | number;
+  bar1_max?: string | number;
+  bar1_value?: string | number;
+  bar2_link?: string | number;
+  bar2_max?: string | number;
+  bar2_value?: string | number;
+  bar3_link?: string | number;
+  bar3_max?: string | number;
+  bar3_value?: string | number;
+  width: number;
+  height: number;
+  light_radius?: number;
+}): void;
 
 declare function on(
   event: string,
@@ -57,7 +70,7 @@ declare type CompendiumAttributes = {
     blobs: { [key: string]: unknown };
     expansion: number;
     //- This custom data added by the compendium owner
-    [key: string]: AttrValue;
+    [key: string]: string;
   };
   content: string;
 };

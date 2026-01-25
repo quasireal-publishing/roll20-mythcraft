@@ -90,11 +90,59 @@ const handle_creature = (page: CompendiumAttributes) => {
     }
   });
 
-  console.log(update);
+  update.hp_max = update.hp || 0;
 
   //Familiars do not have the derived attributes so the sheetworkers need to calculate them
   const hasDefenses = defenses.some((attr) => page.data[attr]);
   const silent = hasDefenses ? true : false;
 
   setDropAttrs(update, { silent });
+
+  //update token defaults
+  const hp = typeof update.hp === "boolean" ? 0 : update.hp;
+  const armorRating =
+    typeof update.armor_rating === "boolean" ? 0 : update.armor_rating;
+
+  const tokenDefaults = {
+    bar1_value: hp,
+    bar1_max: hp,
+    bar2_value: armorRating,
+    height: 70,
+    width: 70,
+  };
+
+  if (page.data["size"]) {
+    const sizeMap: { [key: string]: number } = {
+      fine: 20,
+      diminutive: 28,
+      tiny: 35,
+      small: 50,
+      medium: 70,
+      large: 105,
+      huge: 140,
+      gargantuan: 210,
+      colossal: 280,
+      titan: 350,
+    };
+
+    const sizeKey = Object.keys(sizeMap).find((key) =>
+      page.data["size"].toLowerCase().includes(key)
+    );
+    const sizeValue = sizeKey ? sizeMap[sizeKey] : undefined;
+    if (sizeValue) {
+      tokenDefaults.width = sizeValue;
+      tokenDefaults.height = sizeValue;
+    }
+  }
+
+  Object.entries(tokenDefaults).forEach(([key, value]) => {
+    if (typeof value === "boolean") {
+      console.warn(
+        `Token default ${key} is a boolean. Setting to 0.`,
+        "color: orange; font-weight:bold"
+      );
+    }
+  });
+
+  setDefaultToken(tokenDefaults);
 };

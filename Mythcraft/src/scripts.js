@@ -943,10 +943,48 @@ var handle_creature = function (page) {
             return;
         }
     });
-    console.log(update);
+    update.hp_max = update.hp || 0;
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
     var silent = hasDefenses ? true : false;
     setDropAttrs(update, { silent: silent });
+    var hp = typeof update.hp === "boolean" ? 0 : update.hp;
+    var armorRating = typeof update.armor_rating === "boolean" ? 0 : update.armor_rating;
+    var tokenDefaults = {
+        bar1_value: hp,
+        bar1_max: hp,
+        bar2_value: armorRating,
+        height: 70,
+        width: 70
+    };
+    if (page.data["size"]) {
+        var sizeMap = {
+            fine: 20,
+            diminutive: 28,
+            tiny: 35,
+            small: 50,
+            medium: 70,
+            large: 105,
+            huge: 140,
+            gargantuan: 210,
+            colossal: 280,
+            titan: 350
+        };
+        var sizeKey = Object.keys(sizeMap).find(function (key) {
+            return page.data["size"].toLowerCase().includes(key);
+        });
+        var sizeValue = sizeKey ? sizeMap[sizeKey] : undefined;
+        if (sizeValue) {
+            tokenDefaults.width = sizeValue;
+            tokenDefaults.height = sizeValue;
+        }
+    }
+    Object.entries(tokenDefaults).forEach(function (_a) {
+        var key = _a[0], value = _a[1];
+        if (typeof value === "boolean") {
+            console.warn("Token default ".concat(key, " is a boolean. Setting to 0."), "color: orange; font-weight:bold");
+        }
+    });
+    setDefaultToken(tokenDefaults);
 };
 var handle_equipment = function (page) {
     var attrs = ["name", "description", "cost", "tags"];
