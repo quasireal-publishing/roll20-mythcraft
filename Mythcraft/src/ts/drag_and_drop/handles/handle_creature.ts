@@ -73,11 +73,12 @@ const handle_creature = (page: CompendiumAttributes) => {
         includeDamage: !!update[`${row}_damage`],
         includeEffect: !!update[`${row}_effect`],
       });
+      return;
     }
 
     if (key.endsWith("_modifier")) {
       const int = parseInteger(`${value}`);
-      update[`${row}_modifier`] = int > 0 ? `+${int}` : `${int}`;
+      update[`${row}_modifier`] = int > 0 ? `+${int}` : `${value}`;
     }
 
     if (key.endsWith("_attribute")) {
@@ -85,8 +86,11 @@ const handle_creature = (page: CompendiumAttributes) => {
 
       const abbr = getAttributeAbbreviation(`${value}`);
       update[`${row}_attribute_abbreviation`] = `(${abbr})`;
+      return;
     }
   });
+
+  console.log(update);
 
   //Familiars do not have the derived attributes so the sheetworkers need to calculate them
   const hasDefenses = defenses.some((attr) => page.data[attr]);

@@ -936,17 +936,20 @@ var handle_creature = function (page) {
                 includeDamage: !!update["".concat(row, "_damage")],
                 includeEffect: !!update["".concat(row, "_effect")]
             });
+            return;
         }
         if (key.endsWith("_modifier")) {
             var int = parseInteger("".concat(value));
-            update["".concat(row, "_modifier")] = int > 0 ? "+".concat(int) : "".concat(int);
+            update["".concat(row, "_modifier")] = int > 0 ? "+".concat(int) : "".concat(value);
         }
         if (key.endsWith("_attribute")) {
             update["".concat(row, "_attribute")] = "@{".concat(value, "}");
             var abbr = getAttributeAbbreviation("".concat(value));
             update["".concat(row, "_attribute_abbreviation")] = "(".concat(abbr, ")");
+            return;
         }
     });
+    console.log(update);
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
     var silent = hasDefenses ? true : false;
     setDropAttrs(update, { silent: silent });
