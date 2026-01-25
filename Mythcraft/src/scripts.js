@@ -963,11 +963,11 @@ var handle_creature = function (page) {
             tiny: 35,
             small: 50,
             medium: 70,
-            large: 105,
-            huge: 140,
-            gargantuan: 210,
-            colossal: 280,
-            titan: 350
+            large: 140,
+            huge: 210,
+            gargantuan: 280,
+            colossal: 350,
+            titan: 420
         };
         var sizeKey = Object.keys(sizeMap).find(function (key) {
             return page.data["size"].toLowerCase().includes(key);

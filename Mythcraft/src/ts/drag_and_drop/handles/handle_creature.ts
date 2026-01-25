@@ -118,11 +118,11 @@ const handle_creature = (page: CompendiumAttributes) => {
       tiny: 35,
       small: 50,
       medium: 70,
-      large: 105,
-      huge: 140,
-      gargantuan: 210,
-      colossal: 280,
-      titan: 350,
+      large: 140,
+      huge: 210,
+      gargantuan: 280,
+      colossal: 350,
+      titan: 420,
     };
 
     const sizeKey = Object.keys(sizeMap).find((key) =>
