@@ -15,6 +15,10 @@ include mixins/combat_attributes.pug
 
 include mixins/toggles.pug
 
+mixin logo()
+   .logo.grow-0
+      img(src='https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/Mythcraft-Logo-Badge-Textured-Black.png' alt="Mythcraft Logo" title="Mythcraft Logo")
+      
 mixin textarea(name)
    textarea(name=`attr_${attrName(name)}` placeholder=name)
 

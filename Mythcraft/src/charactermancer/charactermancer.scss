@@ -1,0 +1,56 @@
+.charmancer {
+  min-height: $spacing-150;
+  background-color: $paper-background;
+  border: 2px solid $third;
+  border-radius: $spacing-2;
+  box-shadow: $box-shadow;
+
+  h3 {
+    @extend .font-h3;
+    color: $fourth;
+  }
+
+  .logo {
+    max-width: $spacing-38;
+    height: auto;
+  }
+
+  .slide-header {
+    grid-template-columns: $spacing-38 1fr;
+  }
+
+  .slide {
+    grid-template-rows: repeat(2, min-content) 1fr;
+    min-height: $spacing-150;
+  }
+
+  $slides: "start", "lineage", "attributes", "stats", "background", "profession",
+    "talent", "biography";
+
+  @each $slide in $slides {
+    &[data-step="#{$slide}"]
+      > .slide
+      > .slide-header
+      > .slide-menu
+      > button[name="act_charactermancer_#{$slide}"] {
+      background-color: $fourth;
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  .sheet-iframe {
+    border: 1px solid $third;
+    border-radius: $spacing-2;
+  }
+
+  .iframe-grid {
+    grid-template-columns: 1fr minmax(300px, 500px);
+  }
+
+  .sheet-charmancer-attributes {
+    input {
+      @extend .font-h2;
+      border-bottom: none;
+    }
+  }
+}

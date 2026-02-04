@@ -8,6 +8,7 @@ declare type EventInfo = {
   sourceAttribute: string;
   sourceType: string;
   triggerName: string;
+  htmlAttributes?: { [key: string]: string }; //Action buttons
 };
 
 declare type AttrValue = string | number | boolean;
@@ -20,18 +21,18 @@ declare type Ids = string[];
 
 declare function getAttrs(
   attributes: Attributes,
-  callback?: (values: { [key: string]: string }) => void
+  callback?: (values: { [key: string]: string }) => void,
 ): void;
 
 declare function setAttrs(
   values: { [key: string]: AttrValue },
   options?: { silent?: boolean },
-  callback?: (values: { [key: string]: string }) => void
+  callback?: (values: { [key: string]: string }) => void,
 ): void;
 
 declare function getSectionIDs(
   section_name: string,
-  callback: (values: Ids) => void
+  callback: (values: Ids) => void,
 ): void;
 
 declare function generateRowID(): string;
@@ -61,7 +62,7 @@ declare function setDefaultToken(values: TokenValues): void;
 
 declare function on(
   event: string,
-  callback: (eventInfo: EventInfo) => void
+  callback: (eventInfo: EventInfo) => void,
 ): void;
 
 //- Drag & Drop
@@ -76,3 +77,49 @@ declare type CompendiumAttributes = {
   };
   content: string;
 };
+
+declare function startCharactermancer(arg: string): unknown;
+
+declare function finishCharactermancer(): unknown;
+
+declare function getCharmancerData(): {
+  [key: string]: {
+    data: {
+      blobs: { [key: string]: unknown };
+      [key: string]: string;
+    };
+    values: { [key: string]: string };
+  };
+};
+
+declare function changeCompendiumPage(
+  iframeClass: string,
+  pageName: string,
+): void;
+
+declare function getCompendiumPage(
+  pageName: string,
+  callback: (data: CompendiumAttributes) => void,
+): void;
+
+declare function showChoices(classNames: string[]): void;
+
+declare function hideChoices(classNames: string[]): void;
+
+declare function deleteCharmancerData(
+  slides: string[],
+  callback?: () => void,
+): void;
+
+declare function setCharmancerOptions(
+  className: string,
+  selectOptions: string,
+  settings: {
+    add: string[];
+    category: string;
+    disable?: string[];
+    selected?: string;
+    show_source?: boolean;
+  },
+  callback?: () => void,
+): void;

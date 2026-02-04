@@ -39,8 +39,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -151,7 +151,7 @@ var handle_drop = function () {
         var page = {
             name: v.drop_name,
             data: (_a = parseJSON(v.drop_data)) !== null && _a !== void 0 ? _a : v.drop_data,
-            content: v.drop_content
+            content: v.drop_content,
         };
         var Category = page.data.Category;
         switch (Category) {
@@ -192,7 +192,7 @@ var handle_drop = function () {
             drop_name: "",
             drop_data: "",
             drop_content: "",
-            drop_category: ""
+            drop_category: "",
         });
     });
 };
@@ -261,7 +261,7 @@ on("remove:repeating_modifiers", function (event) {
                     var _a;
                     var attrs = {
                         attribute: v[attribute],
-                        modifier: values["".concat(repeatingRow, "_modifier")]
+                        modifier: values["".concat(repeatingRow, "_modifier")],
                     };
                     var integers = parseIntegers(attrs);
                     var sum = sumIntegers(Object.values(integers));
@@ -416,7 +416,7 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
                     includeDice: true,
                     includeDefense: !!values["".concat(row, "_defense")],
                     includeDamage: !!values["".concat(row, "_damage")],
-                    includeEffect: !!values["".concat(row, "_effect")]
+                    includeEffect: !!values["".concat(row, "_effect")],
                 }),
                 _a));
         });
@@ -448,7 +448,7 @@ var getCreatureAttackRollFormula = function (isAttack, options) {
         includeDamage: true,
         includeDefense: true,
         includeDice: true,
-        includeEffect: true
+        includeEffect: true,
     }; }
     var dice = "{{dice=[[1d20+(@{modifier})+(?{TA/TD|0}[tactical bonus])]]}}";
     var defense = "{{action=@{range} @{type}. @{modifier} vs @{defense} }}";
@@ -567,7 +567,7 @@ var updateCreatureAttackRollFormula = function (event) {
         var attackRollFormula = getCreatureAttackRollFormula(true, {
             includeDice: true,
             includeDefense: true,
-            includeDamage: !!hasDamage
+            includeDamage: !!hasDamage,
         });
         setAttrs((_a = {},
             _a["".concat(row, "_roll_formula")] = attackRollFormula,
@@ -581,7 +581,7 @@ var updateCriticalFailRange = function (attributes) {
         var cr = range < 1 ? 1 : range;
         if (cr !== critical_fail) {
             setAttrs({
-                critical_fail: "<".concat(cr)
+                critical_fail: "<".concat(cr),
             });
         }
     });
@@ -591,7 +591,7 @@ var updateCriticalRange = function (attributes) {
         var _a = parseIntegers(values), luck = _a.luck, critical_hit_base = _a.critical_hit_base, critical_hit = _a.critical_hit, critical_hit_modifier = _a.critical_hit_modifier;
         if (luck < 0) {
             setAttrs({
-                critical_hit: 0
+                critical_hit: 0,
             });
             return;
         }
@@ -606,7 +606,7 @@ var updateCriticalRange = function (attributes) {
         var cr = hit < 16 ? 16 : hit > 20 ? 20 : hit;
         if (cr !== critical_hit) {
             setAttrs({
-                critical_hit: ">".concat(cr)
+                critical_hit: ">".concat(cr),
             });
         }
     });
@@ -634,7 +634,7 @@ var updateDefaultToken = function (values, size) {
             huge: 210,
             gargantuan: 280,
             colossal: 350,
-            titan: 420
+            titan: 420,
         };
         var sizeKey = Object.keys(sizeMap).find(function (key) {
             return size.toLowerCase().includes(key);
@@ -773,7 +773,7 @@ var updateSpellRollFormula = function (event) {
                 });
                 addSpellAttack(row, {
                     name: values["".concat(row, "_name")],
-                    data: data_1
+                    data: data_1,
                 });
             }
         });
@@ -953,7 +953,7 @@ var handle_creature = function (page) {
                 includeDice: true,
                 includeDefense: !!update["".concat(row, "_defense")],
                 includeDamage: !!update["".concat(row, "_damage")],
-                includeEffect: !!update["".concat(row, "_effect")]
+                includeEffect: !!update["".concat(row, "_effect")],
             });
             return;
         }
@@ -977,7 +977,7 @@ var handle_creature = function (page) {
     var tokenDefaults = {
         bar1_value: hp,
         bar1_max: hp,
-        bar2_value: armorRating
+        bar2_value: armorRating,
     };
     updateDefaultToken(tokenDefaults, page.data["size"]);
 };
@@ -1063,7 +1063,7 @@ var handle_spell = function (page) {
         addSpellAttack(row, page);
     }
     if ((_a = page.data) === null || _a === void 0 ? void 0 : _a.function_note) {
-        update["".concat(row, "_function")] = "".concat(page.data["function"], " (").concat(page.data.function_note, ")");
+        update["".concat(row, "_function")] = "".concat(page.data.function, " (").concat(page.data.function_note, ")");
     }
     if ((_b = page.data) === null || _b === void 0 ? void 0 : _b.liturgy_apc) {
         update["".concat(row, "_apc")] = "".concat(page.data.liturgy_apc, " (liturgy apc)");
@@ -1080,7 +1080,7 @@ var handle_spell = function (page) {
     else if ((_j = page.data) === null || _j === void 0 ? void 0 : _j.materials) {
         update["".concat(row, "_requires")] = "".concat((_k = page.data) === null || _k === void 0 ? void 0 : _k.materials);
     }
-    var tags = "".concat(page.data.source, " ").concat(page.data.type, ", ").concat(page.data["function"]);
+    var tags = "".concat(page.data.source, " ").concat(page.data.type, ", ").concat(page.data.function);
     if ((_l = page.data) === null || _l === void 0 ? void 0 : _l.function_note) {
         tags += ", ".concat(page.data.function_note);
     }
@@ -1114,7 +1114,7 @@ var getAttributeInfo = function (attr) {
     if (typeof attr === "string") {
         return {
             attribute: "@{".concat(attr, "}"),
-            abbreviation: getAttributeAbbreviation(attr)
+            abbreviation: getAttributeAbbreviation(attr),
         };
     }
     console.warn("Attribute is not a string: ".concat(attr));
@@ -1290,7 +1290,121 @@ var versionOneTwoOne = function () {
             critical_hit: v.critical_range || "20",
             critical_hit_base: v.critical_range_base || "20",
             critical_fail_base: "1",
-            critical_fail: "1"
+            critical_fail: "1",
         });
     });
 };
+on("clicked:launch_charactermancer", function () {
+    startCharactermancer("start");
+});
+on("sheet:opened", function () {
+    startCharactermancer("start");
+});
+[
+    "start",
+    "lineage",
+    "attributes",
+    "stats",
+    "background",
+    "profession",
+    "talent",
+    "review",
+].forEach(function (step) {
+    on("clicked:charactermancer_".concat(step), function () {
+        startCharactermancer(step);
+    });
+});
+on("mancer:cancel", function (event) {
+    console.log("Cancel charactermancer", event);
+});
+on("mancerfinish:name", function (event) {
+    console.log("Finished charactermancer with name:", event);
+});
+on("page:lineage", function () {
+    console.log("%c Lineage page opened", "color: cyan; font-weight: bold;");
+});
+on("page:attributes", function () {
+    console.log("%c Attributes page opened", "color: cyan; font-weight: bold;");
+});
+on("page:review", function () {
+    console.log("%c Review page opened", "color: cyan; font-weight: bold;");
+    var charmancerData = getCharmancerData();
+    console.log("Charmancer:", charmancerData);
+});
+on("page:final", function () {
+    finishCharactermancer();
+});
+var valueCheck = function (value) {
+    if (value > 2)
+        return 2;
+    if (value < -3)
+        return -3;
+    if (isNaN(value))
+        return 0;
+    return value;
+};
+attributes.forEach(function (attr) {
+    on("mancerchange:".concat(attr), function (event) {
+        console.log(event);
+        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+        var value = parseInteger(newValue);
+        var charmancerData = getCharmancerData();
+        var values = charmancerData.attributes.values;
+        console.log("Attribute values:", values);
+        var pointsAvailable = 5;
+        for (var key in values) {
+            var int = parseInteger(values[key]);
+            if (int > 0) {
+                pointsAvailable -= int;
+            }
+            else if (int < 0) {
+                pointsAvailable += Math.abs(int);
+            }
+        }
+        console.table({ pointsAvailable: pointsAvailable });
+    });
+});
+var updateAttribute = function (attribute, change) {
+    var _a;
+    var charmancerData = getCharmancerData();
+    var value = charmancerData.attributes.values[attribute];
+    var int = valueCheck(parseInteger(value) + change);
+    setAttrs((_a = {}, _a[attribute] = int, _a));
+};
+on("clicked:decrease_attribute", function (event) {
+    var attribute = event.htmlAttributes.value;
+    updateAttribute(attribute, -1);
+});
+on("clicked:increase_attribute", function (event) {
+    var attribute = event.htmlAttributes.value;
+    updateAttribute(attribute, 1);
+});
+on("mancerchange:lineage", function (event) {
+    var pageName = event.newValue.includes("?expansion")
+        ? event.newValue.split("?")[0]
+        : event.newValue;
+    changeCompendiumPage("sheet-iframe", pageName);
+    getCompendiumPage(pageName, function (page) {
+        var show = [];
+        var hide = [];
+        var LINEAGE_ATTRIBUTES = [
+            "appearance",
+            "height",
+            "lifespan",
+            "size",
+            "speed",
+            "weight",
+        ];
+        LINEAGE_ATTRIBUTES.forEach(function (attr) {
+            if (page.data[attr]) {
+                show.push("sheet-choice-".concat(attr));
+            }
+            else {
+                hide.push("sheet-choice-".concat(attr));
+            }
+        });
+        show.length && showChoices(show);
+        hide.length && hideChoices(hide);
+        setAttrs({ name: page.name }, { silent: true });
+    });
+});

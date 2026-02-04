@@ -3,8 +3,7 @@
 	
 	.grid.gap-4
 		.flex.flex-wrap.flex-row.gap-4
-			.logo.grow-0
-				img(src='https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/Mythcraft-Logo-Badge-Textured-Black.png' alt="Mythcraft Logo" title="Mythcraft Logo")
+			+logo()
 			.grid.gap-1.grow.bio
 				.grid.grid-flow-col.gap-2.name-row
 					+headerInput('character name')
@@ -204,6 +203,10 @@
 				+title('character type')
 				.mt-2
 					+sheetSelect()
+			.grid.solid-border-2.rounded-md.p-2.relative.justify-center.h-max
+				+title('charactermancer')
+				.mt-2
+					button(type="action" name="act_launch_charactermancer" data-i18n="charactermancer")
 			.grid.solid-border-2.rounded-md.p-2.relative
 				+title('modifiers')
 				+subheaders(['active', 'attribute', 'modifier', 'source'])
