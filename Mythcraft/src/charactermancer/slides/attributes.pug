@@ -6,7 +6,7 @@ charmancer.sheet-charmancer-attributes
         .grid.grid-flow-col.gap-4.items-start.h-full.iframe-grid
             .grid.gap-4.h-full
                 .grid.gap-2.h-full.auto-rows-min.items-start
-                    h3.capitalize(data-i18n="choose lineage")
+                    h3.capitalize(data-i18n="assign attributes points")
                     span(name="comp_starting_attribute_points")
                 each val in [...physicalAttributes, ...mentalAttributes, ...metaphysicAttributes]
                     .grid.gap-2(class=`sheet-choice-${val}`)

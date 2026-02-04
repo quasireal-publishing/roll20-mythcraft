@@ -100,7 +100,11 @@ var addSpellAttack = function (row, page) {
 };
 var mentalAttributes = ["awareness", "intellect", "charisma"];
 var metaphysicAttributes = ["luck", "coordination"];
-var physicalAttributes = ["strength", "dexterity", "endurance"];
+var physicalAttributes = [
+    "strength",
+    "dexterity",
+    "endurance",
+];
 var attributes = __spreadArray(__spreadArray(__spreadArray([], mentalAttributes, true), metaphysicAttributes, true), physicalAttributes, true);
 var action_points = [
     "coordination",
@@ -1334,50 +1338,142 @@ on("page:review", function () {
 on("page:final", function () {
     finishCharactermancer();
 });
-var valueCheck = function (value) {
-    if (value > 2)
-        return 2;
-    if (value < -3)
-        return -3;
-    if (isNaN(value))
-        return 0;
-    return value;
-};
-attributes.forEach(function (attr) {
-    on("mancerchange:".concat(attr), function (event) {
-        console.log(event);
-        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
-        var value = parseInteger(newValue);
-        var charmancerData = getCharmancerData();
-        var values = charmancerData.attributes.values;
-        console.log("Attribute values:", values);
-        var pointsAvailable = 5;
-        for (var key in values) {
-            var int = parseInteger(values[key]);
-            if (int > 0) {
-                pointsAvailable -= int;
-            }
-            else if (int < 0) {
-                pointsAvailable += Math.abs(int);
-            }
+System.register("charactermancer/slides/attributes", [], function (exports_1, context_1) {
+    "use strict";
+    var valueCheck, getAttributeCap, computeAttributePointUsage, validateAttributes, updateAttribute;
+    var __moduleName = context_1 && context_1.id;
+    function getLuckStats(luck) {
+        var luckPoints = luck > 0 ? Math.floor(luck / 2) : 0;
+        var canCrit = luck >= 0;
+        var critDamageBonus = luck >= 1 ? luck : 0;
+        var d20ModifierFromLuck = luck < 0 ? luck : 0;
+        var critRangeStart = 20;
+        if (luck >= 12) {
+            critRangeStart = 18;
         }
-        console.table({ pointsAvailable: pointsAvailable });
-    });
-});
-var updateAttribute = function (attribute, change) {
-    var _a;
-    var charmancerData = getCharmancerData();
-    var value = charmancerData.attributes.values[attribute];
-    var int = valueCheck(parseInteger(value) + change);
-    setAttrs((_a = {}, _a[attribute] = int, _a));
-};
-on("clicked:decrease_attribute", function (event) {
-    var attribute = event.htmlAttributes.value;
-    updateAttribute(attribute, -1);
-});
-on("clicked:increase_attribute", function (event) {
-    var attribute = event.htmlAttributes.value;
-    updateAttribute(attribute, 1);
+        else if (luck >= 6) {
+            critRangeStart = 19;
+        }
+        return {
+            luckPoints: luckPoints,
+            canCrit: canCrit,
+            critDamageBonus: critDamageBonus,
+            critRangeStart: critRangeStart,
+            d20ModifierFromLuck: d20ModifierFromLuck,
+        };
+    }
+    exports_1("getLuckStats", getLuckStats);
+    function getActionPoints(cor) {
+        var baseAP = 3;
+        var bonusFromCor = 0;
+        if (cor >= 0) {
+            bonusFromCor = Math.floor(cor / 2);
+        }
+        else if (cor === -1 || cor === -2) {
+            bonusFromCor = -1;
+        }
+        else if (cor <= -3) {
+            bonusFromCor = -2;
+        }
+        var totalAP = baseAP + bonusFromCor;
+        return { baseAP: baseAP, bonusFromCor: bonusFromCor, totalAP: totalAP };
+    }
+    exports_1("getActionPoints", getActionPoints);
+    return {
+        setters: [],
+        execute: function () {
+            valueCheck = function (value) {
+                if (value > 2)
+                    return 2;
+                if (value < -3)
+                    return -3;
+                if (isNaN(value))
+                    return 0;
+                return value;
+            };
+            getAttributeCap = function (level) {
+                if (level < 1)
+                    throw new Error("Level must be at least 1.");
+                return Math.ceil(level / 2) + 1;
+            };
+            computeAttributePointUsage = function (attrs, basePool) {
+                if (basePool === void 0) { basePool = 5; }
+                var spent = 0;
+                var gainedFromNegatives = 0;
+                for (var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++) {
+                    var key = _a[_i];
+                    var value = attrs[key];
+                    if (value > 0) {
+                        spent += value;
+                    }
+                    else if (value < 0) {
+                        gainedFromNegatives += -value;
+                    }
+                }
+                var totalPool = basePool + gainedFromNegatives;
+                var remaining = totalPool - spent;
+                return { spent: spent, gainedFromNegatives: gainedFromNegatives, totalPool: totalPool, remaining: remaining };
+            };
+            validateAttributes = function (level, attrs) {
+                var errors = [];
+                var cap = getAttributeCap(level);
+                var points = computeAttributePointUsage(attrs);
+                for (var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++) {
+                    var key = _a[_i];
+                    var value = attrs[key];
+                    if (value > cap) {
+                        errors.push("".concat(key, " (").concat(value, ") exceeds the cap of +").concat(cap, " for level ").concat(level, "."));
+                    }
+                }
+                if (points.remaining < 0) {
+                    errors.push("You have overspent Attribute Points: spent ".concat(points.spent, " with a pool of ").concat(points.totalPool, "."));
+                }
+                return {
+                    ok: errors.length === 0,
+                    errors: errors,
+                    cap: cap,
+                    points: points,
+                };
+            };
+            attributes.forEach(function (attr) {
+                on("mancerchange:".concat(attr), function (event) {
+                    var charmancerData = getCharmancerData();
+                    var values = charmancerData.attributes.values;
+                    console.log(values);
+                    var attrs = {};
+                    attributes.forEach(function (attribute) {
+                        attrs[attribute] = values[attribute]
+                            ? parseInteger(values[attribute])
+                            : 0;
+                    });
+                    var level = 1;
+                    var validation = validateAttributes(level, attrs);
+                    if (!validation.ok) {
+                        console.error("Invalid attributes:", validation.errors);
+                    }
+                    var luckStats = getLuckStats(attrs["luck"]);
+                    var apStats = getActionPoints(attrs["coordination"]);
+                    console.log({ validation: validation, luckStats: luckStats, apStats: apStats });
+                    console.log({ validation: validation });
+                });
+            });
+            updateAttribute = function (attribute, change) {
+                var _a;
+                var charmancerData = getCharmancerData();
+                var value = charmancerData.attributes.values[attribute];
+                var int = valueCheck(parseInteger(value) + change);
+                setAttrs((_a = {}, _a[attribute] = int, _a));
+            };
+            on("clicked:decrease_attribute", function (event) {
+                var attribute = event.htmlAttributes.value;
+                updateAttribute(attribute, -1);
+            });
+            on("clicked:increase_attribute", function (event) {
+                var attribute = event.htmlAttributes.value;
+                updateAttribute(attribute, 1);
+            });
+        }
+    };
 });
 on("mancerchange:lineage", function (event) {
     var pageName = event.newValue.includes("?expansion")

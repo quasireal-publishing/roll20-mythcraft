@@ -1,10 +1,22 @@
-//Set variables, traits, and other attributes
+type AttributeKey =
+  | "strength"
+  | "dexterity"
+  | "endurance"
+  | "awareness"
+  | "intellect"
+  | "charisma"
+  | "luck"
+  | "coordination";
 
-const mentalAttributes = ["awareness", "intellect", "charisma"];
-const metaphysicAttributes = ["luck", "coordination"];
-const physicalAttributes = ["strength", "dexterity", "endurance"];
+const mentalAttributes: AttributeKey[] = ["awareness", "intellect", "charisma"];
+const metaphysicAttributes: AttributeKey[] = ["luck", "coordination"];
+const physicalAttributes: AttributeKey[] = [
+  "strength",
+  "dexterity",
+  "endurance",
+];
 
-const attributes = [
+const attributes: AttributeKey[] = [
   ...mentalAttributes,
   ...metaphysicAttributes,
   ...physicalAttributes,
