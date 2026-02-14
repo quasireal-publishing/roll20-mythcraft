@@ -1,0 +1,103 @@
+{
+  "name": "Vampire",
+  "description": "Evolved from the vicious m'l'ykkri, vampires come in many varieties, but are united in their power, ferocity, and malice. They possess myriad powers from summoning mist and nocturnal animals to charming their adversaries to climbing on walls. Vampires drink humanoid blood and must do so with some regularity in order to maintain their greatest level of power. This often leads them to try taking over some town or city so that they have easy access to their lifeblood. Ancerran vampires tend to possess a bestial cunning, but are vulnerable to running water. Vampires are incredibly difficult to truly kill. When a vampire dies at night, its body dissolves into mist and floats back to its ancestral soil. If it reaches its soil before dawn, then it solidifies back into its vampiric form and returns to its semblance of life fully revived at dusk the following evening. Killing a vampire during the day prevents the vampire from turning into mist and returning to its ancestral soil until nightfall, which makes permanently killing it significantly easier. Aside from possessing formidable battlefield prowess, vampires are also very charismatic and madly driven by their own goals. Many vampires are motivated by political influence and want to control as large of an area as possible, but some may have different motivations.",
+  "category": "Creatures",
+  "level": "21",
+  "size": "medium",
+  "tags": "undead, humanoid, shapechanger",
+  "token": "https://files.d20.io/images/472624382/W7URAE-bsMZgokRVwD8WZQ/original.png",
+  "hp": "230",
+  "armor_rating": "16",
+  "dr": "5/Silvered or Magical Weapons",
+  "immune": "necrotic",
+  "resist": "occult",
+  "vulnerable": "Radiant 2",
+  "speed": "30 ft, Climb 30 ft",
+  "senses": "Darkvision 300 ft",
+  "traits": "Iron Will, Steel Mind, Regen 2",
+  "strength": "4",
+  "dexterity": "6",
+  "endurance": "2",
+  "anticipation": "14",
+  "reflexes": "12",
+  "awareness": "4",
+  "intellect": "3",
+  "logic": "13",
+  "willpower": "16",
+  "charisma": "6",
+  "fortitude": "12",
+  "action_description": "On each of the Vampire's turns, it may take one of the following sets of actions. Take five Tier 1 actions. Take three Tier 1",
+  "features": [
+    {
+      "name": "Vampirism",
+      "description": "The Vampire follows the Ancerran, Croftian, or Draculean vampire template."
+    }
+  ],
+  "actions": [
+    { "name": "Tier 1 Actions" },
+    {
+      "name": "Move",
+      "effect": "The Vampire can move up to its speed."
+    },
+    {
+      "name": "Claws",
+      "range": "Reach 5 ft",
+      "type": "Natural Weapon",
+      "modifier": "6",
+      "defense": "AR",
+      "damage": "1d8+6",
+      "damage_type": "sharp",
+      "damage_average": "10"
+    },
+    {
+      "name": "Charm",
+      "range": "Ranged 20 ft",
+      "type": "Natural Weapon",
+      "modifier": "6",
+      "defense": "WILL",
+      "effect": "The target is Charmed by the Vampire until the start of the Vampire's next turn."
+    },
+    {
+      "name": "Shapechanger (3/Rest)",
+      "effect": "The Vampire assumes the form of a Swarm of Bats, a Vampiric Mist, or an Alpha Wolf. It retains its HP and AR but otherwise uses the relevant creature's stats. The Vampire may return to its normal form by spending one action."
+    },
+    { "name": "Tier 2 Actions" },
+    {
+      "name": "Blood Drain",
+      "range": "Reach 5 ft",
+      "type": "Natural Weapon",
+      "modifier": "4",
+      "defense": "ANT",
+      "damage": "2d10+4",
+      "damage_type": "necrotic",
+      "damage_average": "15",
+      "effect": ", and the Vampire regains HP equal to the damage it dealt."
+    },
+    {
+      "name": "Enthrall (1/Recoup)",
+      "range": "Ranged 20 ft",
+      "type": "Natural Weapon",
+      "modifier": "6",
+      "defense": "WILL",
+      "effect": "The target is Enthralled by the Vampire for 8 hours. Whenever it deals damage to one of its allies or takes damage, it may make a DC 16 CHA check; on a success, it ends the Enthralled condition. A creature that was Enthralled by the Vampire and is no longer Enthralled is Immune to this attack and the Vampire's Charm attack for the next 24 hours."
+    },
+    {
+      "name": "Frighten (Recharge 6)",
+      "range": "20 ft Radius",
+      "type": "Natural Weapon",
+      "modifier": "6",
+      "defense": "WILL of each creature in the radius.",
+      "effect": "The creature is Frightened until the end of its next turn."
+    },
+    {
+      "name": "Creatures of the Night (1/Recoup)",
+      "effect": "the vampire summons 2 (1d4) Wolves and 1 (1d2) Swarm of Bats. These creatures are friendly towards the Vampire, obey its mental commands, and take their turn immediately after it in Initiative."
+    }
+  ],
+  "reactions": [
+    {
+      "name": "Contest Spell (1/Round; 3/Rest)",
+      "description": "The Vampire can innately cast the Contest Spell arcane spell, as though using 20 SP."
+    }
+  ]
+}

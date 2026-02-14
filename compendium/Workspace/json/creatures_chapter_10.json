@@ -1,0 +1,212 @@
+{
+  "pagesByCategory": {
+    "Creatures": {
+      "Uvior": {
+        "description": "",
+        "category": "Creatures",
+        "level": "4",
+        "size": "Medium",
+        "tags": "Undead (Arcane)",
+        "token": "",
+        "hp": "31",
+        "armor_rating": "13",
+        "dr": "",
+        "immune": "Necrotic",
+        "resist": "",
+        "vulnerable": "",
+        "speed": "40 ft",
+        "senses": "Blindsight 60 ft",
+        "traits": "Ethereal, Steel Mind, Regen 2",
+        "strength": "-1",
+        "dexterity": "3",
+        "endurance": "2",
+        "anticipation": "12",
+        "reflexes": "13",
+        "awareness": "2",
+        "intellect": "2",
+        "logic": "12",
+        "willpower": "12",
+        "charisma": "2",
+        "fortitude": "12",
+        "action_description": "On Uvior’s turn, he can MOVE and take TWO of the following actions.",
+        "features": [
+          {
+            "name": "Dark Flight",
+            "description": "Uvior gains a fly speed equal to his walking speed while in dim light or darkness. If he is exposed to bright light while flying, he falls."
+          },
+          {
+            "name": "Growing Horde",
+            "description": "When Uvior Takes a Rest, at the end of that time he automatically summons 1d4 Skeletons."
+          }
+        ],
+        "actions": [
+          {
+            "name": "Move",
+            "effect": "Uvior moves up to his speed."
+          },
+          {
+            "name": "Assailing Shadow",
+            "effect": "Ranged 60 ft Arcane Spell. +3 vs WILL of a creature in dim light or darkness. Hit: 6 (1d12) necrotic and target is “Tethered.”",
+            "type": "Ranged 60 ft Arcane Spell.",
+            "damage": "6 (1d12) necrotic and target is “Tethered.”",
+            "defense": "WILL of a creature in dim light or darkness",
+            "modifier": "3",
+            "range": "Ranged 60 ft"
+          },
+          {
+            "name": "Draining Touch",
+            "effect": "Reach 5 ft Natural Weapon. +3 vs AR. Hit: 8 (1d10+3) necrotic and target is “Tethered.”",
+            "type": "Reach 5 ft Natural Weapon.",
+            "damage": "8 (1d10+3) necrotic and target is “Tethered.”",
+            "defense": "AR",
+            "modifier": "3",
+            "range": "Reach 5 ft"
+          },
+          {
+            "name": "Snuff",
+            "effect": "One source of nonmagical light or light from a divine prayer or primal chant within 60 ft of Uvior is extinguished."
+          },
+          {
+            "name": "Undead Horde",
+            "effect": "Uvior summons 1d4-1 Skeletons, which appear in random unoccupied spaces within 30 ft of him."
+          }
+        ],
+        "reactions": [
+          {
+            "name": "Tether (1/Round)",
+            "description": "When Uvior takes damage, he may use his reaction to choose a creature that he can see within 60 ft of him. If that creature has been Tethered since the start of Uvior’s last turn, then that creature takes ½ of the damage that Uvior would have taken."
+          }
+        ],
+        "content": "<p><em>Monster Level: 4</em></p>\n<p>\n  <em>Medium. Undead (Arcane)</em>\n</p>\n<br />\n<table>\n  <tbody>\n    <tr>\n      <td>\n        <b>STR<br /></b>-1\n      </td>\n      <td>\n        <b>DEX<br /></b>3\n        <p></p>\n        <br />\n        <p>Ref: 13</p>\n      </td>\n      <td>\n        <b>END<br /></b>2\n        <p></p>\n        <br />\n        <p>Fort: 12</p>\n      </td>\n      <td>\n        <b>AWR<br /></b>2\n        <p></p>\n        <br />\n        <p>Ant: 12</p>\n      </td>\n      <td>\n        <b>INT</b>\n        <p></p>\n        <p>2</p>\n        <br />\n        <p>Log: 12</p>\n      </td>\n      <td>\n        <b>CHA<br /></b>2\n        <p></p>\n        <br />\n        <p>Will: 12</p>\n      </td>\n    </tr>\n  </tbody>\n</table>\n<br />\n<p><b>Hit Points </b>31 <b>Armor Rating </b>13<br /><b>Speed </b>40 ft</p>\n<p><b>Immune </b>Necrotic</p>\n<p><b>Vulnerable </b>Occult 2 <b>DR </b>5/Psychic</p>\n<p><b>Senses </b>Blindsight 60 ft</p>\n<p><b>Traits </b>Ethereal, Steel Mind, Regen 2</p>\n<br />\n<p>FEATURES</p>\n<br />\n<p>\n  <b>Dark Flight. </b>Uvior gains a fly speed equal to his walking speed while\n  in dim light or darkness. If he is exposed to bright light while flying, he\n  falls.\n</p>\n<br />\n<p>\n  <b>Growing Horde. </b>When Uvior Takes a Rest, at the end of that time he\n  automatically summons 1d4 <b>Skeletons</b>.\n</p>\n<br />\n<p>ACTIONS</p>\n<br />\n<p>\n  <em>On Uvior’s turn, he can </em><em><b>MOVE </b></em><em>and take </em\n  ><em><b>TWO</b></em\n  ><em> of the following actions.</em>\n</p>\n<br />\n<p><b>Move. </b>Uvior moves up to his speed.</p>\n<br />\n<p>\n  <b>Assailing Shadow. </b><em>Ranged 60 ft Arcane Spell. </em>+3 vs WILL of a\n  creature in dim light or darkness. <b>Hit: </b>6 (1d12) necrotic and target is\n  “Tethered.”\n</p>\n<br />\n<p>\n  <b>Draining Touch. </b><em>Reach 5 ft Natural Weapon. </em>+3 vs AR.\n  <b>Hit: </b>8 (1d10+3) necrotic and target is “Tethered.”\n</p>\n<br />\n<p>\n  <b>Snuff.</b> One source of nonmagical light or light from a divine prayer or\n  primal chant within 60 ft of Uvior is extinguished.\n</p>\n<br />\n<p>\n  <em><b>OR</b></em\n  ><em> Uvior can </em><em><b>MOVE</b></em\n  ><em> and take the following action.</em>\n</p>\n<br />\n<p>\n  <b>Undead Horde. </b>Uvior summons 1d4-1 Skeletons, which appear in random\n  unoccupied spaces within 30 ft of him.\n</p>\n<br />\n<p>REACTIONS</p>\n<br />\n<p>\n  <b>Tether (1/Round). </b>When Uvior takes damage, he may use his reaction to\n  choose a creature that he can see within 60 ft of him. If that creature has\n  been Tethered since the start of Uvior’s last turn, then that creature takes ½\n  of the damage that Uvior would have taken.\n</p>\n<br />\n<p>FIGHTING MOGG</p>\n<br />\n<p>\n  Mogg fights cautiously, hiding as much as able and using his magic to animate\n  furniture to fight for him. Other gretchlings that participate in this battle\n  gain access to the Disarm maneuver and will attempt to run off with the\n  heroes’ weapons and gear.\n</p>"
+      },
+      "Mogg": {
+        "description": "",
+        "category": "Creatures",
+        "level": "4",
+        "size": "Small",
+        "tags": "Fae Humanoid",
+        "token": "",
+        "hp": "32",
+        "armor_rating": "13",
+        "dr": "",
+        "immune": "",
+        "resist": "Cold 2, Fire 2, Necrotic 2",
+        "vulnerable": "",
+        "speed": "30 ft",
+        "senses": "",
+        "traits": "Unerring Mind",
+        "strength": "0",
+        "dexterity": "2",
+        "endurance": "0",
+        "anticipation": "15",
+        "reflexes": "13",
+        "awareness": "2",
+        "intellect": "3",
+        "logic": "16",
+        "willpower": "15",
+        "charisma": "2",
+        "fortitude": "11",
+        "action_description": "Mogg can MOVE and take ONE of the following actions.",
+        "features": [
+          {
+            "name": "Mental Shields",
+            "description": "Mogg has +2 mental defenses."
+          },
+          {
+            "name": "Arcane Cantrips",
+            "description": "Using INT, Mogg can cast the following cantrips."
+          },
+          {
+            "name": "Arcane Spellcaster",
+            "description": "Using INT, Mogg can cast the following spells. He has 20 SP."
+          },
+          {
+            "name": "Spellbook",
+            "description": "Mogg can spend 1 week transcribing a spell that he has found on a scroll, rune, or the like into his spellbook and practicing it. He then learns that spell if the spell costs 20 or fewer SP."
+          },
+          {
+            "name": "Poisonous Skin",
+            "description": "Mogg’s skin secretes a paralytic poison. When a creature makes an unarmed strike or attempts to Grapple Mogg, Mogg makes an END attack against their FORT. Hit: Creature becomes Slowed for 10 seconds."
+          },
+          {
+            "name": "Unstable Magics",
+            "description": "When Mogg reaches 0 HP, he explodes. He makes an END attack against the REF of all creatures within a 15 ft radius. On a hit, deal 4 (1d8) fire damage."
+          },
+          {
+            "name": "Magic Consumption",
+            "description": "If in the presence of a magic item for 11 (2d8+2) days, Mogg can consume enough magic to cause Uncommon and Rare items to become mundane."
+          }
+        ],
+        "actions": [],
+        "reactions": [],
+        "content": "<p><em>Monster Level: 4</em></p>\n<p><em>Small. Fae Humanoid</em></p>\n<br />\n<table>\n  <tbody>\n    <tr>\n      <td>\n        <b>STR<br /></b>0\n      </td>\n      <td>\n        <b>DEX<br /></b>2\n        <p></p>\n        <br />\n        <p>Ref: 13</p>\n      </td>\n      <td>\n        <b>END<br /></b>0\n        <p></p>\n        <br />\n        <p>Fort: 11</p>\n      </td>\n      <td>\n        <b>AWR<br /></b>2\n        <p></p>\n        <br />\n        <p>Ant: 15</p>\n      </td>\n      <td>\n        <b>INT</b>\n        <p></p>\n        <p>3</p>\n        <br />\n        <p>Log: 16</p>\n      </td>\n      <td>\n        <b>CHA<br /></b>2\n        <p></p>\n        <br />\n        <p>Will: 15</p>\n      </td>\n    </tr>\n  </tbody>\n</table>\n<br />\n<p>\n  <b>Hit Points </b>32 <b>Armor Rating </b>13 (mage robes)<br /><b>Speed </b>30\n  ft\n</p>\n<p><b>Resist </b>Cold 2, Fire 2, Necrotic 2</p>\n<p><b>Skills </b>(INT) Arcana +6, History +3, Nature +3</p>\n<p><b>Traits </b>Unerring Mind</p>\n<br />\n<p>FEATURES</p>\n<br />\n<p><b>Mental Shields. </b>Mogg has +2 mental defenses.</p>\n<br />\n<p><b>Arcane Cantrips. </b>Using INT, Mogg can cast the following cantrips.</p>\n<br />\n<p>(Cantrips) Beam of Fire, Illuminate, Mend, Prestidigitation</p>\n<br />\n<p>\n  <b>Arcane Spellcaster. </b>Using INT, Mogg can cast the following spells. He\n  has 20 SP.\n</p>\n<br />\n<p>\n  (Spells) Circle of Warding, Fireball, Mage Armor, Minor Illusion, Swift\n  Teleport\n</p>\n<br />\n<p>\n  <b>Spellbook. </b>Mogg can spend 1 week transcribing a spell that he has found\n  on a scroll, rune, or the like into his spellbook and practicing it. He then\n  learns that spell if the spell costs 20 or fewer SP.\n</p>\n<br />\n<p>\n  <b>Poisonous Skin. </b>Mogg’s skin secretes a paralytic poison. When a\n  creature makes an unarmed strike or attempts to Grapple Mogg, Mogg makes an\n  END attack against their FORT. <b>Hit:</b> Creature becomes Slowed for 10\n  seconds.\n</p>\n<br />\n<p>\n  <b>Unstable Magics.</b> When Mogg reaches 0 HP, he explodes. He makes an END\n  attack against the REF of all creatures within a 15 ft radius. On a hit, deal\n  4 (1d8) fire damage.\n</p>\n<br />\n<p>\n  <b>Magic Consumption. </b>If in the presence of a magic item for 11 (2d8+2)\n  days, Mogg can consume enough magic to cause Uncommon and Rare items to become\n  mundane.\n</p>\n<br />\n<p>ACTIONs</p>\n<br />\n<p>\n  <em>Mogg can </em><em><b>MOVE&nbsp;</b></em\n  ><em>and take </em><em><b>ONE</b></em\n  ><em> of the following actions.</em>\n</p>\n<br />\n<p><b>Move. </b>Mogg can move up to his speed.</p>\n<br />\n<p>\n  <b>Knife. </b><em>Thrown 20 ft One-Handed Weapon. </em>+4 vs AR. <b>Hit: </b>6\n  (1d4+4) sharp.\n</p>\n<br />\n<p><b>Arcane Cantrips. </b>Mogg can use one of his cantrips.</p>\n<br />\n<p>\n  <em><b>OR</b></em\n  ><em> Mogg can take </em><em><b>ONE</b></em\n  ><em> of the following actions.</em>\n</p>\n<br />\n<p><b>Arcane Spellcaster. </b>Mogg can use one of his spells.</p>\n<br />\n<p>\n  <b>Awaken Furniture (1/Rest). </b>Mogg targets enough furniture within 60 ft\n  of him to fuse together into a Large creature, a <b>Furniture Golem.</b>\n</p>",
+        "skills": "(INT) Arcana +6, History +3, Nature +3"
+      },
+      "Furniture Golem": {
+        "description": "",
+        "category": "Creatures",
+        "level": "2",
+        "size": "Large",
+        "tags": "Constructed Humanoid (Arcane)",
+        "token": "",
+        "hp": "40",
+        "armor_rating": "14",
+        "dr": "",
+        "immune": "",
+        "resist": "",
+        "vulnerable": "",
+        "speed": "20 ft",
+        "senses": "Blindsight 30 ft",
+        "traits": "Immutable, Iron Will, Steel Mind, Vigilant",
+        "strength": "2",
+        "dexterity": "0",
+        "endurance": "3",
+        "anticipation": "10",
+        "reflexes": "10",
+        "awareness": "0",
+        "intellect": "-3",
+        "logic": "7",
+        "willpower": "9",
+        "charisma": "-1",
+        "fortitude": "13",
+        "action_description": "The Furniture Golem may take TWO of the following actions, or take the same action twice.",
+        "features": [
+          {
+            "name": "Will of the Master",
+            "description": "The Furniture Golem may only act within a strict set of parameters established by its creator and cannot make significant decisions of its own accord."
+          },
+          {
+            "name": "Crafted Guardian",
+            "description": "The Furniture Golem always knows the location of its creator so long as they are on the same plane of existence. Additionally, the Furniture Golem grants its creator +2 AR while within 5 ft of it."
+          }
+        ],
+        "actions": [
+          {
+            "name": "Move",
+            "effect": "The Furniture Golem can move up to its speed."
+          },
+          {
+            "name": "Armrest",
+            "effect": "Reach 10 ft Natural Weapon. +2 vs AR. Hit: 5 (1d6+2) blunt.",
+            "type": "Reach 10 ft Natural Weapon.",
+            "damage": "5 (1d6+2) blunt.",
+            "defense": "AR",
+            "modifier": "2",
+            "range": "Reach 10 ft"
+          },
+          {
+            "name": "Footrest",
+            "effect": "The Furniture Golem prepares to Exploit."
+          }
+        ],
+        "reactions": [
+          {
+            "name": "Exploit (1/Round)",
+            "description": "The Furniture Golem may Exploit if it used Footrest on its last turn."
+          }
+        ],
+        "content": "<p><em>Monster Level: 2</em></p>\n<p>\n  <em>Large. Constructed Humanoid (Arcane)</em>\n</p>\n<br />\n<table>\n  <tbody>\n    <tr>\n      <td>\n        <b>STR<br /></b>2\n      </td>\n      <td>\n        <b>DEX<br /></b>0\n        <p></p>\n        <br />\n        <p>Ref: 10</p>\n      </td>\n      <td>\n        <b>END<br /></b>3\n        <p></p>\n        <br />\n        <p>Fort: 13</p>\n      </td>\n      <td>\n        <b>AWR<br /></b>0\n        <p></p>\n        <br />\n        <p>Ant: 10</p>\n      </td>\n      <td>\n        <b>INT</b>\n        <p></p>\n        <p>-3</p>\n        <br />\n        <p>Log: 7</p>\n      </td>\n      <td>\n        <b>CHA<br /></b>-1\n        <p></p>\n        <br />\n        <p>Will: 9</p>\n      </td>\n    </tr>\n  </tbody>\n</table>\n<br />\n<p><b>Hit Points </b>40 <b>Armor Rating </b>14<br /><b>Speed </b>20 ft</p>\n<p><b>Senses </b>Blindsight 30 ft</p>\n<p><b>Traits </b>Immutable, Iron Will, Steel Mind, Vigilant</p>\n<br />\n<p>FEATURES</p>\n<br />\n<p>\n  <b>Will of the Master. </b>The Furniture Golem may only act within a strict\n  set of parameters established by its creator and cannot make significant\n  decisions of its own accord.\n</p>\n<br />\n<p>\n  <b>Crafted Guardian. </b>The Furniture Golem always knows the location of its\n  creator so long as they are on the same plane of existence. Additionally, the\n  Furniture Golem grants its creator +2 AR while within 5 ft of it.\n</p>\n<br />\n<p>ACTIONS</p>\n<br />\n<p>\n  <em>The Furniture Golem may take </em><em><b>TWO </b></em\n  ><em>of the following actions, or take the same action</em\n  ><em><b> twice.</b></em>\n</p>\n<br />\n<p><b>Move. </b>The Furniture Golem can move up to its speed.</p>\n<br />\n<p>\n  <b>Armrest. </b><em>Reach 10 ft Natural Weapon. </em>+2 vs AR. <b>Hit: </b>5\n  (1d6+2) blunt.\n</p>\n<br />\n<p><b>Footrest. </b>The Furniture Golem prepares to Exploit.</p>\n<br />\n<p>REACTIONS</p>\n<br />\n<p>\n  <b>Exploit (1/Round). </b>The Furniture Golem may Exploit if it used Footrest\n  on its last turn.\n</p>"
+      }
+    }
+  }
+}

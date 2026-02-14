@@ -1,0 +1,1657 @@
+<p>
+  One of the most rewarding treasures that heroes might find at the end of a
+  quest is magic items. Flaming swords, armor that absorbs energy and converts
+  it into power, rope that climbs walls by itself… any number of magic items
+  might appeal to your adventurers for a variety of reasons. This chapter offers
+  some guidance on creating your own magic items, then offers a codex of premade
+  magic items ready to use in any game.
+</p>
+<h2>
+  <b>STANDARDIZED TREASURE</b>
+</h2>
+<p>
+  The following table offers suggested quest rewards based on the party's level.
+  These rewards include sc earned, Goodwill gained, and the total Essence Point
+  Cost of magic items that the heroes might find. Each of these items are listed
+  per hero – for example, at level 1, each hero might gain 3 Goodwill upon
+  completing a quest.
+</p>
+<br />
+<p>
+  Remember that these are only "default" recommendations. You should scale each
+  of these rewards up or down based on your own campaign setting.
+</p>
+<h3><b>BONUS SC</b></h3>
+<p>
+  The "Bonus sc" column suggests additional sc that heroes might gain by
+  completing side quests or over-performing expectations on their quest. This
+  bonus can be excluded altogether or replaced with a boon or favor from an NPC,
+  additional Goodwill, or a similar non monetary reward.
+</p>
+<br />
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <p><b>Adventurer Level</b></p>
+      </td>
+      <td>
+        <p><b>sc</b></p>
+      </td>
+      <td>
+        <p><b>Goodwill</b></p>
+      </td>
+      <td>
+        <p><b>Total Essence Point Cost</b></p>
+      </td>
+      <td>
+        <p><b>Bonus sc</b></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>1-2</p>
+      </td>
+      <td>
+        <p>100</p>
+      </td>
+      <td>
+        <p>3</p>
+      </td>
+      <td>
+        <p>0</p>
+      </td>
+      <td>
+        <p>200</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>3</p>
+      </td>
+      <td>
+        <p>300</p>
+      </td>
+      <td>
+        <p>4</p>
+      </td>
+      <td>
+        <p>0</p>
+      </td>
+      <td>
+        <p>600</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>4</p>
+      </td>
+      <td>
+        <p>400</p>
+      </td>
+      <td>
+        <p>5</p>
+      </td>
+      <td>
+        <p>0</p>
+      </td>
+      <td>
+        <p>800</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>5</p>
+      </td>
+      <td>
+        <p>500</p>
+      </td>
+      <td>
+        <p>6</p>
+      </td>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>1,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>6</p>
+      </td>
+      <td>
+        <p>600</p>
+      </td>
+      <td>
+        <p>6</p>
+      </td>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>1,200</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>7</p>
+      </td>
+      <td>
+        <p>700</p>
+      </td>
+      <td>
+        <p>7</p>
+      </td>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>1,400</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>8</p>
+      </td>
+      <td>
+        <p>800</p>
+      </td>
+      <td>
+        <p>7</p>
+      </td>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>1,600</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>9</p>
+      </td>
+      <td>
+        <p>900</p>
+      </td>
+      <td>
+        <p>8</p>
+      </td>
+      <td>
+        <p>25</p>
+      </td>
+      <td>
+        <p>1,800</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>10</p>
+      </td>
+      <td>
+        <p>1,000</p>
+      </td>
+      <td>
+        <p>8</p>
+      </td>
+      <td>
+        <p>25</p>
+      </td>
+      <td>
+        <p>2,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>11</p>
+      </td>
+      <td>
+        <p>1,100</p>
+      </td>
+      <td>
+        <p>9</p>
+      </td>
+      <td>
+        <p>30</p>
+      </td>
+      <td>
+        <p>2,200</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>12</p>
+      </td>
+      <td>
+        <p>1,200</p>
+      </td>
+      <td>
+        <p>9</p>
+      </td>
+      <td>
+        <p>30</p>
+      </td>
+      <td>
+        <p>2,400</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>13</p>
+      </td>
+      <td>
+        <p>1,300</p>
+      </td>
+      <td>
+        <p>9</p>
+      </td>
+      <td>
+        <p>35</p>
+      </td>
+      <td>
+        <p>2,600</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>14</p>
+      </td>
+      <td>
+        <p>1,400</p>
+      </td>
+      <td>
+        <p>10</p>
+      </td>
+      <td>
+        <p>35</p>
+      </td>
+      <td>
+        <p>2,800</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>1,500</p>
+      </td>
+      <td>
+        <p>10</p>
+      </td>
+      <td>
+        <p>35</p>
+      </td>
+      <td>
+        <p>3,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>16</p>
+      </td>
+      <td>
+        <p>2,000</p>
+      </td>
+      <td>
+        <p>11</p>
+      </td>
+      <td>
+        <p>35</p>
+      </td>
+      <td>
+        <p>4,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>17</p>
+      </td>
+      <td>
+        <p>2,500</p>
+      </td>
+      <td>
+        <p>11</p>
+      </td>
+      <td>
+        <p>40</p>
+      </td>
+      <td>
+        <p>5,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>18</p>
+      </td>
+      <td>
+        <p>3,000</p>
+      </td>
+      <td>
+        <p>11</p>
+      </td>
+      <td>
+        <p>40</p>
+      </td>
+      <td>
+        <p>6,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>19</p>
+      </td>
+      <td>
+        <p>3,500</p>
+      </td>
+      <td>
+        <p>12</p>
+      </td>
+      <td>
+        <p>45</p>
+      </td>
+      <td>
+        <p>7,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>20</p>
+      </td>
+      <td>
+        <p>4,000</p>
+      </td>
+      <td>
+        <p>12</p>
+      </td>
+      <td>
+        <p>45</p>
+      </td>
+      <td>
+        <p>8,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>21</p>
+      </td>
+      <td>
+        <p>4,500</p>
+      </td>
+      <td>
+        <p>12</p>
+      </td>
+      <td>
+        <p>50</p>
+      </td>
+      <td>
+        <p>9,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>22</p>
+      </td>
+      <td>
+        <p>5,000</p>
+      </td>
+      <td>
+        <p>13</p>
+      </td>
+      <td>
+        <p>50</p>
+      </td>
+      <td>
+        <p>10,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>23</p>
+      </td>
+      <td>
+        <p>6,000</p>
+      </td>
+      <td>
+        <p>13</p>
+      </td>
+      <td>
+        <p>60</p>
+      </td>
+      <td>
+        <p>12,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>24</p>
+      </td>
+      <td>
+        <p>7,000</p>
+      </td>
+      <td>
+        <p>13</p>
+      </td>
+      <td>
+        <p>60</p>
+      </td>
+      <td>
+        <p>14,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>25</p>
+      </td>
+      <td>
+        <p>8,000</p>
+      </td>
+      <td>
+        <p>14</p>
+      </td>
+      <td>
+        <p>70</p>
+      </td>
+      <td>
+        <p>16,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>26</p>
+      </td>
+      <td>
+        <p>10,000</p>
+      </td>
+      <td>
+        <p>14</p>
+      </td>
+      <td>
+        <p>70</p>
+      </td>
+      <td>
+        <p>20,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>27</p>
+      </td>
+      <td>
+        <p>15,000</p>
+      </td>
+      <td>
+        <p>14</p>
+      </td>
+      <td>
+        <p>80</p>
+      </td>
+      <td>
+        <p>30,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>28</p>
+      </td>
+      <td>
+        <p>20,000</p>
+      </td>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>80</p>
+      </td>
+      <td>
+        <p>40,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>29</p>
+      </td>
+      <td>
+        <p>25,000</p>
+      </td>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>90</p>
+      </td>
+      <td>
+        <p>50,000</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>30</p>
+      </td>
+      <td>
+        <p>30,000</p>
+      </td>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>100</p>
+      </td>
+      <td>
+        <p>60,000</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><b>EQUIPPING MAGIC ITEMS</b></h3>
+<p>
+  Magic items require some of the bearer's Essence, or their life energy, in
+  order to function. By default, an adventurer has 100 Essence Points. An
+  adventurer cannot equip items whose sum Essence cost exceeds this limit.
+</p>
+<p>
+  For example, an adventurer could equip two items that each cost 30 Essence,
+  and one that costs 40. An adventurer could not equip three items that each
+  cost 40 Essence, as this would exceed 100 total Essence.
+</p>
+<h3><b>ITEMS STRENGTH</b></h3>
+<p>
+  Magic items range in power from convenient tools to artifacts that could
+  rewrite world events. When designing your own magic items, as you try to
+  determine your item's Essence cost, use this table as a reference.
+</p>
+<br />
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <p><b>Rarity</b></p>
+      </td>
+      <td>
+        <p><b>Avg. Essence Point Cost</b></p>
+      </td>
+      <td>
+        <p><b>Material cost (in sc)</b></p>
+      </td>
+      <td>
+        <p><b>Description</b></p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Common</p>
+      </td>
+      <td>
+        <p>10</p>
+      </td>
+      <td>
+        <p>200-500</p>
+      </td>
+      <td>
+        <p>
+          Items that hold minor powers, such as those you would find in a
+          cantrip, chant, or prayer.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Uncommon</p>
+      </td>
+      <td>
+        <p>15</p>
+      </td>
+      <td>
+        <p>500-1,500</p>
+      </td>
+      <td>
+        <p>
+          Items that begin to hold stronger powers. These rarely augment their
+          user's combat effectiveness in a major way, but would provide
+          moderately more powerful exploration or utility abilities.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Rare</p>
+      </td>
+      <td>
+        <p>20</p>
+      </td>
+      <td>
+        <p>1,500-50,000</p>
+      </td>
+      <td>
+        <p>
+          Rare items offer strong utility or may improve a bearer's combat
+          effectiveness.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Epic</p>
+      </td>
+      <td>
+        <p>33</p>
+      </td>
+      <td>
+        <p>50,000-100,000</p>
+      </td>
+      <td>
+        <p>
+          Epic items are quite powerful, and may change their bearer's entire
+          combat style.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p>Legendary</p>
+      </td>
+      <td>
+        <p>50</p>
+      </td>
+      <td>
+        <p>100,000+</p>
+      </td>
+      <td>
+        <p>
+          Legendary items are extremely powerful. The powers of a legendary item
+          could shift the tides of an entire battle or conquer a city.
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>
+  <b>RARITY EXAMPLES</b>
+</h2>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ring%20of%20Illumination%20(Common)"
+      target="_blank"
+      >RING OF ILLUMINATION (COMMON)</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ring%20of%20Illumination%20(Uncommon)"
+      target="_blank"
+      >RING OF ILLUMINATION (UNCOMMON)</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ring%20of%20Illumination%20(Rare)"
+      target="_blank"
+      >RING OF ILLUMINATION (RARE)</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ring%20of%20Illumination%20(Epic)"
+      target="_blank"
+      >RING OF ILLUMINATION (EPIC)</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ring%20of%20Illumination%20(Legendary)"
+      target="_blank"
+      >RING OF ILLUMINATION (LEGENDARY)</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ring%20of%20Illumination%20(Artifact)"
+      target="_blank"
+      >RING OF ILLUMINATION (ARTIFACT)</a
+    ></b
+  >
+</h3>
+
+<h2>
+  <b>WHAT DOES IT DO?</b>
+</h2>
+<p>
+  If you don't already have a clear idea of what you want an item to do, it can
+  be hard to come up with inspiration. A few easy places to look are class
+  talents, magic from any of the five Magic Sources, and monster abilities.
+  Taking any of these and turning them into a magic item can give your players a
+  fun and unique experience.
+</p>
+<h2>
+  <b>MAGIC ITEM CODEX</b>
+</h2>
+<p>
+  Items in this codex are organized first by weapons, then armor, then general
+  items, and finally potions. Within those categories, they are presented
+  alphabetically.
+</p>
+
+<h2><b>WEAPONS</b></h2>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Abyssal%20Blade"
+      target="_blank"
+      >ABYSSAL BLADE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Basilisk's%20Fang"
+      target="_blank"
+      >BASILISK'S FANG</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Blade%20of%20The%20Rodir"
+      target="_blank"
+      >BLADE OF THE RODIR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Bloody%20Blade"
+      target="_blank"
+      >BLOODY BLADE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Boom-Erang"
+      target="_blank"
+      >BOOM-ERANG</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Bow%20of%20Storms"
+      target="_blank"
+      >BOW OF STORMS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Bow%20of%20Shooting%20Stars"
+      target="_blank"
+      >BOW OF SHOOTING STARS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Cestus%20of%20Knocking"
+      target="_blank"
+      >CESTUS OF KNOCKING</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Colossus%20Greatslab"
+      target="_blank"
+      >COLOSSUS GREATSLAB</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Commander's%20Lance"
+      target="_blank"
+      >COMMANDER'S LANCE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Dancing%20Scimitar"
+      target="_blank"
+    >
+      DANCING SCIMITAR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Duelist's%20Delight"
+      target="_blank"
+      >DUELIST'S DELIGHT</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Earthshaker"
+      target="_blank"
+      >EARTHSHAKER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Fate%20Cutter"
+      target="_blank"
+      >FATE CUTTER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Flail%20of%20the%20Elements"
+      target="_blank"
+      >FLAIL OF THE ELEMENTS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Flametouched%20Longsword"
+      target="_blank"
+      >FLAMETOUCHED LONGSWORD</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Fleshripper"
+      target="_blank"
+      >FLESHRIPPER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Frostrime%20Battleaxe"
+      target="_blank"
+      >FROSTRIME BATTLEAXE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Glaive%20of%20the%20Tomb%20Guardian"
+      target="_blank"
+      >GLAIVE OF THE TOMB GUARDIAN</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Hatchet%20of%20Returning"
+      target="_blank"
+      >HATCHET OF RETURNING</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Hero's%20Standard"
+      target="_blank"
+      >HERO'S STANDARD</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Hunter's%20Bow"
+      target="_blank"
+      >HUNTER'S BOW</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Jailer's%20Branding%20Iron"
+      target="_blank"
+      >JAILER'S BRANDING IRON</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Kraken's%20Woe"
+      target="_blank"
+      >KRAKEN'S WOE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Lightning%20Bolt%20Spear"
+      target="_blank"
+      >LIGHTNING BOLT SPEAR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Lightning%20Lasher"
+      target="_blank"
+      >LIGHTNING LASHER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Lute%20of%20Lost%20Tones"
+      target="_blank"
+      >LUTE OF LOST TONES</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Mariner's%20Friend"
+      target="_blank"
+      >MARINER'S FRIEND</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Mul'ator%20Blade"
+      target="_blank"
+      >MUL'ATOR BLADE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Realmstalker"
+      target="_blank"
+      >REALMSTALKER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Scorpion's%20Sting"
+      target="_blank"
+      >SCORPION'S STING</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Sickle%20of%20Culling"
+      target="_blank"
+      >SICKLE OF CULLING</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Soulbound%20Dagger"
+      target="_blank"
+      >SOULBOUND DAGGER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Spirit%20Bow"
+      target="_blank"
+      >SPIRIT BOW</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Staff%20of%20Vipers"
+      target="_blank"
+      >STAFF OF VIPERS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Staff%20of%20Whirlwinds"
+      target="_blank"
+      >STAFF OF WHIRLWINDS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Taste%20of%20Nobility"
+      target="_blank"
+      >TASTE OF NOBILITY</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ursine%20Mace"
+      target="_blank"
+      >URSINE MACE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Vampire's%20Bane"
+      target="_blank"
+      >VAMPIRE'S BANE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:War%20Wizard's%20Wand"
+      target="_blank"
+      >WAR WIZARD'S WAND</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Wasp"
+      target="_blank"
+      >WASP</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Woodcutter's%20Axe"
+      target="_blank"
+      >WOODCUTTER'S AXE</a
+    ></b
+  >
+</h3>
+
+<h2>
+  <b>ARMOR</b>
+</h2>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Acidwalker's%20Armor"
+      target="_blank"
+      >ACIDWALKER'S ARMOR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Chameleon%20Hide"
+      target="_blank"
+      >CHAMELEON HIDE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Diving%20Suit"
+      target="_blank"
+      >DIVING SUIT</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Flamewalker's%20Armor"
+      target="_blank"
+      >FLAMEWALKER'S ARMOR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Guardian's%20Shield"
+      target="_blank"
+      >GUARDIAN'S SHIELD</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Icewalker's%20Armor"
+      target="_blank"
+      >ICEWALKER'S ARMOR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Iron%20Maiden's%20Plate"
+      target="_blank"
+      >IRON MAIDEN'S PLATE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Leafdancer's%20Cuirass"
+      target="_blank"
+      >LEAFDANCER'S CUIRASS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Lucky%20Cutoff%20Vest"
+      target="_blank"
+      >LUCKY CUTOFF VEST</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Mirror%20Shield"
+      target="_blank"
+      >MIRROR SHIELD</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Phalanx%20Tower%20Shield"
+      target="_blank"
+      >PHALANX TOWER SHIELD</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Robes%20of%20the%20Archmage"
+      target="_blank"
+      >ROBES OF THE ARCHMAGE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Second%20Skin"
+      target="_blank"
+      >SECOND SKIN</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Shield%20of%20Thorns"
+      target="_blank"
+      >SHIELD OF THORNS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Sunburst%20Shield"
+      target="_blank"
+      >SUNBURST SHIELD</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Symbiotic%20Mimic"
+      target="_blank"
+      >SYMBIOTIC MIMIC</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Volcanic%20Plate"
+      target="_blank"
+      >VOLCANIC PLATE</a
+    ></b
+  >
+</h3>
+
+<h2>
+  <b>ITEMS</b>
+</h2>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Amulet%20Of%20Thirst"
+      target="_blank"
+      >AMULET OF THIRST</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Book%20Of%20Secrets"
+      target="_blank"
+      >BOOK OF SECRETS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Boots%20Of%20The%20Swiftwind"
+      target="_blank"
+      >BOOTS OF THE SWIFTWIND</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Bottomless%20Bag"
+      target="_blank"
+      >BOTTOMLESS BAG</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Beastheart%20Gauntlets"
+      target="_blank"
+      >BEASTHEART GAUNTLETS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Bracers%20Of%20Conduction"
+      target="_blank"
+      >BRACERS OF CONDUCTION</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Brewer's%20Cask"
+      target="_blank"
+      >BREWER'S CASK</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Carrion%20Cloak"
+      target="_blank"
+      >CARRION CLOAK</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Circlet%20Of%20Mind%20Shielding"
+      target="_blank"
+      >CIRCLET OF MIND SHIELDING</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Circlet%20Of%20Thought%20Detection"
+      target="_blank"
+      >CIRCLET OF THOUGHT DETECTION</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Climber's%20Gloves"
+      target="_blank"
+      >CLIMBER'S GLOVES</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Cloak%20Of%20Shadows"
+      target="_blank"
+      >CLOAK OF SHADOWS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Crane%20Paper"
+      target="_blank"
+      >CRANE PAPER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Deployable%20Glider"
+      target="_blank"
+      >DEPLOYABLE GLIDER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Die%20Of%20Beasts"
+      target="_blank"
+      >DIE OF BEASTS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Die%20Of%20Self"
+      target="_blank"
+      >DIE OF SELF</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Die%20Of%20Time"
+      target="_blank"
+      >DIE OF TIME</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Endless%20Quiver"
+      target="_blank"
+      >ENDLESS QUIVER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Flute%20Of%20The%20Gravecaller"
+      target="_blank"
+      >FLUTE OF THE GRAVECALLER</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Frostwalker%20Boots"
+      target="_blank"
+      >FROSTWALKER BOOTS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Girdle%20Of%20The%20Wolf"
+      target="_blank"
+      >GIRDLE OF THE WOLF</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Gloves%20Of%20The%20Thought%20Thief"
+      target="_blank"
+      >GLOVES OF THE THOUGHT THIEF</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ivory%20Whistle"
+      target="_blank"
+      >IVORY WHISTLE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Mad%20Tinkerer's%20Toolbox"
+      target="_blank"
+      >MAD TINKERER'S TOOLBOX</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Magnetic%20Gloves"
+      target="_blank"
+      >MAGNETIC GLOVES</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Masquerade%20Mirror"
+      target="_blank"
+      >MASQUERADE MIRROR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Messenger%20Bracelet"
+      target="_blank"
+      >MESSENGER BRACELET</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Ring%20Of%20Protection"
+      target="_blank"
+      >RING OF PROTECTION</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Sea%20Legs"
+      target="_blank"
+      >SEA LEGS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Spell%20Thief's%20Scroll"
+      target="_blank"
+      >SPELL THIEF'S SCROLL</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Viperstrike%20Bracers"
+      target="_blank"
+      >VIPERSTRIKE BRACERS</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Visage%20Of%20Fear"
+      target="_blank"
+      >VISAGE OF FEAR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Wanderer's%20Doorknocker"
+      target="_blank"
+      >WANDERER'S DOORKNOCKER</a
+    ></b
+  >
+</h3>
+
+<h2><b>POTIONS</b></h2>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Clearblood%20Elixir"
+      target="_blank"
+      >CLEARBLOOD ELIXIR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Drake's%20Breath%20Elixir"
+      target="_blank"
+      >DRAKE'S BREATH ELIXIR</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Draught%20Of%20Fortitude"
+      target="_blank"
+      >DRAUGHT OF FORTITUDE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Elixir%20Of%20Life"
+      target="_blank"
+      >ELIXIR OF LIFE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Hunter's%20Draught"
+      target="_blank"
+      >HUNTER'S DRAUGHT</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Mimic%20Mix"
+      target="_blank"
+      >MIMIC MIX</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Potion%20Of%20Haste"
+      target="_blank"
+      >POTION OF HASTE</a
+    ></b
+  >
+</h3>
+<h3>
+  <b
+    ><a
+      href="https://app.roll20.net/compendium/mythcraft/Equipment:Potion%20Of%20The%20Fundamental"
+      target="_blank"
+      >POTION OF THE FUNDAMENTAL</a
+    ></b
+  >
+</h3>

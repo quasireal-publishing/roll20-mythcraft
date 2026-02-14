@@ -1,0 +1,34 @@
+{
+  "pagesByCategory": {
+    "Siege": {
+      "Ballista": {
+        "description": "This ballista is bolted onto a ship's deck, a city wall, or another large area. Ballistae cost 4,000 sc.",
+        "ammunition": "Bolt (1 AP)",
+        "reload": "2 AP",
+        "area_of_effect": "None",
+        "helf": "6",
+        "speed": "0 ft",
+        "hp": "30",
+        "armor_rating": "14",
+        "reflexes": "7",
+        "fortitude": "14",
+        "resist": "Blunt 3",
+        "immune": "Psychic",
+        "damage_reduction": "4/Fire",
+        "damage_threshold": "15",
+        "actions": [
+          {
+            "name": "Attack",
+            "range": "3,000 ft",
+            "type": "Siege Weapon",
+            "defense": "AR",
+            "damage": "4d10",
+            "damage_type": "sharp",
+            "effect": "A creature within 5 ft of the Ballista can spend 3 AP to make a siege weapon attack vs AR. This attack suffers a -3 penalty if the target is Medium or smaller. Hit: 4d10 sharp."
+          }
+        ],
+        "content": ""
+      }
+    }
+  }
+}

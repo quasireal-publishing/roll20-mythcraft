@@ -1,0 +1,44 @@
+{
+  "Name": "Elemental",
+  "reflexes": "15",
+  "fortitude": "15",
+  "actions": [
+    { "name": "Tier 1 Actions" },
+    { "name": "Move", "effect": "The Elemental can move up to its speed." },
+    {
+      "name": "Howling Wind",
+      "range": "Reach 10 ft",
+      "type": "Natural Weapon",
+      "modifier": "5",
+      "defense": "AR",
+      "damage_average": "9",
+      "damage": "1d8+5",
+      "damage_type": "sonic",
+      "effect": "and the target is pushed 10 ft."
+    },
+    { "name": "Tier 2 Actions" },
+    {
+      "name": "Wind Blast",
+      "range": "40 ft Cone",
+      "type": "Natural Weapon",
+      "modifier": "5",
+      "defense": "FORT of all creatures in the cone",
+      "damage_average": "9",
+      "damage": "1d8+5",
+      "damage_type": "sonic",
+      "effect": "and the target is pushed 10 ft."
+    }
+  ],
+  "features": [
+    {
+      "name": "Malleable Form",
+      "description": "The Air Elemental can use its move action to pass through spaces as small as 1 inch, but cannot end its turn in any space too small for a Large creature."
+    }
+  ],
+  "reactions": [
+    { "description": "Gust (1/Round)" },
+    {
+      "name": "When a creature moves into 10 ft reach of the Elemental, it may reactively make a Howling Wind attack."
+    }
+  ]
+}
