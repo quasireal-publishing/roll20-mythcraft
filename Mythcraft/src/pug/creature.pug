@@ -30,10 +30,15 @@
 
 		+combatAttributes()
 
-		.display-mode.grid.gap-4.grid-flow-col.stats
-			.grid.auto-rows-min
-				each val in ['armor rating', 'hp', 'speed']
-					.grid.gap-1.grid-flow-col.col-auto-fr.items-center.display-span
+		.display-mode.grid.gap-4
+			.grid.gap-2.grid-flow-col.auto-rows-min
+				.grid
+					each val in ["hp", "speed"]
+						.grid.gap-2.grid-flow-col.auto-cols-max.items-center
+							+h3Header(val)
+							+attrSpan(val)(class='font-base')
+				each val in ['armor rating']
+					.grid.gap-1.grid-flow-col.col-auto-fr.display-span
 						+h3Header(val)
 						+attrSpan(val)(class='font-base')
 
@@ -79,7 +84,7 @@
 				each val in ['senses', 'traits']
 					+headerInput(val)
 
-		.grid.items-center.section-skills
+		.grid.gap-2.items-center.section-skills
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="skills")
 				label.switch(data-i18n-title="toggle skills")
@@ -119,7 +124,7 @@
 							+textarea('description')
 
 
-		.grid.items-center.actions.section-actions
+		.grid.gap-2.items-center.actions.section-actions
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="actions")
 				label.switch(data-i18n-title="toggle actions")

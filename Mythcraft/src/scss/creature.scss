@@ -23,10 +23,6 @@
     margin-left: $spacing;
   }
 
-  .stats {
-    grid-template-columns: 1fr 2fr;
-  }
-
   .display-mode h3 {
     font-weight: 700;
     @extend .font-base;
@@ -122,10 +118,6 @@
   div.repeating_skills {
     .category {
       display: none;
-    }
-
-    .custom-grid {
-      grid-auto-columns: min-content;
     }
 
     .edit .modifier {
