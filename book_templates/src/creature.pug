@@ -28,16 +28,24 @@ mixin statLabel(name)
                             - const shortNames = derivedAttr.slice(0, 3);
                             span.capitalize.text-center #{shortNames}:
                             span.text-center {{##{derivedAttr}}} {{#{derivedAttr}}} {{/#{derivedAttr}}}                  
-        .stats.grid.grid-flow-col.gap-2.w-full.h-full 
-            .armor.grid.w-full.h-full.content-start
-                each val in ["armor_rating", "hp", "speed"]
+        .stats.grid.gap-2.w-full.h-full 
+            .armor.grid.w-full.h-full.content-start.grid-flow-col.auto-rows-min
+                .grid
+                    each val in ["hp", "speed"]
+                        .grid.gap-2.grid-flow-col.auto-cols-max.items-center
+                            +statLabel(val)
+                each val in ['armor_rating']
                     +statLabel(val)
             .resist.grid.grid-gap-2.w-full.h-full.content-start
                 .resist.grid.gap-2.grid-flow-col.items-center.auto-cols-max
                     each val in ["resist", "immune"]
                         +statLabel(val)
+
+                .grid.gap-2.grid-flow-col.items-center.auto-cols-max
+                    each val in ["dr", "damage_reduction", "damage_threshold"]
+                        +statLabel(val)
                 .vulnerable.grid.gap-2.grid-flow-col.items-center.auto-cols-max
-                    each val in ["vulnerable", "dr"]
+                    each val in ["vulnerable"]
                         +statLabel(val)
                 each val in [ "senses",  "traits"]
                     +statLabel(val)
@@ -128,11 +136,3 @@ mixin statLabel(name)
             | {{/reactions}}
         | {{/reactions}}
 
-
-
-    each val in ["data-List",  "dr", "dt",  ]
-        | {{##{val}}}
-        .grid.grid-flow-col.gap-2.col-auto-fr
-            span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
-            span.capitalize {{#{val}}}  
-        | {{/#{val}}} 
