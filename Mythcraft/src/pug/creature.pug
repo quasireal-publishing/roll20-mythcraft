@@ -44,7 +44,12 @@
 							+h3Header(val)
 							+attrSpan(val)(class='font-base')
 				.grid.gap-2.items-center.auto-cols-max.grid-flow-col
-					each val in ['vulnerable', 'damage reduction']
+					each val in ['vulnerable']
+						.grid.gap-2.grid-flow-col.items-center.auto-cols-max.display-span
+							+h3Header(val)
+							+attrSpan(val)(class='font-base')
+				.grid.gap-2.items-center.auto-cols-max.grid-flow-col
+					each val in ['damage reduction', 'damage threshold']
 						.grid.gap-2.grid-flow-col.items-center.auto-cols-max.display-span
 							+h3Header(val)
 							+attrSpan(val)(class='font-base')
@@ -65,9 +70,11 @@
 					+headerInput(val)
 
 			.grid.gap-2.grid-flow-col.items-center
-				each val in ['vulnerable', 'damage reduction']
+				each val in ['vulnerable']
 					+headerInput(val)
-
+			.grid.gap-2.grid-flow-col.items-center
+				each val in ['damage reduction', 'damage threshold']
+					+headerInput(val)
 			.grid.gap-2.items-center
 				each val in ['senses', 'traits']
 					+headerInput(val)

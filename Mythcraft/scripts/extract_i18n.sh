@@ -15,12 +15,14 @@ fi
 # 2) data-i18n-placeholder="key"
 # 3) data-i18n-title="key"
 # 4) ^{key}
+# Decode &amp; -> & so keys match Roll20's lookup (e.g. "hp & shield", "attacks & spellcasting")
 grep -oE 'data-i18n(-placeholder|-title)?="[^"]*"|\^\{[^}]+\}' "$INPUT_HTML" \
   | sed -E '
       s/^data-i18n(-placeholder|-title)?="//;
       s/"$//;
       s/^\^\{//;
       s/\}$//;
+      s/&amp;/\&/g;
     ' \
   | awk 'NF' \
   | sort -u \

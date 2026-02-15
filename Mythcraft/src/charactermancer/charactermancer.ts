@@ -4,9 +4,9 @@ on("clicked:launch_charactermancer", () => {
 
 // Automatically launch the charactermancer when opening a new sheet for development
 //- Remove or comment before release
-on("sheet:opened", () => {
+/* on("sheet:opened", () => {
   startCharactermancer("start");
-});
+}); */
 
 [
   "start",

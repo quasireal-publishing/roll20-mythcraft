@@ -1301,9 +1301,6 @@ var versionOneTwoOne = function () {
 on("clicked:launch_charactermancer", function () {
     startCharactermancer("start");
 });
-on("sheet:opened", function () {
-    startCharactermancer("start");
-});
 [
     "start",
     "lineage",
