@@ -8,18 +8,17 @@ Cleanup actions (in order):
   1. Remove all class, style, id, and lang attributes from every tag.
   2. Replace all &nbsp; with a normal space.
   3. Remove all <colgroup> elements and their children.
-  4. Remove all <img> elements.
-  5. Remove <p> that only contain a <br> (or <br />), and remove any empty <p> that have no content (including only whitespace or &nbsp;).
-  6. Remove empty elements: <a>, <b>, <em>, <span>, <i> when they have no content.
-  7. Ensure every h1, h2, h3, h4 has its text wrapped in <b> (if not already).
-  8. Collapse redundant nested <b> and <strong> (e.g. <b><b>text</b></b> → <b>text</b>).
-  9. Normalize headers: one <b> wrapping all text; merge <b>A</b><b>B</b> into <b>A B</b>; &nbsp; → space.
- 10. Insert <br /> between two consecutive <p> elements.
- 11. Insert <br /> between a <table> and an adjacent <p> (before or after the table).
- 12. Insert <br /> between </p> and <ul> (opening ul only, not closing </ul>).
- 13. Unwrap <p> inside table cells: <td><p>...</p></td> becomes <td>...</td>.
- 14. Normalize whitespace: trim trailing space on lines, collapse 3+ blank lines to 2.
- 15. Final pass: remove any remaining empty <p></p>.
+  4. Remove <p> that only contain a <br> (or <br />), and remove any empty <p> that have no content (including only whitespace or &nbsp;).
+  5. Remove empty elements: <a>, <b>, <em>, <span>, <i> when they have no content.
+  6. Ensure every h1, h2, h3, h4 has its text wrapped in <b> (if not already).
+  7. Collapse redundant nested <b> and <strong> (e.g. <b><b>text</b></b> → <b>text</b>).
+  8. Normalize headers: one <b> wrapping all text; merge <b>A</b><b>B</b> into <b>A B</b>; &nbsp; → space.
+  9. Insert <br /> between two consecutive <p> elements.
+ 10. Insert <br /> between a <table> and an adjacent <p> (before or after the table).
+ 11. Insert <br /> between </p> and <ul> (opening ul only, not closing </ul>).
+ 12. Unwrap <p> inside table cells: <td><p>...</p></td> becomes <td>...</td>.
+ 13. Normalize whitespace: trim trailing space on lines, collapse 3+ blank lines to 2.
+ 14. Final pass: remove any remaining empty <p></p>.
 """
 import re
 import sys
@@ -38,9 +37,6 @@ def clean_html(html: str) -> str:
 
     # 3. Remove <colgroup> and all its children
     html = re.sub(r'<colgroup[^>]*>.*?</colgroup>', '', html, flags=re.IGNORECASE | re.DOTALL)
-
-    # 3b. Remove all <img> elements
-    html = re.sub(r'<img[^>]*/?>\s*', '', html, flags=re.IGNORECASE)
 
     # 4. Remove <p> that only contain whitespace and <br> or <br />, and any empty <p> (no content)
     html = re.sub(r'<p[^>]*>\s*<br\s*/?>\s*</p>\s*', '', html, flags=re.IGNORECASE)

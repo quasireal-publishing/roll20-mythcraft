@@ -1,0 +1,23 @@
+{
+  "folders": [
+    {
+      "path": "Mythcraft"
+    },
+    {
+      "path": "../roll20-character-sheets/Mythcraft"
+    },
+    {
+      "path": "tailwind"
+    },
+    {
+      "path": "book_templates"
+    },
+    {
+      "path": "../DnD 5e Book Templates"
+    },
+    {
+      "path": "../roll20-SheetTemplate"
+    }
+  ],
+  "settings": {}
+}
