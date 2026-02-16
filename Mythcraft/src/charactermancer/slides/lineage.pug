@@ -1,0 +1,17 @@
+charmancer.sheet-charmancer-lineage
+    +slideTemplate("lineage")
+        .instructions
+            p First, what is your character’s lineage? Pick from well-known fantasy lineages like dwarf or elf, or play a unique lineage like a squirrelly kleppin or a biotechnical raedeen. Each lineage allows you to make a choice when you first create your character, as no lineage is a monolith. You will either pick a sublineage, or you will pick from a list of lineage abilities to make yourself unique. Some lineage options give you Skill Points.
+
+        .grid.grid-flow-col.gap-4.items-start.h-full.iframe-grid
+            .grid.gap-4.h-full
+                .grid.gap-2.h-full.auto-rows-min.items-start
+                    h3.capitalize(data-i18n="choose lineage")
+                    select(name="comp_lineage" accept="Category:Lineages" required)
+                each val in ["appearance", "height", "lifespan", "size", "weight", "speed"]
+                    .grid.gap-2(class=`sheet-choice-${val}`)
+                        h4.capitalize(data-i18n=`${val}`)
+                        input.w-full(type="text" name=`comp_${val}` data-i18n-placeholder=`${val}` value="")
+
+            .grid.h-full.sheet-compendium-page.sheet-iframe(accept="Rules:Lineages")
+

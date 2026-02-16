@@ -1,0 +1,53 @@
+include ./charactermancer_mixins.pug
+
+charmancer.sheet-charmancer-start
+    +slideTemplate()
+        .instructions
+            p Welcome to the Mythcraft Charactermancer! This tool will guide you the steps by which you create a hero for your MythCraft game. Character creation involves both thinking about your backstory and your place in the world, and choosing what mechanical abilities you have.As you pick your character’s abilities, think about how that fits in with their personality and backstory. Designing your character’s mechanics involves six steps:
+
+        ol.list-decimal.list-inside
+            li Choose a Lineage
+            li Assign Attribute Points
+            li Note your Stats
+            li Determine your Background
+            li Pick a Profession
+            li Take a Starting Talent
+
+include ./slides/lineage.pug
+
+include ./slides/attributes.pug
+
+charmancer.sheet-charmancer-stats
+    +slideTemplate("stats")
+        p Your character has several stats that represent their health, energy, and other vital measures. These stats are influenced by your attributes and lineage.
+
+charmancer.sheet-charmancer-background
+    +slideTemplate("background")
+        p Your character’s background reflects their history and experiences before the start of the game. Choose a background that fits your character’s story and provides useful skills or resources.
+
+charmancer.sheet-charmancer-profession
+    +slideTemplate("profession")
+        p Your character’s profession defines their role in the world and the skills they bring to the table. Choose a profession that complements your background and attributes.
+
+charmancer.sheet-charmancer-talent
+    +slideTemplate("Talent")
+        p Finally, select a starting talent for your character. Talents are special abilities or powers that give your character unique advantages. Choose one that fits your character’s concept and enhances their capabilities.
+
+charmancer.sheet-charmancer-biography
+    +slideTemplate("biography")
+        p Now that you have selected your character’s mechanical aspects, it’s time to flesh out their biography. Consider their motivations, relationships, and goals. Write a brief backstory that ties together their lineage, background, and profession.
+        .grid.col-auto-fr.gap-1.grid-flow-col.items-center(class!=attributes.class)
+            +h3Header("name")
+            label(for="comp_name" data-i18n="name")
+                input(type="text" name="comp_name" placeholder="Enter your character's name here" class="w-full" required)
+
+charmancer.sheet-charmancer-review
+    +slideTemplate("review")
+        p Review your character’s details and make any final adjustments. Ensure that your character is well-rounded and fits the story you want to tell.
+        <button type="finish" value="example">Apply Changes</button>
+
+
+charmancer.sheet-charmancer-final
+    +slideTemplate("Final")
+        p Congratulations! You have completed the Mythcraft Charactermancer. Your character is now ready for adventure.
+        <button type="finish" value="example">Apply Changes</button>

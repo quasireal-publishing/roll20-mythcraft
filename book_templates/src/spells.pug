@@ -1,0 +1,43 @@
+.template.grid.gap-2
+    .header.grid
+        h1.primary.font-h1 
+            |{{Name}}
+        i.font-base.third {{#source}} {{source}} {{/source}} {{#type}} {{type}}, {{/type}} {{#function}} {{function}}, {{/function}} {{#function_note}} {{function_note}} {{/function_note}}
+    .body.font-base.third.grid.gap-2
+        .grid
+            each val in [ "apc", "spc", "casting_time",  "damage", "damage_type", "duration",  "liturgy_apc", "liturgy_spc", "materials",  "prerequisites", "range", "reactive", "recharge", "requires",]
+                | {{##{val}}}
+                .grid.gap-2.grid-flow-col.col-auto-fr
+                    span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
+                    span.capitalize {{#{val}}}  
+                | {{/#{val}}} 
+
+
+        each val in ["upcharge", "description"]
+            |{{##{val}}}
+            .grid
+                .font-bold.capitalize #{val}
+                .font-base.third.grid
+                | {{#{val}}}
+            | {{/#{val}}} 
+
+
+        | {{#power_level_description}}
+        .grid
+            .grid
+                .font-base.third.grid
+                em {{power_level_description}}
+            | {{#power_level}}
+            .grid
+                .font-base.third.grid
+                | {{!power_level}}
+                em
+                    strong {{power_level_descriptor}} {{[level]}}: 
+                    span {{[description]}}
+                | {{/power_level}} 
+            | {{/power_level}}
+        | {{/power_level_description}}
+
+
+
+

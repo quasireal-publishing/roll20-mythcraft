@@ -1,0 +1,65 @@
+// Google Fonts
+@import url("https://fonts.googleapis.com/css?family=Tinos&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Gideon+Roman&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap");
+
+// TAILWIND
+//  ============================= *
+@import "../../tailwind/colors";
+@import "../../tailwind/border";
+@import "../../tailwind/flex";
+@import "../../tailwind/grid";
+@import "../../tailwind/height";
+@import "../../tailwind/position";
+@import "../../tailwind/shadow";
+@import "../../tailwind/spacing";
+@import "../../tailwind/typography";
+@import "../../tailwind/width";
+
+// BRANDING
+//  ============================= *
+@import "../../branding.scss";
+
+//Override & restyle Roll20's default styling
+@import "scss/overrides";
+@import "scss/charsheet";
+@import "scss/dropzone";
+/* @import "charactermancer/charactermancer"; */
+
+.pc,
+.creature {
+  background-image: url("https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/MythCraft-PaperTexture.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: $box-shadow;
+  border: 2px solid $third;
+  border-radius: $spacing-2;
+}
+
+// Shared Classes
+//   =============================  */
+@import "scss/shared_classes";
+@import "scss/typography";
+
+/* PC
+    ============================= */
+@import "scss/pc";
+
+/* CREATURE
+    ============================= */
+@import "scss/creature";
+
+/*  SHOW & HIDE SECTIONS
+  ============================= */
+@import "scss/visibility";
+
+/*  COMPONENTS
+  ============================= */
+@import "scss/components/checkbox";
+@import "scss/components/roll_template";
+@import "scss/components/switch";
+
+/*  FOOTER
+  ============================= */
+@import "scss/footer";

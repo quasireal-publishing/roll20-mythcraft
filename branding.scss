@@ -1,0 +1,52 @@
+@use "./tailwind/colors.scss";
+@use "./tailwind/typography.scss";
+
+//Customer Variables for branding
+$primary: rgb(23, 67, 69);
+$secondary: rgb(254, 235, 179);
+$third: rgb(44, 37, 34);
+$fourth: rgb(41, 135, 140);
+$fifth: rgb(252, 101, 67);
+$box-shadow: 2px 2px 3px 1px colors.$color-neutral-500;
+
+$paper-background: "https://imgsrv.roll20.net/?src=https%3A//raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/MythCraft-PaperTexture.jpg";
+
+// Normal Text: Tinos 11pt -> closest is $text-sm: 14px
+// H1: Gideon Roman, bold, 30pt -> closest is $text-2xl: 24px
+// H2: Josefin Sans 18pt -> closest is $text-2xl: 24px
+// H3: Tinos 16pt -> closest is $text-lg: 18px
+// H4: Josefin Sans, bold, 12 pt  -> closest is $text-base: 16px
+
+.font-base {
+  font-family: "Tinos";
+  font-size: typography.$text-sm;
+  font-weight: typography.$font-weight-normal;
+  line-height: typography.$text-sm--line-height;
+}
+
+.font-h1 {
+  font-family: "Gideon Roman";
+  font-size: typography.$text-4xl;
+  font-weight: typography.$font-weight-bold;
+  line-height: typography.$text-4xl--line-height;
+}
+
+.font-h2 {
+  font-family: "Josefin Sans";
+  font-size: typography.$text-2xl;
+  font-weight: typography.$font-weight-medium;
+  line-height: typography.$text-2xl--line-height;
+}
+
+.font-h3 {
+  font-family: "Tinos";
+  font-size: typography.$text-lg;
+  font-weight: typography.$font-weight-medium;
+  line-height: typography.$text-lg--line-height;
+}
+
+.font-h4 {
+  font-family: "Josefin Sans";
+  font-size: typography.$text-base;
+  font-weight: typography.$font-weight-bold;
+}

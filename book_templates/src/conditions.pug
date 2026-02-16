@@ -1,0 +1,11 @@
+.template.grid.gap-2
+    .header.grid
+        h1.primary.font-h1 
+            |{{Name}}
+    .body.font-base.third.grid.gap-2
+        |{{#description}}
+        .grid
+            .font-bold.capitalize description
+            .font-base.third.grid
+            | {{description}}
+        | {{/description}}
