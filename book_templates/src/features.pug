@@ -10,3 +10,9 @@
                 span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
                 span.capitalize {{#{val}}}  
             | {{/#{val}}}
+        |{{#description}}
+        .grid
+            .font-bold.capitalize description
+            .font-base.third.grid
+            | {{description}}
+        | {{/description}}

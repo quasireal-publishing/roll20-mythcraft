@@ -9,7 +9,10 @@
                 | {{##{val}}}
                 .grid.grid-flow-col.gap-2.col-auto-fr
                     span.font-bold.capitalize #{val.replace(/_/g, ' ')}:
-                    span.capitalize {{#{val}}}  
+                    if val === "cost"
+                        span {{#{val}}}  
+                    else
+                        span.capitalize {{#{val}}}  
                 | {{/#{val}}}
 
         |{{#description}}
