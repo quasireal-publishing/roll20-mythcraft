@@ -1,7 +1,7 @@
-mixin statLabel(name)
+mixin statLabel(name, label, uppercase = false)
     | {{##{name}}}
     .grid.grid-flow-col.gap-1.col-auto-fr
-        span.font-bold.capitalize #{name.replace(/_/g, ' ')}:
+        span.font-bold(class=(uppercase ? "uppercase" : "capitalize")) #{label || name.replace(/_/g, ' ')}:
         span.capitalize {{#{name}}}  
     | {{/#{name}}}
 
@@ -40,10 +40,10 @@ mixin statLabel(name)
                 .resist.grid.gap-2.grid-flow-col.items-center.auto-cols-max
                     each val in ["resist", "immune"]
                         +statLabel(val)
-
                 .grid.gap-2.grid-flow-col.items-center.auto-cols-max
                     each val in ["dr", "damage_reduction", "damage_threshold"]
-                        +statLabel(val)
+                        - const label = val === 'dr' || val === 'damage_reduction' ? 'DR' :  'DT' ;
+                        +statLabel(val, label, true)
                 .vulnerable.grid.gap-2.grid-flow-col.items-center.auto-cols-max
                     each val in ["vulnerable"]
                         +statLabel(val)
