@@ -1,0 +1,6 @@
+mixin statLabel(name, label, uppercase = false)
+    | {{##{name}}}
+    .grid.grid-flow-col.gap-1.col-auto-fr
+        span.font-bold(class=(uppercase ? "uppercase" : "capitalize")) #{label || name.replace(/_/g, ' ')}:
+        span.capitalize {{#{name}}}  
+    | {{/#{name}}}

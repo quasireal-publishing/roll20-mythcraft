@@ -1,10 +1,4 @@
-mixin statLabel(name, label, uppercase = false)
-    | {{##{name}}}
-    .grid.grid-flow-col.gap-1.col-auto-fr
-        span.font-bold(class=(uppercase ? "uppercase" : "capitalize")) #{label || name.replace(/_/g, ' ')}:
-        span.capitalize {{#{name}}}  
-    | {{/#{name}}}
-
+include ./mixins.pug
 
 .creature.template.grid.gap-2
     .header.grid
@@ -40,13 +34,13 @@ mixin statLabel(name, label, uppercase = false)
                 .resist.grid.gap-2.grid-flow-col.items-center.auto-cols-max
                     each val in ["resist", "immune"]
                         +statLabel(val)
+                .vulnerable.grid.gap-2.grid-flow-col.items-center.auto-cols-max
+                    each val in ["vulnerable"]
+                        +statLabel(val)
                 .grid.gap-2.grid-flow-col.items-center.auto-cols-max
                     each val in ["dr", "damage_reduction", "damage_threshold"]
                         - const label = val === 'dr' || val === 'damage_reduction' ? 'DR' :  'DT' ;
                         +statLabel(val, label, true)
-                .vulnerable.grid.gap-2.grid-flow-col.items-center.auto-cols-max
-                    each val in ["vulnerable"]
-                        +statLabel(val)
                 each val in [ "senses",  "traits"]
                     +statLabel(val)
 

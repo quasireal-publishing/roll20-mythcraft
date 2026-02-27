@@ -1,0 +1,82 @@
+include ./mixins.pug
+
+.creature.template.grid.gap-2
+    .header.grid
+        h1.primary.font-h1 
+            |{{Name}}
+            
+    |{{#description}}
+    .grid.font-base.third
+        | {{description}}
+    | {{/description}}
+
+    .body.font-base.third.grid.gap-4                 
+        .stats.grid.w-full.h-full 
+            each val in ["range","ammunition", "reload","area_of_effect", "helf", "speed"]
+                - const label = val === "area_of_effect" ? "AOE" : null;
+                +statLabel(val, label)
+            +statLabel("hp", "HP")
+            .grid.gap-4.grid-flow-col.items-center.auto-cols-max
+                each val in [["armor_rating", "AR"], ["reflexes", "REF"], ["fortitude", "FORT"]]
+                    - const [name, label] = val;
+                    +statLabel(name, label)
+            .resist.grid.gap-2.grid-flow-col.items-center
+                each val in ["resist", "immune"]
+                    +statLabel(val)
+            .grid
+                +statLabel("vulnerable")
+            .grid.gap-2.grid-flow-col.items-center
+                each val in [["damage_reduction", "DR"], ["damage_threshold", "DT"] ]
+                    - const [name, label] = val;
+                    +statLabel(name, label)
+        
+
+        | {{#actions}}
+        .grid.gap-2.w-full.h-full
+            h2.uppercase.primary.text-center actions
+
+            |{{#action_description}}
+            .grid
+                |{{action_description}}
+            |{{/action_description}}
+
+            .grid.gap-1
+                |{{!actions}}
+                p
+
+                    |{{[#name]}}
+                    strong {{[name]}}.
+                    |{{[/name]}}
+
+                    |{{[#range]}}
+                    em {{[range]}}
+                    |{{[/range]}}
+
+                    |{{[#type]}}
+                    em {{[type]}}.
+                    |{{[/type]}}
+
+                    |{{[#defense]}}
+                    span vs {{[defense]}}.
+                    |{{[/defense]}}
+                    
+                    | {{[#damage_average]}}
+                    span {{[damage_average]}}
+                    | {{[/damage_average]}}
+
+                    | {{[#damage]}}
+                    span ({{[damage]}})
+                    | {{[/damage]}}
+
+                    | {{[#damage_type]}}
+                    span {{[damage_type]}}
+                    | {{[/damage_type]}}
+
+                    | {{[#effect]}}
+                    br
+                    span {{[effect]}}
+                    | {{[/effect]}}
+
+                | {{/actions}}
+        | {{/actions}}
+            
