@@ -1,13 +1,13 @@
 .siege.p-2.relative.auto-rows-max
-	input.settings-siege(type='hidden' name="attr_toggle_siege_settings")
-	input.edit-siege(type="hidden" name="attr_toggle_edit_siege_edit" value="true")
-	input.sections(type="hidden" name="attr_siege_sections" value="actions")
+	input.settings-npc(type='hidden' name="attr_toggle_npc_settings")
+	input.edit-npc(type="hidden" name="attr_toggle_edit_npc_edit" value="true")
+	input.sections(type="hidden" name="attr_npc_sections" value="")
 
 	.grid.grid-flow-col.auto-cols-min.gap-2.settings-toggle.absolute
 		.grid.relative.grid-flow-col.auto-cols-min.gap-2
-			+editToggle('siege edit', true)
+			+editToggle('npc edit', true)
 		.grid.relative.grid-flow-col.auto-cols-min.gap-2
-			+settingsToggle('siege settings')
+			+settingsToggle('npc settings')
 	.grid.gap-4.sheet
 		.display-mode
 			span.display(name="attr_character_name")

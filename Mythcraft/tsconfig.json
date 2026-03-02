@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "lib": ["ES2017", "dom"],
-    "module": "system",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "outFile": "src/scripts.js",

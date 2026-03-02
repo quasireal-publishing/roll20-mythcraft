@@ -77,7 +77,7 @@ on(`remove:repeating_modifiers`, (event) => {
               [`${repeatingRow}_bonus`]: sum > 0 ? `+${sum}` : `${sum}`,
             });
           });
-        }
+        },
       );
     });
   });
@@ -122,7 +122,7 @@ on(`remove:repeating_modifiers`, (event) => {
           };
 
           setAttrs(update, { silent: true });
-        }
+        },
       );
     } else {
       getAttrs([`${abilitiesRow}_link`], (values) => {
@@ -258,7 +258,7 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
             includeEffect: !!values[`${row}_effect`],
           }),
         });
-      }
+      },
     );
   });
 });
@@ -266,9 +266,9 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
 ["skills", "features", "actions", "reactions", "spells"].forEach((section) => {
   on(`change:section_${section}`, (event) => {
     const { newValue } = event;
-    getAttrs(["creature_sections"], (values) => {
-      const sections = values.creature_sections
-        ? values.creature_sections.split(",")
+    getAttrs(["npc_sections"], (values) => {
+      const sections = values.npc_sections
+        ? values.npc_sections.split(",")
         : [];
 
       if (newValue === "on" && !sections.includes(section)) {
@@ -280,7 +280,7 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
         }
       }
 
-      setAttrs({ creature_sections: sections.join(",") });
+      setAttrs({ npc_sections: sections.join(",") });
     });
   });
 });

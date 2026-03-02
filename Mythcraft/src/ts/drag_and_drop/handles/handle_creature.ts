@@ -33,8 +33,8 @@ const handle_creature = (page: CompendiumAttributes) => {
 
   update.character_name = page.name;
   update.sheet_type = "creature";
-  update.toggle_creature_setting = false;
-  update.toggle_edit_creature_edit = false;
+  update.toggle_npc_setting = false;
+  update.toggle_edit_npc_edit = false;
 
   const creature_sections: string[] = [];
 
@@ -56,7 +56,7 @@ const handle_creature = (page: CompendiumAttributes) => {
     }
   });
 
-  update.creature_sections = creature_sections.join(",");
+  update.npc_sections = creature_sections.join(",");
 
   console.log(`%c Creature Drop for ${page.name}`, "color: orange;");
 

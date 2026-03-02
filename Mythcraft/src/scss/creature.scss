@@ -201,17 +201,4 @@
     grid-template-columns: 1fr auto;
     align-items: center;
   }
-
-  @each $value in ("skills", "features", "actions", "reactions", "spells") {
-    .section-#{$value} {
-      display: none;
-    }
-
-    input.edit-creature[value="true"] ~ .sheet .section-#{$value},
-    input[name="attr_creature_sections"][value*="#{$value}"]
-      ~ .sheet
-      .section-#{$value} {
-      display: inherit;
-    }
-  }
 }

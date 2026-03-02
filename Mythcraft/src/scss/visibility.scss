@@ -57,23 +57,6 @@ $sheet-type: "pc", "creature", "siege";
   }
 }
 
-@each $type in ("creature", "siege") {
-  input.edit-#{$type}:not([value="true"]) ~ .grid .inputs,
-  input.edit-#{$type}:not([value="true"]) ~ .grid .grid .repcontrol,
-  input.edit-#{$type}[value="true"] ~ .display,
-  input.edit-#{$type}[value="true"] ~ .grid .display-mode,
-  input.edit-#{$type}[value="true"] ~ .grid span.display-mode,
-  input.edit-#{$type}:not([value="true"])
-    ~ .sheet
-    .grid
-    .header-toggle
-    label.switch,
-  input.settings-#{$type}[value="true"] ~ .sheet,
-  input.settings-#{$type}:not([value="true"]) ~ .settings {
-    display: none;
-  }
-}
-
 input[name="attr_toggle_action_attack"]:not([value="on"]) + p .vs,
 input[name="attr_toggle_action_attack"]:not([value="on"]) + p .hit,
 input[name="attr_damage"][value=""] + span,
@@ -82,13 +65,38 @@ input[name="attr_damage"][value=""] ~ span[name="attr_damage_type"] {
   display: none;
 }
 
-@each $type in ("creature", "siege") {
-  input.edit-#{$type}[value="true"] ~ .inputs,
-  input.edit-#{$type}:not([value="true"]) ~ .display,
-  input.edit-#{$type}:not([value="true"]) ~ .grid .display,
-  input.edit-#{$type}:not([value="true"]) ~ .grid span.display,
-  input.settings-#{$type}[value="true"] ~ .settings,
-  input.settings-#{$type}:not([value="true"]) ~ .sheet {
+$npc-types: "creature", "siege";
+
+// Refactored: Remove $npc-types and use npc only
+
+input.edit-npc:not([value="true"]) ~ .grid .inputs,
+input.edit-npc:not([value="true"]) ~ .grid .grid .repcontrol,
+input.edit-npc[value="true"] ~ .display,
+input.edit-npc[value="true"] ~ .grid .display-mode,
+input.edit-npc[value="true"] ~ .grid span.display-mode,
+input.edit-npc:not([value="true"]) ~ .sheet .grid .header-toggle label.switch,
+input.settings-npc[value="true"] ~ .sheet,
+input.settings-npc:not([value="true"]) ~ .settings {
+  display: none;
+}
+
+input.edit-npc[value="true"] ~ .inputs,
+input.edit-npc:not([value="true"]) ~ .display,
+input.edit-npc:not([value="true"]) ~ .grid .display,
+input.edit-npc:not([value="true"]) ~ .grid span.display,
+input.settings-npc[value="true"] ~ .settings,
+input.settings-npc:not([value="true"]) ~ .sheet {
+  display: inherit;
+}
+@each $value in ("skills", "features", "actions", "reactions", "spells") {
+  .section-#{$value} {
+    display: none;
+  }
+
+  input.edit-npc[value="true"] ~ .sheet .section-#{$value},
+  input[name="attr_npc_sections"][value*="#{$value}"]
+    ~ .sheet
+    .section-#{$value} {
     display: inherit;
   }
 }

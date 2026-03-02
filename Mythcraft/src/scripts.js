@@ -429,9 +429,9 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
 ["skills", "features", "actions", "reactions", "spells"].forEach(function (section) {
     on("change:section_".concat(section), function (event) {
         var newValue = event.newValue;
-        getAttrs(["creature_sections"], function (values) {
-            var sections = values.creature_sections
-                ? values.creature_sections.split(",")
+        getAttrs(["npc_sections"], function (values) {
+            var sections = values.npc_sections
+                ? values.npc_sections.split(",")
                 : [];
             if (newValue === "on" && !sections.includes(section)) {
                 sections.push(section);
@@ -442,7 +442,7 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
                     sections.splice(index, 1);
                 }
             }
-            setAttrs({ creature_sections: sections.join(",") });
+            setAttrs({ npc_sections: sections.join(",") });
         });
     });
 });
@@ -820,6 +820,11 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
                 versionOneThree();
                 versioning(1.3);
                 break;
+            case version < 1.7:
+                updateMessage(1.7);
+                versionOneSeven();
+                versioning(1.7);
+                break;
             default:
                 console.log("%c Sheet is update to date.", "color: green; font-weight:bold");
                 setAttrs({ version: version });
@@ -929,8 +934,8 @@ var handle_creature = function (page) {
     var update = getUpdate(attrs, page);
     update.character_name = page.name;
     update.sheet_type = "creature";
-    update.toggle_creature_setting = false;
-    update.toggle_edit_creature_edit = false;
+    update.toggle_npc_setting = false;
+    update.toggle_edit_npc_edit = false;
     var creature_sections = [];
     var isDataArray = function (data) {
         return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
@@ -946,7 +951,7 @@ var handle_creature = function (page) {
             Object.assign(update, processed);
         }
     });
-    update.creature_sections = creature_sections.join(",");
+    update.npc_sections = creature_sections.join(",");
     console.log("%c Creature Drop for ".concat(page.name), "color: orange;");
     Object.entries(__assign({}, update)).forEach(function (_a) {
         var key = _a[0], value = _a[1];
@@ -1031,6 +1036,9 @@ var handle_profession = function (page) {
         update["".concat(row, "_tags")] = page.data.profession;
     }
     setDropAttrs(update);
+};
+var handle_siege = function (page) {
+    console.log(page);
 };
 var handle_skills = function (page) {
     var attrs = ["name", "category", "description", "attribute"];
@@ -1254,6 +1262,11 @@ var versionOneOne = function () {
         setAttrs({ initiative: v.initiative_bonus + v.awareness });
     });
 };
+var versionOneSeven = function () {
+    getAttrs(["creature_sections"], function (values) {
+        setAttrs({ npc_sections: values.creature_sections });
+    });
+};
 var versionOneThree = function () {
     var fieldsToUpdate = ["repeating_actions"];
     fieldsToUpdate.forEach(function (fieldset) {
@@ -1334,143 +1347,6 @@ on("page:review", function () {
 });
 on("page:final", function () {
     finishCharactermancer();
-});
-System.register("charactermancer/slides/attributes", [], function (exports_1, context_1) {
-    "use strict";
-    var valueCheck, getAttributeCap, computeAttributePointUsage, validateAttributes, updateAttribute;
-    var __moduleName = context_1 && context_1.id;
-    function getLuckStats(luck) {
-        var luckPoints = luck > 0 ? Math.floor(luck / 2) : 0;
-        var canCrit = luck >= 0;
-        var critDamageBonus = luck >= 1 ? luck : 0;
-        var d20ModifierFromLuck = luck < 0 ? luck : 0;
-        var critRangeStart = 20;
-        if (luck >= 12) {
-            critRangeStart = 18;
-        }
-        else if (luck >= 6) {
-            critRangeStart = 19;
-        }
-        return {
-            luckPoints: luckPoints,
-            canCrit: canCrit,
-            critDamageBonus: critDamageBonus,
-            critRangeStart: critRangeStart,
-            d20ModifierFromLuck: d20ModifierFromLuck,
-        };
-    }
-    exports_1("getLuckStats", getLuckStats);
-    function getActionPoints(cor) {
-        var baseAP = 3;
-        var bonusFromCor = 0;
-        if (cor >= 0) {
-            bonusFromCor = Math.floor(cor / 2);
-        }
-        else if (cor === -1 || cor === -2) {
-            bonusFromCor = -1;
-        }
-        else if (cor <= -3) {
-            bonusFromCor = -2;
-        }
-        var totalAP = baseAP + bonusFromCor;
-        return { baseAP: baseAP, bonusFromCor: bonusFromCor, totalAP: totalAP };
-    }
-    exports_1("getActionPoints", getActionPoints);
-    return {
-        setters: [],
-        execute: function () {
-            valueCheck = function (value) {
-                if (value > 2)
-                    return 2;
-                if (value < -3)
-                    return -3;
-                if (isNaN(value))
-                    return 0;
-                return value;
-            };
-            getAttributeCap = function (level) {
-                if (level < 1)
-                    throw new Error("Level must be at least 1.");
-                return Math.ceil(level / 2) + 1;
-            };
-            computeAttributePointUsage = function (attrs, basePool) {
-                if (basePool === void 0) { basePool = 5; }
-                var spent = 0;
-                var gainedFromNegatives = 0;
-                for (var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++) {
-                    var key = _a[_i];
-                    var value = attrs[key];
-                    if (value > 0) {
-                        spent += value;
-                    }
-                    else if (value < 0) {
-                        gainedFromNegatives += -value;
-                    }
-                }
-                var totalPool = basePool + gainedFromNegatives;
-                var remaining = totalPool - spent;
-                return { spent: spent, gainedFromNegatives: gainedFromNegatives, totalPool: totalPool, remaining: remaining };
-            };
-            validateAttributes = function (level, attrs) {
-                var errors = [];
-                var cap = getAttributeCap(level);
-                var points = computeAttributePointUsage(attrs);
-                for (var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++) {
-                    var key = _a[_i];
-                    var value = attrs[key];
-                    if (value > cap) {
-                        errors.push("".concat(key, " (").concat(value, ") exceeds the cap of +").concat(cap, " for level ").concat(level, "."));
-                    }
-                }
-                if (points.remaining < 0) {
-                    errors.push("You have overspent Attribute Points: spent ".concat(points.spent, " with a pool of ").concat(points.totalPool, "."));
-                }
-                return {
-                    ok: errors.length === 0,
-                    errors: errors,
-                    cap: cap,
-                    points: points,
-                };
-            };
-            attributes.forEach(function (attr) {
-                on("mancerchange:".concat(attr), function (event) {
-                    var charmancerData = getCharmancerData();
-                    var values = charmancerData.attributes.values;
-                    console.log(values);
-                    var attrs = {};
-                    attributes.forEach(function (attribute) {
-                        attrs[attribute] = values[attribute]
-                            ? parseInteger(values[attribute])
-                            : 0;
-                    });
-                    var level = 1;
-                    var validation = validateAttributes(level, attrs);
-                    if (!validation.ok) {
-                        console.error("Invalid attributes:", validation.errors);
-                    }
-                    var luckStats = getLuckStats(attrs["luck"]);
-                    var apStats = getActionPoints(attrs["coordination"]);
-                    console.log({ validation: validation, luckStats: luckStats, apStats: apStats });
-                    console.log({ validation: validation });
-                });
-            });
-            updateAttribute = function (attribute, change) {
-                var _a;
-                var charmancerData = getCharmancerData();
-                var value = charmancerData.attributes.values[attribute];
-                var int = valueCheck(parseInteger(value) + change);
-                setAttrs((_a = {}, _a[attribute] = int, _a));
-            };
-            on("clicked:decrease_attribute", function (event) {
-                var attribute = event.htmlAttributes.value;
-                updateAttribute(attribute, -1);
-            });
-            on("clicked:increase_attribute", function (event) {
-                var attribute = event.htmlAttributes.value;
-                updateAttribute(attribute, 1);
-            });
-        }
-    };
 });
 on("mancerchange:lineage", function (event) {
     var pageName = event.newValue.includes("?expansion")
