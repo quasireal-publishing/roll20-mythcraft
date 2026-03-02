@@ -45,7 +45,7 @@ $tabs: "main", "combat", "magic", "journal", "talents", "settings";
   }
 }
 
-$sheet-type: "pc", "creature";
+$sheet-type: "pc", "creature", "siege";
 
 @each $type in $sheet-type {
   input[name="attr_sheet_type"][value="#{$type}"] ~ div.#{$type} {
@@ -54,5 +54,41 @@ $sheet-type: "pc", "creature";
 
   input[name="attr_sheet_type"]:not([value="#{$type}"]) ~ div.#{$type} {
     display: none;
+  }
+}
+
+@each $type in ("creature", "siege") {
+  input.edit-#{$type}:not([value="true"]) ~ .grid .inputs,
+  input.edit-#{$type}:not([value="true"]) ~ .grid .grid .repcontrol,
+  input.edit-#{$type}[value="true"] ~ .display,
+  input.edit-#{$type}[value="true"] ~ .grid .display-mode,
+  input.edit-#{$type}[value="true"] ~ .grid span.display-mode,
+  input.edit-#{$type}:not([value="true"])
+    ~ .sheet
+    .grid
+    .header-toggle
+    label.switch,
+  input.settings-#{$type}[value="true"] ~ .sheet,
+  input.settings-#{$type}:not([value="true"]) ~ .settings {
+    display: none;
+  }
+}
+
+input[name="attr_toggle_action_attack"]:not([value="on"]) + p .vs,
+input[name="attr_toggle_action_attack"]:not([value="on"]) + p .hit,
+input[name="attr_damage"][value=""] + span,
+input[name="attr_damage"][value=""] ~ button[name="roll_damage"],
+input[name="attr_damage"][value=""] ~ span[name="attr_damage_type"] {
+  display: none;
+}
+
+@each $type in ("creature", "siege") {
+  input.edit-#{$type}[value="true"] ~ .inputs,
+  input.edit-#{$type}:not([value="true"]) ~ .display,
+  input.edit-#{$type}:not([value="true"]) ~ .grid .display,
+  input.edit-#{$type}:not([value="true"]) ~ .grid span.display,
+  input.settings-#{$type}[value="true"] ~ .settings,
+  input.settings-#{$type}:not([value="true"]) ~ .sheet {
+    display: inherit;
   }
 }

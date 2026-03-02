@@ -16,6 +16,7 @@ include mixins/repeating_spell_cards.pug
 include mixins/repeating_attacks.pug
 include mixins/repeating_skills.pug
 include mixins/repeating_resources.pug
+include mixins/sheet_select.pug
 
 include mixins/combat_attributes.pug
 
@@ -48,7 +49,7 @@ mixin textInputs(values)
          +editInput(val)
 
 mixin h3Header(name, i18n)
-   h3.ellipse.text-center.capitalize(data-i18n=i18n ? i18n : name)
+   h3.ellipse.text-center.capitalize(data-i18n=i18n ? i18n : name class!=attributes.class)
 
 mixin h4Header(name, i18n)
    h4.ellipse.capitalize(data-i18n=i18n ? i18n : name)
@@ -101,12 +102,6 @@ mixin repeatingList(name, values)
       +repeatingSection(name, values)
 
 
-mixin sheetSelect()
-   .grid.gap-2.grid-flow-col
-      select(name="attr_sheet_type")
-         each val in sheetTypes
-            option(value=`${val}` data-i18n=val  selected=(!!val === 'pc'))
-               val
 
 mixin attributeSelect(name)
    .grid.gap-2.grid-flow-col.col-auto-fr.items-center

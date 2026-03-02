@@ -27,7 +27,8 @@
 /* @import "charactermancer/charactermancer"; */
 
 .pc,
-.creature {
+.creature,
+.siege {
   background-image: url("https://raw.githubusercontent.com/quasireal-publishing/roll20-mythcraft/refs/heads/main/Mythcraft/src/imgs/MythCraft-PaperTexture.jpg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -42,13 +43,9 @@
 @import "scss/shared_classes";
 @import "scss/typography";
 
-/* PC
-    ============================= */
 @import "scss/pc";
-
-/* CREATURE
-    ============================= */
 @import "scss/creature";
+@import "scss/siege";
 
 /*  SHOW & HIDE SECTIONS
   ============================= */
