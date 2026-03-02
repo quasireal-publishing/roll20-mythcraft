@@ -433,6 +433,10 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
             var sections = values.npc_sections
                 ? values.npc_sections.split(",")
                 : [];
+            console.table({
+                oldValues: values.npc_sections,
+                toggled: section,
+            });
             if (newValue === "on" && !sections.includes(section)) {
                 sections.push(section);
             }
@@ -442,6 +446,9 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
                     sections.splice(index, 1);
                 }
             }
+            console.table({
+                newSections: sections.join(","),
+            });
             setAttrs({ npc_sections: sections.join(",") });
         });
     });
@@ -952,6 +959,9 @@ var handle_creature = function (page) {
         }
     });
     update.npc_sections = creature_sections.join(",");
+    creature_sections.forEach(function (section) {
+        update["section_".concat(section)] = "on";
+    });
     console.log("%c Creature Drop for ".concat(page.name), "color: orange;");
     Object.entries(__assign({}, update)).forEach(function (_a) {
         var key = _a[0], value = _a[1];
@@ -980,6 +990,7 @@ var handle_creature = function (page) {
     update.hp_max = update.hp || 0;
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
     var silent = hasDefenses ? true : false;
+    console.table(update);
     setDropAttrs(update, { silent: silent });
     var hp = typeof update.hp === "boolean" ? 0 : update.hp;
     var armorRating = typeof update.armor_rating === "boolean" ? 0 : update.armor_rating;

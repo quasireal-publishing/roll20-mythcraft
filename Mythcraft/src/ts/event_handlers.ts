@@ -271,6 +271,11 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
         ? values.npc_sections.split(",")
         : [];
 
+      console.table({
+        oldValues: values.npc_sections,
+        toggled: section,
+      });
+
       if (newValue === "on" && !sections.includes(section)) {
         sections.push(section);
       } else if (newValue !== "on" && sections.includes(section)) {
@@ -280,6 +285,9 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
         }
       }
 
+      console.table({
+        newSections: sections.join(","),
+      });
       setAttrs({ npc_sections: sections.join(",") });
     });
   });

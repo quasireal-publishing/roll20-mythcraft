@@ -58,6 +58,10 @@ const handle_creature = (page: CompendiumAttributes) => {
 
   update.npc_sections = creature_sections.join(",");
 
+  creature_sections.forEach((section) => {
+    update[`section_${section}`] = "on";
+  });
+
   console.log(`%c Creature Drop for ${page.name}`, "color: orange;");
 
   //Skills & Attacks need special handling
@@ -95,6 +99,8 @@ const handle_creature = (page: CompendiumAttributes) => {
   //Familiars do not have the derived attributes so the sheetworkers need to calculate them
   const hasDefenses = defenses.some((attr) => page.data[attr]);
   const silent = hasDefenses ? true : false;
+
+  console.table(update);
 
   setDropAttrs(update, { silent });
 

@@ -88,7 +88,7 @@
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="skills")
 				label.switch(data-i18n-title="toggle skills")
-					input(type="checkbox" name="attr_section_skills")
+					input(type="checkbox" name="attr_section_skills" value="on")
 					span.slider
 			.display-mode.mb-2
 				i
@@ -101,7 +101,7 @@
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="features")
 				label.switch(data-i18n-title="toggle features")
-					input(type="checkbox" name="attr_section_features")
+					input(type="checkbox" name="attr_section_features" value="on")
 					span.slider
 			fieldset(class=`repeating_features`)
 				input(type="hidden" name="attr_link" value="")
@@ -128,7 +128,7 @@
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="actions")
 				label.switch(data-i18n-title="toggle actions")
-					input(type="checkbox" name="attr_section_actions")
+					input(type="checkbox" name="attr_section_actions" value="on")
 					span.slider
 			.display-mode.mb-2
 				i
@@ -192,7 +192,7 @@
 			.grid.gap-2.header-toggle
 				h2.ellipse.capitalize.text-primary(data-i18n="reactions")
 				label.switch(data-i18n-title="toggle reactions")
-					input(type="checkbox" name="attr_section_reactions")
+					input(type="checkbox" name="attr_section_reactions" value="on")
 					span.slider
 			fieldset(class=`repeating_reactions`)
 				input(type="hidden" name="attr_link" value="")
@@ -212,7 +212,7 @@
 			.grid.gap-2.header-toggle
 				h2.ellipse.capitalize.text-primary(data-i18n="spells")
 				label.switch(data-i18n-title="toggle spells")
-					input(type="checkbox" name="attr_section_spells")
+					input(type="checkbox" name="attr_section_spells" value="on")
 					span.slider
 			+repeatingSpellCards()
 
