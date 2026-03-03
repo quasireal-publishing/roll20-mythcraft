@@ -91,7 +91,7 @@
 			.grid.gap-2.header-toggle
 				h2.ellipse.uppercase.text-primary(data-i18n="actions")
 				label.switch(data-i18n-title="toggle actions")
-					input(type="checkbox" name="attr_section_actions")
+					input(type="checkbox" name="attr_section_actions" value="on")
 					span.slider
 			.display-mode.mb-2
 				i
@@ -107,7 +107,7 @@
 						span.or.font-bold(name="attr_name")
 						span.or(name="attr_description")
 						input(type="hidden" name="attr_toggle_action_attack")
-						p
+						p.font-base
 							+repeatingAttackRollButton('name')
 							span(name='attr_description') 
 							+attrSpan("range")(class="italic")

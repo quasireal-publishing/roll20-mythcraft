@@ -96,15 +96,15 @@ const validateAttributes = (
  *   - if LUCK ≥ 6: 19–20
  *   - if LUCK ≥ 12: 18–20 (max 16–20 per rules)
  */
-export interface LuckStats {
-  luckPoints: number;
-  canCrit: boolean;
-  critDamageBonus: number; // added to crit damage if LUCK >= 1
-  critRangeStart: number; // e.g. 20 = only 20 crits, 19 = 19–20, etc.
-  d20ModifierFromLuck: number; // negative if LUCK < 0, else 0
-}
+// interface LuckStats {
+//   luckPoints: number;
+//   canCrit: boolean;
+//   critDamageBonus: number; // added to crit damage if LUCK >= 1
+//   critRangeStart: number; // e.g. 20 = only 20 crits, 19 = 19–20, etc.
+//   d20ModifierFromLuck: number; // negative if LUCK < 0, else 0
+// }
 
-export function getLuckStats(luck: number): LuckStats {
+function getLuckStats(luck: number) {
   const luckPoints = luck > 0 ? Math.floor(luck / 2) : 0;
   const canCrit = luck >= 0;
   const critDamageBonus = luck >= 1 ? luck : 0;
@@ -133,14 +133,13 @@ export function getLuckStats(luck: number): LuckStats {
  * - For every 2 points of COR, you gain +1 AP.
  * - If COR is -1 or -2, you lose 1 AP.
  * - If COR is -3, you lose 2 AP.
- */
-export interface ActionPointStats {
+ */ interface ActionPointStats {
   baseAP: number;
   bonusFromCor: number;
   totalAP: number;
 }
 
-export function getActionPoints(cor: number): ActionPointStats {
+function getActionPoints(cor: number): ActionPointStats {
   const baseAP = 3;
   let bonusFromCor = 0;
 

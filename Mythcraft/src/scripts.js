@@ -142,69 +142,6 @@ var defenses = [
 ];
 var initiative = ["initiative_base", "initiative_bonus", "awareness"];
 var modifiers = __spreadArray(__spreadArray([], defenses, true), ["action_points", "initiative", "armor_rating"], false);
-var dropWarning = function (v) {
-    console.warn("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
-};
-var dropAttrs = ["drop_name", "drop_data", "drop_content"];
-var handle_drop = function () {
-    getAttrs(dropAttrs, function (v) {
-        var _a;
-        if (!v.drop_name || !v.drop_data) {
-            return;
-        }
-        var page = {
-            name: v.drop_name,
-            data: (_a = parseJSON(v.drop_data)) !== null && _a !== void 0 ? _a : v.drop_data,
-            content: v.drop_content,
-        };
-        var Category = page.data.Category;
-        switch (Category) {
-            case "Creatures":
-                handle_creature(page);
-                break;
-            case "Conditions":
-                handle_conditions(page);
-                break;
-            case "Backgrounds":
-                handle_bop(page);
-                break;
-            case "Professions":
-                handle_profession(page);
-                break;
-            case "Equipment":
-                handle_equipment(page);
-                break;
-            case "Features":
-                handle_feature(page);
-                break;
-            case "Lineages":
-                handle_lineage(page);
-                break;
-            case "Skills":
-                handle_skills(page);
-                break;
-            case "Spells":
-                handle_spell(page);
-                break;
-            case "Talents":
-                handle_talent(page);
-                break;
-            default:
-                dropWarning("Unknown category: ".concat(Category));
-        }
-        setDropAttrs({
-            drop_name: "",
-            drop_data: "",
-            drop_content: "",
-            drop_category: "",
-        });
-    });
-};
-["data"].forEach(function (attr) {
-    on("change:drop_".concat(attr), function () {
-        handle_drop();
-    });
-});
 [anticipation, fortitude, logic, reflexes, willpower].forEach(function (attrs) {
     attrs.forEach(function (attr) {
         on("change:".concat(attr), function () {
@@ -839,6 +776,74 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
         return [2];
     });
 }); };
+var dropWarning = function (v) {
+    console.warn("%c Compendium Drop Error: ".concat(v), "color: orange; font-weight:bold");
+};
+var dropAttrs = ["drop_name", "drop_data", "drop_content"];
+var handle_drop = function () {
+    getAttrs(dropAttrs, function (v) {
+        var _a;
+        if (!v.drop_name || !v.drop_data) {
+            return;
+        }
+        var page = {
+            name: v.drop_name,
+            data: (_a = parseJSON(v.drop_data)) !== null && _a !== void 0 ? _a : v.drop_data,
+            content: v.drop_content,
+        };
+        var Category = page.data.Category;
+        console.log("%c Drop for ".concat(page.name), "color: orange;");
+        console.log(Category);
+        switch (Category) {
+            case "Creatures":
+                handle_creature(page);
+                break;
+            case "Conditions":
+                handle_conditions(page);
+                break;
+            case "Backgrounds":
+                handle_bop(page);
+                break;
+            case "Professions":
+                handle_profession(page);
+                break;
+            case "Equipment":
+                handle_equipment(page);
+                break;
+            case "Features":
+                handle_feature(page);
+                break;
+            case "Lineages":
+                handle_lineage(page);
+                break;
+            case "Skills":
+                handle_skills(page);
+                break;
+            case "Spells":
+                handle_spell(page);
+                break;
+            case "Talents":
+                handle_talent(page);
+                break;
+            case "Vehicles":
+                handle_vehicles(page);
+                break;
+            default:
+                dropWarning("Unknown category: ".concat(Category));
+        }
+        setDropAttrs({
+            drop_name: "",
+            drop_data: "",
+            drop_content: "",
+            drop_category: "",
+        });
+    });
+};
+["data"].forEach(function (attr) {
+    on("change:drop_".concat(attr), function () {
+        handle_drop();
+    });
+});
 var getRow = function (section) { return "repeating_".concat(section, "_").concat(generateRowID()); };
 var getUpdate = function (attrs, page, repeatingRow) {
     var update = {};
@@ -910,6 +915,7 @@ var handle_conditions = function (page) {
     setDropAttrs(update);
 };
 var handle_creature = function (page) {
+    console.log("%c Creature Drop for ".concat(page.name), "color: orange;");
     var attrs = [
         "action_description",
         "anticipation",
@@ -918,7 +924,8 @@ var handle_creature = function (page) {
         "charisma",
         "description",
         "dexterity",
-        "dr",
+        "damage_reduction",
+        "damage_threshold",
         "endurance",
         "fortitude",
         "hp",
@@ -943,50 +950,16 @@ var handle_creature = function (page) {
     update.sheet_type = "creature";
     update.toggle_npc_setting = false;
     update.toggle_edit_npc_edit = false;
-    var creature_sections = [];
-    var isDataArray = function (data) {
-        return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
-    };
-    var sections = ["skills", "features", "actions", "reactions", "spells"];
-    sections.forEach(function (section) {
-        var sectionData = page.data[section];
-        if (sectionData && isDataArray(sectionData)) {
-            creature_sections.push(section);
-            var processed = processDataArrays(sectionData, function (data) {
-                return getUpdate(Object.keys(data), data, getRow(section));
-            });
-            Object.assign(update, processed);
-        }
-    });
-    update.npc_sections = creature_sections.join(",");
-    creature_sections.forEach(function (section) {
-        update["section_".concat(section)] = "on";
-    });
-    console.log("%c Creature Drop for ".concat(page.name), "color: orange;");
-    Object.entries(__assign({}, update)).forEach(function (_a) {
-        var key = _a[0], value = _a[1];
-        var row = getFieldsetRow(key);
-        if (key.endsWith("_defense")) {
-            update["".concat(row, "_toggle_action_attack")] = "on";
-            update["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(true, {
-                includeDice: true,
-                includeDefense: !!update["".concat(row, "_defense")],
-                includeDamage: !!update["".concat(row, "_damage")],
-                includeEffect: !!update["".concat(row, "_effect")],
-            });
-            return;
-        }
-        if (key.endsWith("_modifier")) {
-            var int = parseInteger("".concat(value));
-            update["".concat(row, "_modifier")] = int > 0 ? "+".concat(int) : "".concat(value);
-        }
-        if (key.endsWith("_attribute")) {
-            update["".concat(row, "_attribute")] = "@{".concat(value, "}");
-            var abbr = getAttributeAbbreviation("".concat(value));
-            update["".concat(row, "_attribute_abbreviation")] = "(".concat(abbr, ")");
-            return;
-        }
-    });
+    var sections = processSection(page, [
+        "skills",
+        "features",
+        "actions",
+        "reactions",
+        "spells",
+    ]);
+    Object.assign(update, sections);
+    var attackUpdate = processSkillsAndAttack(update);
+    Object.assign(update, attackUpdate);
     update.hp_max = update.hp || 0;
     var hasDefenses = defenses.some(function (attr) { return page.data[attr]; });
     var silent = hasDefenses ? true : false;
@@ -1047,9 +1020,6 @@ var handle_profession = function (page) {
         update["".concat(row, "_tags")] = page.data.profession;
     }
     setDropAttrs(update);
-};
-var handle_siege = function (page) {
-    console.log(page);
 };
 var handle_skills = function (page) {
     var attrs = ["name", "category", "description", "attribute"];
@@ -1133,6 +1103,47 @@ var handle_talent = function (page) {
     }
     setDropAttrs(update);
 };
+var handle_vehicles = function (page) {
+    console.log(page);
+    var attrs = [
+        "range",
+        "ammunition",
+        "reload",
+        "area_of_effect",
+        "helf",
+        "speed",
+        "hp",
+        "armor_rating",
+        "reflexes",
+        "fortitude",
+        "resist",
+        "immune",
+        "vulnerable",
+        "damage_reduction",
+        "damage_threshold",
+        "action_description",
+    ];
+    var update = getUpdate(attrs, page);
+    update.sheet_type = "siege";
+    update.toggle_npc_setting = false;
+    update.toggle_edit_npc_edit = false;
+    update.npc_sections = "actions";
+    update.section_actions = "on";
+    var sections = processSection(page, ["actions"]);
+    Object.assign(update, sections);
+    var attackUpdate = processSkillsAndAttack(update);
+    Object.assign(update, attackUpdate);
+    console.table(update);
+    setDropAttrs(update, { silent: true });
+    var hp = typeof update.hp === "boolean" ? 0 : update.hp;
+    var armorRating = typeof update.armor_rating === "boolean" ? 0 : update.armor_rating;
+    var tokenDefaults = {
+        bar1_value: hp,
+        bar1_max: hp,
+        bar2_value: armorRating,
+    };
+    updateDefaultToken(tokenDefaults, page.data["size"]);
+};
 var getAttributeInfo = function (attr) {
     if (typeof attr === "string") {
         return {
@@ -1183,6 +1194,56 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
         update["".concat(row, "_bonus")] = 0;
     }
     setDropAttrs(update);
+};
+var isDataArray = function (data) {
+    return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
+};
+var processSection = function (page, list) {
+    var update = {};
+    var sections = [];
+    list.forEach(function (section) {
+        var sectionData = page.data[section];
+        if (sectionData && isDataArray(sectionData)) {
+            sections.push(section);
+            var processed = processDataArrays(sectionData, function (data) {
+                return getUpdate(Object.keys(data), data, getRow(section));
+            });
+            Object.assign(update, processed);
+        }
+    });
+    update.npc_sections = sections.join(",");
+    sections.forEach(function (section) {
+        update["section_".concat(section)] = "on";
+    });
+    return update;
+};
+var processSkillsAndAttack = function (updateAttrs) {
+    var update = {};
+    Object.entries(__assign({}, updateAttrs)).forEach(function (_a) {
+        var key = _a[0], value = _a[1];
+        var row = getFieldsetRow(key);
+        if (key.endsWith("_defense")) {
+            update["".concat(row, "_toggle_action_attack")] = "on";
+            update["".concat(row, "_roll_formula")] = getCreatureAttackRollFormula(true, {
+                includeDice: true,
+                includeDefense: !!update["".concat(row, "_defense")],
+                includeDamage: !!update["".concat(row, "_damage")],
+                includeEffect: !!update["".concat(row, "_effect")],
+            });
+            return;
+        }
+        if (key.endsWith("_modifier")) {
+            var int = parseInteger("".concat(value));
+            update["".concat(row, "_modifier")] = int > 0 ? "+".concat(int) : "".concat(value);
+        }
+        if (key.endsWith("_attribute")) {
+            update["".concat(row, "_attribute")] = "@{".concat(value, "}");
+            var abbr = getAttributeAbbreviation("".concat(value));
+            update["".concat(row, "_attribute_abbreviation")] = "(".concat(abbr, ")");
+            return;
+        }
+    });
+    return update;
 };
 var convertIntegerNegative = function (number) {
     return number > 0 ? -Math.abs(number) : number;
@@ -1274,8 +1335,12 @@ var versionOneOne = function () {
     });
 };
 var versionOneSeven = function () {
-    getAttrs(["creature_sections"], function (values) {
-        setAttrs({ npc_sections: values.creature_sections });
+    getAttrs(["creature_sections", "dr", "dt"], function (values) {
+        setAttrs({
+            npc_sections: values.creature_sections,
+            damage_reduction: values.dr,
+            damage_threshold: values.dt,
+        });
     });
 };
 var versionOneThree = function () {
@@ -1358,6 +1423,131 @@ on("page:review", function () {
 });
 on("page:final", function () {
     finishCharactermancer();
+});
+var valueCheck = function (value) {
+    if (value > 2)
+        return 2;
+    if (value < -3)
+        return -3;
+    if (isNaN(value))
+        return 0;
+    return value;
+};
+var getAttributeCap = function (level) {
+    if (level < 1)
+        throw new Error("Level must be at least 1.");
+    return Math.ceil(level / 2) + 1;
+};
+var computeAttributePointUsage = function (attrs, basePool) {
+    if (basePool === void 0) { basePool = 5; }
+    var spent = 0;
+    var gainedFromNegatives = 0;
+    for (var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++) {
+        var key = _a[_i];
+        var value = attrs[key];
+        if (value > 0) {
+            spent += value;
+        }
+        else if (value < 0) {
+            gainedFromNegatives += -value;
+        }
+    }
+    var totalPool = basePool + gainedFromNegatives;
+    var remaining = totalPool - spent;
+    return { spent: spent, gainedFromNegatives: gainedFromNegatives, totalPool: totalPool, remaining: remaining };
+};
+var validateAttributes = function (level, attrs) {
+    var errors = [];
+    var cap = getAttributeCap(level);
+    var points = computeAttributePointUsage(attrs);
+    for (var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++) {
+        var key = _a[_i];
+        var value = attrs[key];
+        if (value > cap) {
+            errors.push("".concat(key, " (").concat(value, ") exceeds the cap of +").concat(cap, " for level ").concat(level, "."));
+        }
+    }
+    if (points.remaining < 0) {
+        errors.push("You have overspent Attribute Points: spent ".concat(points.spent, " with a pool of ").concat(points.totalPool, "."));
+    }
+    return {
+        ok: errors.length === 0,
+        errors: errors,
+        cap: cap,
+        points: points,
+    };
+};
+function getLuckStats(luck) {
+    var luckPoints = luck > 0 ? Math.floor(luck / 2) : 0;
+    var canCrit = luck >= 0;
+    var critDamageBonus = luck >= 1 ? luck : 0;
+    var d20ModifierFromLuck = luck < 0 ? luck : 0;
+    var critRangeStart = 20;
+    if (luck >= 12) {
+        critRangeStart = 18;
+    }
+    else if (luck >= 6) {
+        critRangeStart = 19;
+    }
+    return {
+        luckPoints: luckPoints,
+        canCrit: canCrit,
+        critDamageBonus: critDamageBonus,
+        critRangeStart: critRangeStart,
+        d20ModifierFromLuck: d20ModifierFromLuck,
+    };
+}
+function getActionPoints(cor) {
+    var baseAP = 3;
+    var bonusFromCor = 0;
+    if (cor >= 0) {
+        bonusFromCor = Math.floor(cor / 2);
+    }
+    else if (cor === -1 || cor === -2) {
+        bonusFromCor = -1;
+    }
+    else if (cor <= -3) {
+        bonusFromCor = -2;
+    }
+    var totalAP = baseAP + bonusFromCor;
+    return { baseAP: baseAP, bonusFromCor: bonusFromCor, totalAP: totalAP };
+}
+attributes.forEach(function (attr) {
+    on("mancerchange:".concat(attr), function (event) {
+        var charmancerData = getCharmancerData();
+        var values = charmancerData.attributes.values;
+        console.log(values);
+        var attrs = {};
+        attributes.forEach(function (attribute) {
+            attrs[attribute] = values[attribute]
+                ? parseInteger(values[attribute])
+                : 0;
+        });
+        var level = 1;
+        var validation = validateAttributes(level, attrs);
+        if (!validation.ok) {
+            console.error("Invalid attributes:", validation.errors);
+        }
+        var luckStats = getLuckStats(attrs["luck"]);
+        var apStats = getActionPoints(attrs["coordination"]);
+        console.log({ validation: validation, luckStats: luckStats, apStats: apStats });
+        console.log({ validation: validation });
+    });
+});
+var updateAttribute = function (attribute, change) {
+    var _a;
+    var charmancerData = getCharmancerData();
+    var value = charmancerData.attributes.values[attribute];
+    var int = valueCheck(parseInteger(value) + change);
+    setAttrs((_a = {}, _a[attribute] = int, _a));
+};
+on("clicked:decrease_attribute", function (event) {
+    var attribute = event.htmlAttributes.value;
+    updateAttribute(attribute, -1);
+});
+on("clicked:increase_attribute", function (event) {
+    var attribute = event.htmlAttributes.value;
+    updateAttribute(attribute, 1);
 });
 on("mancerchange:lineage", function (event) {
     var pageName = event.newValue.includes("?expansion")
