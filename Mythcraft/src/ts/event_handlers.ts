@@ -34,15 +34,6 @@ on(`remove:repeating_modifiers`, (event) => {
   on(`change:repeating_${fieldset}`, (event) => {
     updateLinkedAttribute(event);
   });
-
-  on(`remove:repeating_${fieldset}`, ({ sourceAttribute, removedInfo }) => {
-    const link = removedInfo[`${sourceAttribute}_link`];
-
-    if (link) {
-      const update = { [`${link}_link`]: "" };
-      setAttrs(update, { silent: true });
-    }
-  });
 });
 
 ["attacks", "skills"].forEach((fieldset) => {
@@ -227,13 +218,8 @@ on("change:repeating_spells:toggle_attack", (event) => {
   "talents",
   "reactive-actions",
 ].forEach((fieldset) => {
-  on(`remove:repeating_${fieldset}`, ({ sourceAttribute, removedInfo }) => {
-    const link = removedInfo[`${sourceAttribute}_link`];
-
-    if (link) {
-      const update = { [`${link}_link`]: "" };
-      setAttrs(update, { silent: true });
-    }
+  on(`remove:repeating_${fieldset}`, (event: EventInfo) => {
+    updateLinks(event);
   });
 });
 

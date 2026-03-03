@@ -172,15 +172,6 @@ on("remove:repeating_modifiers", function (event) {
     on("change:repeating_".concat(fieldset), function (event) {
         updateLinkedAttribute(event);
     });
-    on("remove:repeating_".concat(fieldset), function (_a) {
-        var _b;
-        var sourceAttribute = _a.sourceAttribute, removedInfo = _a.removedInfo;
-        var link = removedInfo["".concat(sourceAttribute, "_link")];
-        if (link) {
-            var update = (_b = {}, _b["".concat(link, "_link")] = "", _b);
-            setAttrs(update, { silent: true });
-        }
-    });
 });
 ["attacks", "skills"].forEach(function (fieldset) {
     on("change:repeating_".concat(fieldset, ":attribute"), function (event) {
@@ -332,14 +323,8 @@ on("change:repeating_spells:toggle_attack", function (event) {
     "talents",
     "reactive-actions",
 ].forEach(function (fieldset) {
-    on("remove:repeating_".concat(fieldset), function (_a) {
-        var _b;
-        var sourceAttribute = _a.sourceAttribute, removedInfo = _a.removedInfo;
-        var link = removedInfo["".concat(sourceAttribute, "_link")];
-        if (link) {
-            var update = (_b = {}, _b["".concat(link, "_link")] = "", _b);
-            setAttrs(update, { silent: true });
-        }
+    on("remove:repeating_".concat(fieldset), function (event) {
+        updateLinks(event);
     });
 });
 on("change:repeating_actions:toggle_action_attack", function (event) {
@@ -658,6 +643,26 @@ var updateLinkedAttribute = function (event) {
             setAttrs(update, { silent: true });
         }
     });
+};
+var updateLinks = function (event) {
+    console.log(event);
+    var sourceAttribute = event.sourceAttribute, removedInfo = event.removedInfo;
+    var update = {};
+    if (removedInfo) {
+        var effectedLink_1 = removedInfo["".concat(sourceAttribute, "_link")] + "_link";
+        getAttrs(["".concat(effectedLink_1)], function (values) {
+            var link = values["".concat(effectedLink_1)];
+            console.table({
+                trigger: sourceAttribute,
+                effectedLink: effectedLink_1,
+                updateThisLink: link,
+            });
+            if (link) {
+                update["".concat(effectedLink_1)] = "";
+                setAttrs(update, { silent: true });
+            }
+        });
+    }
 };
 var updateLuck = function (attributes) {
     getAttrs(attributes, function (values) {
@@ -987,6 +992,9 @@ var handle_equipment = function (page) {
     if (page.data.modifiers) {
         handle_modifiers(page, row);
     }
+    if (page.data.trackables) {
+        handle_trackables(page, row);
+    }
     var linksString = links.join(",");
     update["".concat(row, "_link")] = linksString;
     setDropAttrs(update);
@@ -1019,14 +1027,14 @@ var handle_modifiers = function (page, inventoryRow) {
     modifiers.forEach(function (modifier) {
         var _a;
         if (modifier.modifier) {
-            var modifiersRow = getRow("modifiers");
-            update["".concat(modifiersRow, "_link")] = inventoryRow;
-            update["".concat(modifiersRow, "_modifier")] = modifier.modifier;
-            update["".concat(modifiersRow, "_source")] = page.name;
-            update["".concat(modifiersRow, "_toggle_active")] = "on";
-            update["".concat(modifiersRow, "_attribute")] = modifier.attribute;
-            update["".concat(modifiersRow, "_description")] = (_a = modifier.description) !== null && _a !== void 0 ? _a : "";
-            update["".concat(modifiersRow, "_toggle_edit")] = false;
+            var newRow = getRow("modifiers");
+            update["".concat(newRow, "_link")] = inventoryRow;
+            update["".concat(newRow, "_modifier")] = modifier.modifier;
+            update["".concat(newRow, "_source")] = page.name;
+            update["".concat(newRow, "_toggle_active")] = "on";
+            update["".concat(newRow, "_attribute")] = modifier.attribute;
+            update["".concat(newRow, "_description")] = (_a = modifier.description) !== null && _a !== void 0 ? _a : "";
+            update["".concat(newRow, "_toggle_edit")] = false;
         }
         else {
             console.warn("Modifier ".concat(modifier.attribute, " has no modifier value"));
@@ -1129,6 +1137,18 @@ var handle_talent = function (page) {
     }
     setDropAttrs(update);
 };
+var handle_trackables = function (page, row) {
+    var attrs = ["name", "value"];
+    var JSON = parseJSON(page.data.trackables);
+    var update = {};
+    JSON.forEach(function (trackable) {
+        var newRow = getRow("trackables");
+        update["".concat(newRow, "_name")] = "".concat(page.name, " ").concat(trackable.name);
+        update["".concat(newRow, "_value")] = trackable.value;
+        update["".concat(newRow, "_value_max")] = trackable.value;
+    });
+    setDropAttrs(update);
+};
 var handle_vehicles = function (page) {
     var attrs = [
         "range",
@@ -1186,6 +1206,7 @@ var getAttributeInfo = function (attr) {
 };
 var handle_weapon = function (page, attackRow, inventoryRow) {
     var _a;
+    var _b;
     var attrs = [
         "apc",
         "cost",
@@ -1206,7 +1227,6 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
     var row = attackRow ? attackRow : getRow("attacks");
     var update = getUpdate(attrs, page, row);
     update["".concat(row, "_category")] = page.data.Category;
-    update["".concat(row, "_modifier")] = (_a = page.data.modifier) !== null && _a !== void 0 ? _a : 0;
     update["".concat(row, "_link")] = inventoryRow;
     var setAttributeField = function (key, value) {
         if (!value)
@@ -1226,6 +1246,9 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
         update["".concat(row, "_bonus")] = 0;
     }
     setDropAttrs(update);
+    setDropAttrs((_a = {},
+        _a["".concat(row, "_modifier")] = (_b = page.data.modifier) !== null && _b !== void 0 ? _b : 0,
+        _a), { silent: false });
 };
 var isDataArray = function (data) {
     return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));

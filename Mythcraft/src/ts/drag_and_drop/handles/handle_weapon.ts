@@ -35,7 +35,6 @@ const handle_weapon = (
   const update = getUpdate(attrs, page, row);
 
   update[`${row}_category`] = page.data.Category;
-  update[`${row}_modifier`] = page.data.modifier ?? 0;
   update[`${row}_link`] = inventoryRow;
 
   const setAttributeField = (
@@ -61,4 +60,12 @@ const handle_weapon = (
   }
 
   setDropAttrs(update);
+
+  //Modifier needs to trigger a change event to update the bonus
+  setDropAttrs(
+    {
+      [`${row}_modifier`]: page.data.modifier ?? 0,
+    },
+    { silent: false },
+  );
 };

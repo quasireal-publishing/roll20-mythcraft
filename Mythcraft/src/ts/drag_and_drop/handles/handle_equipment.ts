@@ -17,6 +17,11 @@ const handle_equipment = (page: CompendiumAttributes) => {
     handle_modifiers(page, row);
   }
 
+
+  if(page.data.trackables) {
+    handle_trackables(page, row);
+  }
+
   const linksString = links.join(",");
   update[`${row}_link`] = linksString;
 
