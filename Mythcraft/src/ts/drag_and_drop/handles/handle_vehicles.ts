@@ -1,6 +1,4 @@
 const handle_vehicles = (page: CompendiumAttributes) => {
-  console.log(page);
-
   const attrs = [
     "range",
     "ammunition",
@@ -34,7 +32,14 @@ const handle_vehicles = (page: CompendiumAttributes) => {
   const attackUpdate = processSkillsAndAttack(update);
   Object.assign(update, attackUpdate);
 
-  console.table(update);
+  //- Siege Tower has no actions but has a description
+  if (update.action_description) {
+    update["section_actions"] = "on";
+
+    if (!update.npc_sections.includes("actions")) {
+      update.npc_sections = `${update.npc_sections},actions`;
+    }
+  }
 
   setDropAttrs(update, { silent: true });
 

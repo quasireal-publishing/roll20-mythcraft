@@ -1110,7 +1110,6 @@ var handle_talent = function (page) {
     setDropAttrs(update);
 };
 var handle_vehicles = function (page) {
-    console.log(page);
     var attrs = [
         "range",
         "ammunition",
@@ -1139,7 +1138,12 @@ var handle_vehicles = function (page) {
     Object.assign(update, sections);
     var attackUpdate = processSkillsAndAttack(update);
     Object.assign(update, attackUpdate);
-    console.table(update);
+    if (update.action_description) {
+        update["section_actions"] = "on";
+        if (!update.npc_sections.includes("actions")) {
+            update.npc_sections = "".concat(update.npc_sections, ",actions");
+        }
+    }
     setDropAttrs(update, { silent: true });
     var hp = typeof update.hp === "boolean" ? 0 : update.hp;
     var armorRating = typeof update.armor_rating === "boolean" ? 0 : update.armor_rating;
