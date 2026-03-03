@@ -5,11 +5,20 @@ const handle_equipment = (page: CompendiumAttributes) => {
 
   update[`${row}_qty`] = page.data.quantity ? page.data.quantity : 1;
 
+  const links = [];
+
   if (page.data.subcategory === "weapon") {
     const attackRow = getRow("attacks");
-    update[`${row}_link`] = attackRow;
+    links.push(attackRow);
     handle_weapon(page, attackRow, row);
   }
+
+  if (page.data.modifiers) {
+    handle_modifiers(page, row);
+  }
+
+  const linksString = links.join(",");
+  update[`${row}_link`] = linksString;
 
   setDropAttrs(update);
 };

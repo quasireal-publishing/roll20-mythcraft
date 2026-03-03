@@ -792,8 +792,7 @@ var handle_drop = function () {
             content: v.drop_content,
         };
         var Category = page.data.Category;
-        console.log("%c Drop for ".concat(page.name), "color: orange;");
-        console.log(Category);
+        console.log("%c Drop for ".concat(page.name, ": ").concat(Category), "color: orange;");
         switch (Category) {
             case "Creatures":
                 handle_creature(page);
@@ -979,11 +978,17 @@ var handle_equipment = function (page) {
     var row = getRow("inventory");
     var update = getUpdate(attrs, page, row);
     update["".concat(row, "_qty")] = page.data.quantity ? page.data.quantity : 1;
+    var links = [];
     if (page.data.subcategory === "weapon") {
         var attackRow = getRow("attacks");
-        update["".concat(row, "_link")] = attackRow;
+        links.push(attackRow);
         handle_weapon(page, attackRow, row);
     }
+    if (page.data.modifiers) {
+        handle_modifiers(page, row);
+    }
+    var linksString = links.join(",");
+    update["".concat(row, "_link")] = linksString;
     setDropAttrs(update);
 };
 var handle_feature = function (page) {
@@ -1007,6 +1012,27 @@ var handle_lineage = function (page) {
     catch (e) {
         dropWarning("Error setting attributes: ".concat(e));
     }
+};
+var handle_modifiers = function (page, inventoryRow) {
+    var modifiers = parseJSON(page.data.modifiers);
+    var update = {};
+    modifiers.forEach(function (modifier) {
+        var _a;
+        if (modifier.modifier) {
+            var modifiersRow = getRow("modifiers");
+            update["".concat(modifiersRow, "_link")] = inventoryRow;
+            update["".concat(modifiersRow, "_modifier")] = modifier.modifier;
+            update["".concat(modifiersRow, "_source")] = page.name;
+            update["".concat(modifiersRow, "_toggle_active")] = "on";
+            update["".concat(modifiersRow, "_attribute")] = modifier.attribute;
+            update["".concat(modifiersRow, "_description")] = (_a = modifier.description) !== null && _a !== void 0 ? _a : "";
+            update["".concat(modifiersRow, "_toggle_edit")] = false;
+        }
+        else {
+            console.warn("Modifier ".concat(modifier.attribute, " has no modifier value"));
+        }
+    });
+    setDropAttrs(update, { silent: false });
 };
 var handle_profession = function (page) {
     if (page.data.occupation) {
@@ -1174,6 +1200,8 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
         "tags",
         "type",
         "weight",
+        "description",
+        "effect",
     ];
     var row = attackRow ? attackRow : getRow("attacks");
     var update = getUpdate(attrs, page, row);

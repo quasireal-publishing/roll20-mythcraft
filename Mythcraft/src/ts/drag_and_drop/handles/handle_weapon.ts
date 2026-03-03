@@ -12,7 +12,7 @@ const getAttributeInfo = (attr: string | number | boolean) => {
 const handle_weapon = (
   page: CompendiumAttributes,
   attackRow: string,
-  inventoryRow: string
+  inventoryRow: string,
 ) => {
   const attrs = [
     "apc",
@@ -28,6 +28,8 @@ const handle_weapon = (
     "tags",
     "type",
     "weight",
+    "description",
+    "effect",
   ];
   const row = attackRow ? attackRow : getRow("attacks");
   const update = getUpdate(attrs, page, row);
@@ -38,7 +40,7 @@ const handle_weapon = (
 
   const setAttributeField = (
     key: string,
-    value?: string | number | boolean
+    value?: string | number | boolean,
   ) => {
     if (!value) return;
     const { attribute, abbreviation } = getAttributeInfo(value);

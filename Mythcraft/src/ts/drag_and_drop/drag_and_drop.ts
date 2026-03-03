@@ -20,8 +20,7 @@ const handle_drop = () => {
     };
     const { Category } = page.data;
 
-    console.log(`%c Drop for ${page.name}`, "color: orange;");
-    console.log(Category);
+    console.log(`%c Drop for ${page.name}: ${Category}`, "color: orange;");
 
     switch (Category) {
       case "Creatures":
