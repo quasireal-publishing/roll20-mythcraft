@@ -355,10 +355,6 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
             var sections = values.npc_sections
                 ? values.npc_sections.split(",")
                 : [];
-            console.table({
-                oldValues: values.npc_sections,
-                toggled: section,
-            });
             if (newValue === "on" && !sections.includes(section)) {
                 sections.push(section);
             }
@@ -368,13 +364,29 @@ on("change:repeating_actions:toggle_action_attack", function (event) {
                     sections.splice(index, 1);
                 }
             }
-            console.table({
-                newSections: sections.join(","),
-            });
             setAttrs({ npc_sections: sections.join(",") });
         });
     });
 });
+["crit_range"].forEach(function (attr) {
+    on("change:repeating_attacks:".concat(attr), function (event) {
+        updateAttacksCriticalHit(event);
+    });
+});
+on("change:critical_hit", function (event) {
+    updateAllAttacksCriticalHits(event);
+});
+var getAttacksCriticalHit = function (critical_hit, crit_range) {
+    var globalCriticalHit = critical_hit.includes(">")
+        ? parseInt(critical_hit.split(">")[1])
+        : parseInt(critical_hit);
+    var attackCriticalHit = parseInt(crit_range);
+    if (globalCriticalHit === 0 || globalCriticalHit === 16) {
+        return "@{critical_hit}";
+    }
+    var sum = Math.max(16, globalCriticalHit - attackCriticalHit);
+    return ">".concat(sum);
+};
 var getCreatureAttackRollFormula = function (isAttack, options) {
     if (isAttack === void 0) { isAttack = false; }
     if (options === void 0) { options = {
@@ -414,7 +426,7 @@ var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (!isPrimarySource) {
         abilityModifier = "ceil(".concat(abilityModifier, "/2)");
     }
-    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{modifier}[modifier])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{critical_range}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}");
+    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{modifier}[modifier])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{attack_critical_hit}cf@{critical_fail}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}");
 };
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {
@@ -435,6 +447,45 @@ var updateActionPointsPerRound = function (attributes) {
         }
         action_points_per_round += action_points_modifier || 0;
         setAttrs({ action_points_per_round: action_points_per_round });
+    });
+};
+var updateAllAttacksCriticalHits = function (event) {
+    var newValue = event.newValue;
+    getSectionIDs("repeating_attacks", function (ids) {
+        var attrs = [];
+        ids.forEach(function (id) {
+            attrs.push("repeating_attacks_".concat(id, "_attack_critical_hit"));
+            attrs.push("repeating_attacks_".concat(id, "_crit_range"));
+        });
+        getAttrs(attrs, function (values) {
+            var update = {};
+            ids.forEach(function (id) {
+                var attackCriticalHit = values["repeating_attacks_".concat(id, "_attack_critical_hit")];
+                var critRange = values["repeating_attacks_".concat(id, "_crit_range")];
+                if (critRange === "0" && attackCriticalHit === "@{critical_hit}") {
+                    return;
+                }
+                var ch = getAttacksCriticalHit(newValue, critRange);
+                if (ch !== attackCriticalHit) {
+                    update["repeating_attacks_".concat(id, "_attack_critical_hit")] = ch;
+                }
+            });
+            if (Object.keys(update).length > 0) {
+                setAttrs(update, { silent: true });
+            }
+        });
+    });
+};
+var updateAttacksCriticalHit = function (event) {
+    getAttrs(["critical_hit"], function (values) {
+        var _a;
+        var sourceAttribute = event.sourceAttribute, newValue = event.newValue;
+        var row = getFieldsetRow(sourceAttribute);
+        var critical_hit = values.critical_hit;
+        var ch = getAttacksCriticalHit(critical_hit, newValue);
+        setAttrs((_a = {},
+            _a["".concat(row, "_attack_critical_hit")] = ch,
+            _a));
     });
 };
 var updateAttributeModifier = function (_a) {
@@ -524,7 +575,7 @@ var updateCriticalRange = function (attributes) {
         var _a = parseIntegers(values), luck = _a.luck, critical_hit_base = _a.critical_hit_base, critical_hit = _a.critical_hit, critical_hit_modifier = _a.critical_hit_modifier;
         if (luck < 0) {
             setAttrs({
-                critical_hit: 0,
+                critical_hit: "0",
             });
             return;
         }
@@ -536,7 +587,7 @@ var updateCriticalRange = function (attributes) {
             hit = critical_hit_base - 1;
         }
         hit = hit + critical_hit_modifier;
-        var cr = hit < 16 ? 16 : hit > 20 ? 20 : hit;
+        var cr = Math.max(16, Math.min(20, hit));
         if (cr !== critical_hit) {
             setAttrs({
                 critical_hit: ">".concat(cr),
@@ -1223,6 +1274,7 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
         "weight",
         "description",
         "effect",
+        "crit_range",
     ];
     var row = attackRow ? attackRow : getRow("attacks");
     var update = getUpdate(attrs, page, row);

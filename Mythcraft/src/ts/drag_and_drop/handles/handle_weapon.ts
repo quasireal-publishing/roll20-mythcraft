@@ -30,6 +30,7 @@ const handle_weapon = (
     "weight",
     "description",
     "effect",
+    "crit_range",
   ];
   const row = attackRow ? attackRow : getRow("attacks");
   const update = getUpdate(attrs, page, row);

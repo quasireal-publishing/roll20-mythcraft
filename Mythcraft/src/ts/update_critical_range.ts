@@ -6,7 +6,7 @@ const updateCriticalRange = (attributes: Attributes) => {
     if (luck < 0) {
       //Luck < 0 never Critically Hit
       setAttrs({
-        critical_hit: 0, // Reset to default
+        critical_hit: "0", // Reset to default
       });
       return;
     }
@@ -22,7 +22,7 @@ const updateCriticalRange = (attributes: Attributes) => {
     hit = hit + critical_hit_modifier;
 
     // Should always be between 16 and 20
-    const cr = hit < 16 ? 16 : hit > 20 ? 20 : hit;
+    const cr = Math.max(16, Math.min(20, hit));
 
     if (cr !== critical_hit) {
       setAttrs({

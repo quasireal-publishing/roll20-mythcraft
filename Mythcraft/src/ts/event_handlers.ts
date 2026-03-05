@@ -257,11 +257,6 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
         ? values.npc_sections.split(",")
         : [];
 
-      console.table({
-        oldValues: values.npc_sections,
-        toggled: section,
-      });
-
       if (newValue === "on" && !sections.includes(section)) {
         sections.push(section);
       } else if (newValue !== "on" && sections.includes(section)) {
@@ -271,10 +266,17 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
         }
       }
 
-      console.table({
-        newSections: sections.join(","),
-      });
       setAttrs({ npc_sections: sections.join(",") });
     });
   });
+});
+
+["crit_range"].forEach((attr) => {
+  on(`change:repeating_attacks:${attr}`, (event) => {
+    updateAttacksCriticalHit(event);
+  });
+});
+
+on(`change:critical_hit`, (event) => {
+  updateAllAttacksCriticalHits(event);
 });
