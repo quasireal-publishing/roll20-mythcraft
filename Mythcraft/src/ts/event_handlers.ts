@@ -34,15 +34,6 @@ on(`remove:repeating_modifiers`, (event) => {
   on(`change:repeating_${fieldset}`, (event) => {
     updateLinkedAttribute(event);
   });
-
-  on(`remove:repeating_${fieldset}`, ({ sourceAttribute, removedInfo }) => {
-    const link = removedInfo[`${sourceAttribute}_link`];
-
-    if (link) {
-      const update = { [`${link}_link`]: "" };
-      setAttrs(update, { silent: true });
-    }
-  });
 });
 
 ["attacks", "skills"].forEach((fieldset) => {
@@ -77,7 +68,7 @@ on(`remove:repeating_modifiers`, (event) => {
               [`${repeatingRow}_bonus`]: sum > 0 ? `+${sum}` : `${sum}`,
             });
           });
-        }
+        },
       );
     });
   });
@@ -122,7 +113,7 @@ on(`remove:repeating_modifiers`, (event) => {
           };
 
           setAttrs(update, { silent: true });
-        }
+        },
       );
     } else {
       getAttrs([`${abilitiesRow}_link`], (values) => {
@@ -227,13 +218,8 @@ on("change:repeating_spells:toggle_attack", (event) => {
   "talents",
   "reactive-actions",
 ].forEach((fieldset) => {
-  on(`remove:repeating_${fieldset}`, ({ sourceAttribute, removedInfo }) => {
-    const link = removedInfo[`${sourceAttribute}_link`];
-
-    if (link) {
-      const update = { [`${link}_link`]: "" };
-      setAttrs(update, { silent: true });
-    }
+  on(`remove:repeating_${fieldset}`, (event: EventInfo) => {
+    updateLinks(event);
   });
 });
 
@@ -258,7 +244,7 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
             includeEffect: !!values[`${row}_effect`],
           }),
         });
-      }
+      },
     );
   });
 });
@@ -266,9 +252,9 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
 ["skills", "features", "actions", "reactions", "spells"].forEach((section) => {
   on(`change:section_${section}`, (event) => {
     const { newValue } = event;
-    getAttrs(["creature_sections"], (values) => {
-      const sections = values.creature_sections
-        ? values.creature_sections.split(",")
+    getAttrs(["npc_sections"], (values) => {
+      const sections = values.npc_sections
+        ? values.npc_sections.split(",")
         : [];
 
       if (newValue === "on" && !sections.includes(section)) {
@@ -280,7 +266,17 @@ on("change:repeating_actions:toggle_action_attack", (event) => {
         }
       }
 
-      setAttrs({ creature_sections: sections.join(",") });
+      setAttrs({ npc_sections: sections.join(",") });
     });
   });
+});
+
+["crit_range"].forEach((attr) => {
+  on(`change:repeating_attacks:${attr}`, (event) => {
+    updateAttacksCriticalHit(event);
+  });
+});
+
+on(`change:critical_hit`, (event) => {
+  updateAllAttacksCriticalHits(event);
 });

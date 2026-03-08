@@ -9,7 +9,7 @@ const versioning = async (version: number) => {
   const updateMessage = (v: number) =>
     console.log(
       `%c Sheet is updating to ${v}`,
-      "color: orange; font-weight:bold"
+      "color: orange; font-weight:bold",
     );
 
   switch (true) {
@@ -37,10 +37,15 @@ const versioning = async (version: number) => {
       versionOneThree();
       versioning(1.3);
       break;
+    case version < 1.7:
+      updateMessage(1.7);
+      versionOneSeven();
+      versioning(1.7);
+      break;
     default:
       console.log(
         `%c Sheet is update to date.`,
-        "color: green; font-weight:bold"
+        "color: green; font-weight:bold",
       );
       setAttrs({ version });
   }

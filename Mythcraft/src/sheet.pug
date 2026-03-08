@@ -1,5 +1,5 @@
 //- Semantic Versioning MAJOR.MINORPATCH
-input(name='attr_version' type='hidden' value='1.6')
+input(name='attr_version' type='hidden' value='1.7')
 
 
 include pug/constants.pug
@@ -11,7 +11,7 @@ include pug/mixins.pug
 include pug/hidden_attributes.pug
 
 
-.dropzone.compendium-drop-target.creatures.pregens.sheet
+.dropzone.compendium-drop-target.creatures.vehicles.sheet
   each val in ['Name', 'data', 'Content', "Category"]
     input(name=`attr_drop_${val.toLowerCase()}` type='hidden' value='' accept=val)
 
@@ -20,6 +20,7 @@ include pug/hidden_attributes.pug
 
   include pug/pc.pug
   include pug/creature.pug
+  include pug/siege.pug
 
 
 .compendium_warning

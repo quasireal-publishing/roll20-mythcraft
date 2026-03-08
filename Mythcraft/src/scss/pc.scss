@@ -2,6 +2,13 @@
   min-height: 800px;
   overflow: hidden;
 
+  input[name="attr_apc"],
+  input[name="attr_modifier"],
+  span[name="attr_attribute_abbreviation"],
+  span[name="attr_apc"] {
+    @extend .text-center;
+  }
+
   button[type="roll"] {
     max-width: $button-max-width;
   }
@@ -71,8 +78,7 @@
 
       h3[data-i18n="bonus"],
       h3[data-i18n="attribute"],
-      span[name="attr_attribute_abbreviation"],
-      input[name="attr_modifier"] {
+      span[name="attr_attribute_abbreviation"] {
         @extend .text-center;
       }
 
@@ -120,7 +126,7 @@
     .attacks {
       .custom-grid {
         grid-template-columns:
-          $button-max-width $spacing-32 $spacing-16
+          $button-max-width $spacing-32 $spacing-12
           $spacing-16 $spacing-32 repeat(2, $spacing-20)
           1fr;
       }
@@ -129,14 +135,14 @@
         @extend .uppercase;
       }
 
-      input[name="attr_apc"],
       input[name="attr_modifier"],
+      input[name="attr_crit_range"],
       span[name="attr_attribute_abbreviation"],
-      span[name="attr_apc"],
       span[name="attr_bonus"],
       span[name="attr_damage"],
       span[name="attr_damage_type"],
-      span[name="attr_range"] {
+      span[name="attr_range"],
+      span[name="attr_crit_range"] {
         @extend .text-center;
       }
 
@@ -201,8 +207,6 @@
       }
 
       h3[data-i18n="apc"],
-      span[name="attr_apc"],
-      input[name="attr_apc"],
       input[name="attr_power_level"] {
         @extend .text-center;
       }
@@ -219,7 +223,6 @@
         font-variant: all-petite-caps;
       }
 
-      input[name="attr_apc"],
       input[name="attr_spc"] {
         @extend .text-center;
       }
@@ -370,10 +373,6 @@ h3[data-i18n="tags"] {
 }
 
 .settings {
-  input[name="attr_modifier"] {
-    @extend .text-center;
-  }
-
   .custom-grid {
     grid-template-columns: $spacing-13 1fr $spacing-20 1fr;
   }

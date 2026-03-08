@@ -1,7 +1,7 @@
 const dropWarning = (v: string) => {
   console.warn(
     `%c Compendium Drop Error: ${v}`,
-    "color: orange; font-weight:bold"
+    "color: orange; font-weight:bold",
   );
 };
 
@@ -19,6 +19,8 @@ const handle_drop = () => {
       content: v.drop_content,
     };
     const { Category } = page.data;
+
+    console.log(`%c Drop for ${page.name}: ${Category}`, "color: orange;");
 
     switch (Category) {
       case "Creatures":
@@ -50,6 +52,9 @@ const handle_drop = () => {
         break;
       case "Talents":
         handle_talent(page);
+        break;
+      case "Vehicles":
+        handle_vehicles(page);
         break;
       default:
         dropWarning(`Unknown category: ${Category}`);

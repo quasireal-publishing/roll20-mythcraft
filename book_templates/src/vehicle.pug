@@ -31,7 +31,7 @@ include ./mixins.pug
                     +statLabel(name, label)
         
 
-        | {{#actions}}
+
         .grid.gap-2.w-full.h-full
             h2.uppercase.primary.text-center actions
 
@@ -40,9 +40,10 @@ include ./mixins.pug
                 |{{action_description}}
             |{{/action_description}}
 
+            | {{#actions}}
             .grid.gap-1
                 |{{!actions}}
-                p
+                p.font-base
 
                     |{{[#name]}}
                     strong {{[name]}}.

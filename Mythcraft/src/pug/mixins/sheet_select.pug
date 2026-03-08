@@ -1,0 +1,6 @@
+mixin sheetSelect()
+   .grid.gap-2.grid-flow-col
+      select(name="attr_sheet_type")
+         each val in ['pc', 'creature', 'siege']
+            option(value=`${val}` data-i18n=val  selected=(!!val === 'pc'))
+               val
