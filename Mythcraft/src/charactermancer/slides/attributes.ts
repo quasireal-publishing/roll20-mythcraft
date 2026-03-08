@@ -161,8 +161,6 @@ attributes.forEach((attr) => {
     const charmancerData = getCharmancerData();
     const { values } = charmancerData.attributes;
 
-    console.log(values);
-
     const attrs: CharacterAttributes = {} as CharacterAttributes;
 
     attributes.forEach((attribute) => {

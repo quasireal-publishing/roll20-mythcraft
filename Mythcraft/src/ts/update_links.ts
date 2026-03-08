@@ -1,5 +1,4 @@
 const updateLinks = (event: EventInfo) => {
-  console.log(event);
   const { sourceAttribute, removedInfo } = event;
   const update: { [key: string]: string } = {};
 
