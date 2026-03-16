@@ -42,6 +42,11 @@ const versioning = async (version: number) => {
       versionOneSeven();
       versioning(1.7);
       break;
+    case version < 1.71:
+      updateMessage(1.71);
+      versionOneSevenOne();
+      versioning(1.71);
+      break;
     default:
       console.log(
         `%c Sheet is update to date.`,

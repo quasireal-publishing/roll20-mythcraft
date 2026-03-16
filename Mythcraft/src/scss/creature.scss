@@ -12,6 +12,10 @@
     @extend .text-center;
   }
 
+  h3[data-i18n="hp"] {
+    text-transform: uppercase;
+  }
+
   input[name="attr_modifier"] {
     text-align: center;
   }

@@ -702,7 +702,6 @@ var updateLinkedAttribute = function (event) {
     });
 };
 var updateLinks = function (event) {
-    console.log(event);
     var sourceAttribute = event.sourceAttribute, removedInfo = event.removedInfo;
     var update = {};
     if (removedInfo) {
@@ -830,6 +829,11 @@ var versioning = function (version) { return __awaiter(_this, void 0, void 0, fu
                 updateMessage(1.7);
                 versionOneSeven();
                 versioning(1.7);
+                break;
+            case version < 1.71:
+                updateMessage(1.71);
+                versionOneSevenOne();
+                versioning(1.71);
                 break;
             default:
                 console.log("%c Sheet is update to date.", "color: green; font-weight:bold");
@@ -1456,6 +1460,11 @@ var versionOneSeven = function () {
         });
     });
 };
+var versionOneSevenOne = function () {
+    setAttrs({
+        toggle_edit_npc_edit: "0",
+    });
+};
 var versionOneThree = function () {
     var fieldsToUpdate = ["repeating_actions"];
     fieldsToUpdate.forEach(function (fieldset) {
@@ -1629,7 +1638,6 @@ attributes.forEach(function (attr) {
     on("mancerchange:".concat(attr), function (event) {
         var charmancerData = getCharmancerData();
         var values = charmancerData.attributes.values;
-        console.log(values);
         var attrs = {};
         attributes.forEach(function (attribute) {
             attrs[attribute] = values[attribute]
