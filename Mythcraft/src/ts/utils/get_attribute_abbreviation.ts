@@ -18,7 +18,7 @@ const getAttributeAbbreviation = (attribute: string): string => {
       return key;
     } else {
       console.warn(
-        `Key not found for ${attribute} abbreviation: ${abbreviation}`
+        `Key not found for ${attribute} abbreviation: ${abbreviation}`,
       );
     }
   }

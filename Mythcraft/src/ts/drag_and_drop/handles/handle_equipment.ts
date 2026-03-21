@@ -17,8 +17,7 @@ const handle_equipment = (page: CompendiumAttributes) => {
     handle_modifiers(page, row);
   }
 
-
-  if(page.data.trackables) {
+  if (page.data.trackables) {
     handle_trackables(page, row);
   }
 

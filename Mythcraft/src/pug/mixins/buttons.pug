@@ -35,7 +35,7 @@ mixin repeatingMagicButton(name)
 		span(name='attr_name')
 
 mixin repeatingDamageButton(name, includeDescription = false)
-	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}} {{dice=[[@{damage}[damage]+(@{damage_attribute}[damage attribute])]]}} {{type=@{damage_type}}}`)
+	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}} {{dice=[[@{damage}[damage]+(@{damage_attribute}[damage attribute])]]}} {{type=@{damage_type}}}`)
 		span(name='attr_damage')
 
 mixin repeatingChatIconButton(name)
@@ -49,7 +49,7 @@ mixin repeatingChatButton(name)
 
 // This need an even handler as well to update damage roll when effect is added but damage is empty
 mixin repeatingCreatureDamageButton(name)
-	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name} Damage}}  {{type=@{damage_type}}} {{dice=[[@{damage}[damage]+0]]}} {{effect=@{effect}}} {{description=@{description}}}`)
+	button.ellipsis.font-weight-bold(class!=attributes.class name=`roll_${dashedName(name)}` type='roll' value!=`${templatePrefix} {{header=@{name}}}  {{type=@{damage_type}}} {{dice=[[@{damage}[damage]+0]]}} {{effect=@{effect}}} {{description=@{description}}}`)
 		span(name='attr_damage')
 
 mixin repeatingCreatureEffect(name)

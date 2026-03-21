@@ -16,7 +16,7 @@ const physicalAttributes: AttributeKey[] = [
   "endurance",
 ];
 
-const attributes: AttributeKey[] = [
+const attributes = [
   ...mentalAttributes,
   ...metaphysicAttributes,
   ...physicalAttributes,

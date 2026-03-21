@@ -20,44 +20,58 @@ const handle_drop = () => {
     };
     const { Category } = page.data;
 
-    console.log(`%c Drop for ${page.name}: ${Category}`, "color: orange;");
+    console.log(
+      `%c Handling drop for ${page.name}: ${Category}`,
+      "color: orange;",
+    );
+
+    let handler: ((page: CompendiumAttributes) => void) | undefined;
 
     switch (Category) {
       case "Creatures":
-        handle_creature(page);
+        handler = handle_creature;
         break;
       case "Conditions":
-        handle_conditions(page);
+        handler = handle_conditions;
         break;
       case "Backgrounds":
-        handle_bop(page);
+        handler = handle_bop;
         break;
       case "Professions":
-        handle_profession(page);
+        handler = handle_profession;
         break;
       case "Equipment":
-        handle_equipment(page);
+        handler = handle_equipment;
         break;
       case "Features":
-        handle_feature(page);
+        handler = handle_feature;
         break;
       case "Lineages":
-        handle_lineage(page);
+        handler = handle_lineage;
         break;
       case "Skills":
-        handle_skills(page);
+        handler = handle_skills;
         break;
       case "Spells":
-        handle_spell(page);
+        handler = handle_spell;
         break;
       case "Talents":
-        handle_talent(page);
+        handler = handle_talent;
         break;
       case "Vehicles":
-        handle_vehicles(page);
+        handler = handle_vehicles;
         break;
       default:
         dropWarning(`Unknown category: ${Category}`);
+        handler = undefined;
+    }
+
+    if (handler) {
+      try {
+        handler(page);
+      } catch (error) {
+        console.warn(`Error handling ${Category}: ${(error as Error).message}`);
+      }
     }
 
     setDropAttrs({

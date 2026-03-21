@@ -702,11 +702,6 @@ var updateLinks = function (event) {
         var effectedLink_1 = removedInfo["".concat(sourceAttribute, "_link")] + "_link";
         getAttrs(["".concat(effectedLink_1)], function (values) {
             var link = values["".concat(effectedLink_1)];
-            console.table({
-                trigger: sourceAttribute,
-                effectedLink: effectedLink_1,
-                updateThisLink: link,
-            });
             if (link) {
                 update["".concat(effectedLink_1)] = "";
                 setAttrs(update, { silent: true });
@@ -852,43 +847,53 @@ var handle_drop = function () {
             content: v.drop_content,
         };
         var Category = page.data.Category;
-        console.log("%c Drop for ".concat(page.name, ": ").concat(Category), "color: orange;");
+        console.log("%c Handling drop for ".concat(page.name, ": ").concat(Category), "color: orange;");
+        var handler;
         switch (Category) {
             case "Creatures":
-                handle_creature(page);
+                handler = handle_creature;
                 break;
             case "Conditions":
-                handle_conditions(page);
+                handler = handle_conditions;
                 break;
             case "Backgrounds":
-                handle_bop(page);
+                handler = handle_bop;
                 break;
             case "Professions":
-                handle_profession(page);
+                handler = handle_profession;
                 break;
             case "Equipment":
-                handle_equipment(page);
+                handler = handle_equipment;
                 break;
             case "Features":
-                handle_feature(page);
+                handler = handle_feature;
                 break;
             case "Lineages":
-                handle_lineage(page);
+                handler = handle_lineage;
                 break;
             case "Skills":
-                handle_skills(page);
+                handler = handle_skills;
                 break;
             case "Spells":
-                handle_spell(page);
+                handler = handle_spell;
                 break;
             case "Talents":
-                handle_talent(page);
+                handler = handle_talent;
                 break;
             case "Vehicles":
-                handle_vehicles(page);
+                handler = handle_vehicles;
                 break;
             default:
                 dropWarning("Unknown category: ".concat(Category));
+                handler = undefined;
+        }
+        if (handler) {
+            try {
+                handler(page);
+            }
+            catch (error) {
+                console.warn("Error handling ".concat(Category, ": ").concat(error.message));
+            }
         }
         setDropAttrs({
             drop_name: "",
@@ -907,28 +912,20 @@ var getRow = function (section) { return "repeating_".concat(section, "_").conca
 var getUpdate = function (attrs, page, repeatingRow) {
     var update = {};
     attrs.forEach(function (attr) {
-        var _a, _b;
+        var _a;
         var sheetAttr = repeatingRow ? "".concat(repeatingRow, "_").concat(attr) : attr;
-        if ((_a = page[attr]) !== null && _a !== void 0 ? _a : page.data[attr]) {
-            update[sheetAttr] = (_b = page[attr]) !== null && _b !== void 0 ? _b : roll20Attribute(attr, page.data[attr]);
+        var pageValue = page[attr];
+        var dataValue = page.data[attr];
+        if (pageValue === undefined && dataValue === undefined) {
+            return;
         }
+        update[sheetAttr] =
+            (_a = pageValue) !== null && _a !== void 0 ? _a : roll20Attribute(attr, dataValue);
     });
     if (repeatingRow) {
         update["".concat(repeatingRow, "_toggle_edit")] = false;
     }
     return update;
-};
-var parseJSON = function (jsonString) {
-    try {
-        if (typeof jsonString === "object") {
-            return jsonString;
-        }
-        return JSON.parse(jsonString);
-    }
-    catch (e) {
-        console.warn("Error parsing JSON: ".concat(jsonString));
-        return undefined;
-    }
 };
 var processDataArrays = function (array, callback) {
     if (array === undefined) {
@@ -939,7 +936,7 @@ var processDataArrays = function (array, callback) {
     return map === null || map === void 0 ? void 0 : map.reduce(function (acc, val) { return (__assign(__assign({}, acc), val)); });
 };
 var roll20Attribute = function (attr, value) {
-    if (attr === "attribute" && typeof value === "string") {
+    if (attributes.includes(attr) && typeof value === "string") {
         return "@{".concat(createAttributeName(value), "}");
     }
     return value;
@@ -1301,6 +1298,14 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
     if (!page.data.attribute) {
         update["".concat(row, "_bonus")] = 0;
     }
+    if (page.data.extra_attacks) {
+        var extraAttacks = parseJSON(page.data.extra_attacks);
+        extraAttacks.forEach(function (extra) {
+            var extraRow = getRow("attacks");
+            var extraUpdate = getUpdate(attrs, extra, extraRow);
+            console.log(extraUpdate);
+        });
+    }
     setDropAttrs(update);
     setDropAttrs((_a = {},
         _a["".concat(row, "_modifier")] = (_b = page.data.modifier) !== null && _b !== void 0 ? _b : 0,
@@ -1308,6 +1313,18 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
 };
 var isDataArray = function (data) {
     return Array.isArray(data) || (typeof data === "string" && data.startsWith("["));
+};
+var parseJSON = function (jsonString) {
+    try {
+        if (typeof jsonString === "object") {
+            return jsonString;
+        }
+        return JSON.parse(jsonString);
+    }
+    catch (e) {
+        console.warn("Error parsing JSON: ".concat(jsonString));
+        return undefined;
+    }
 };
 var processSection = function (page, list) {
     var update = {};
