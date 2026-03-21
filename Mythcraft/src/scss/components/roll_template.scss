@@ -30,7 +30,8 @@
       background-color: transparent;
 
       .sheet-template-tags,
-      .sheet-template-type {
+      .sheet-template-type,
+      .sheet-template-defense .sheet-capitalize {
         @extend .text-center;
         @extend .capitalize;
       }

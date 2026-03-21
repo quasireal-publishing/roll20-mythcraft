@@ -1,6 +1,18 @@
-const getAttributeAbbreviation = (attribute: string): string => {
-  if (attribute === "luck") {
-    return attribute;
+const getAttributeAbbreviation = (attribute: string) => {
+  if (attribute.includes("none") || attribute.includes("0")) {
+    return "-";
+  }
+
+  if (attribute.includes("luck")) {
+    return "luck";
+  }
+
+  if (attribute.includes("awareness")) {
+    return "awr";
+  }
+
+  if (attribute.includes("coordination")) {
+    return "cor";
   }
 
   if (attribute.charAt(0) === "@") {
@@ -9,19 +21,6 @@ const getAttributeAbbreviation = (attribute: string): string => {
   }
 
   const abbreviation = attribute.substring(0, 3);
-
-  // Abbreviation does not follow the first three letters of attribute name pattern
-  if (attribute === "awareness" || attribute === "coordination") {
-    const key = getTranslationByKey(abbreviation);
-
-    if (key) {
-      return key;
-    } else {
-      console.warn(
-        `Key not found for ${attribute} abbreviation: ${abbreviation}`
-      );
-    }
-  }
 
   return abbreviation;
 };

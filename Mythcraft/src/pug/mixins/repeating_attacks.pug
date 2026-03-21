@@ -3,7 +3,7 @@ mixin repeatingAttacks()
 		input(type="hidden" name="attr_link" value="")
 		input(type="hidden" name="attr_attribute_abbreviation" value= "STR")
 		input(type="hidden" name="attr_attack_critical_hit" value= '@{critical_hit}')
-		input(type="hidden" name="attr_roll_formula" value=`{{dice=[[1d20+${attribute}+${bonus}+${tactical}+${luckEffect}cs@{attack_critical_hit}${criticalFail}]]}} {{damage=[Damage](~repeating_attacks-roll_damage)}}`)
+		input(type="hidden" name="attr_roll_formula" value=`{{dice=[[1d20+${attribute}+${bonus}+${tactical}+${luckEffect}cs@{attack_critical_hit}${criticalFail}]]}} {{damage=[Damage](~repeating_attacks-roll_damage)}} {{defense=@{defense}}}`)
 		.grid.gap-2.relative.repeating-grid 
 			.grid.grid-flow-col.gap-2.displayed.custom-grid
 				.grid.gap-2.grid-flow-col
@@ -16,25 +16,28 @@ mixin repeatingAttacks()
 			+editToggle()
 			+collapseToggle()
 			.collapsible.grid.gap-2
-				+headerSpan(['tags', "type", "size"])
+				+headerSpan(['tags', "defense", "type", "size"])
 				.description
 					span.display(name='attr_description')
 			.edit.grid.gap-2
 				+textInputs(["name", "tags"])
-				.grid.gap-2.grid-flow-col.items-center
+				.grid.gap-2.grid-flow-col.items-center.attack-modifiers
 					+editInput("apc")
-					+attributeSelect("attribute")
-					span.text-center
-						| +
-					.grid.col-auto-fr.gap-1.grid-flow-col.items-center
-						+h4Header('modifier')
-						+numberInput('modifier', 0)
+					.grid.gap-2.grid-flow-col.items-center.attack-defense
+						+selectAttribute("attribute")
+						span.text-center
+							| +
+						.grid.col-auto-fr.gap-1.grid-flow-col.items-center
+							+h4Header('modifier')
+							+numberInput('modifier', 0)
+						span.text-center vs
+						+editInput('defense')
 					.grid.col-auto-fr.gap-1.grid-flow-col.items-center
 						+h4Header('crit range')
 						+numberInput('crit range', 0)
 				.grid.gap-2.grid-flow-col
 					+editInput('damage')
-					+attributeSelect('damage attribute')
+					+selectAttribute('damage attribute')
 					+editInput('damage type')
 				+textInputs(["range", "reload", "size"])
 				+textInputs(["category", "subcategory", "type"])

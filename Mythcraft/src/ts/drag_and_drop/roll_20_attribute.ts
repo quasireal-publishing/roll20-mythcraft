@@ -1,6 +1,16 @@
 const roll20Attribute = (attr: string, value: AttrValue) => {
-  //TODO: Review this to see if it is needed in MythCraft
-  if (attr === "attribute" && typeof value === "string") {
+  const selectAttributes = ["attribute", "damage_attribute"];
+
+  // Selects need to reference the Roll20 Attribute as a value
+  const isAttribute = (attributes as string[]).includes(
+    `${value}`.toLowerCase(),
+  );
+
+  if (
+    selectAttributes.includes(attr) &&
+    isAttribute &&
+    typeof value === "string"
+  ) {
     return `@{${createAttributeName(value)}}`;
   }
 

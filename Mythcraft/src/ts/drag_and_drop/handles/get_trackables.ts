@@ -1,5 +1,4 @@
-const handle_trackables = (page: CompendiumAttributes, row: string) => {
-  const attrs = ["name", "value"];
+const getTrackables = (page: CompendiumAttributes) => {
   const JSON = parseJSON(page.data.trackables);
   const update: { [key: string]: AttrValue } = {};
 
@@ -10,5 +9,5 @@ const handle_trackables = (page: CompendiumAttributes, row: string) => {
     update[`${newRow}_value_max`] = trackable.value;
   });
 
-  setDropAttrs(update);
+  return update;
 };

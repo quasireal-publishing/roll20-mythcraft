@@ -1,0 +1,9 @@
+
+mixin selectAttribute(name)
+   .grid.gap-2.grid-flow-col.col-auto-fr.items-center
+      +h4Header(name)
+      select(name=`attr_${attrName(name)}`)
+         option(value="0" data-i18n="none")
+         each val in combatAttributes
+            option(value=`@{${val}}` data-i18n=val)
+               val
