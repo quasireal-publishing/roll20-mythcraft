@@ -10,7 +10,6 @@ span.display {
   display: block;
 }
 
-input.toggle-edit:checked ~ .grid span.display,
 input.toggle-edit:not(checked) ~ .grid textarea,
 input.toggle-edit:not(checked) ~ .grid label,
 input.toggle-edit:not(checked) ~ .grid .edit,
@@ -19,7 +18,6 @@ input.toggle-collapse:not(checked) ~ .collapsible {
   display: none;
 }
 
-input.toggle-edit:not(checked) ~ .grid span.display,
 input.toggle-edit:checked ~ .grid textarea,
 input.toggle-edit:checked ~ .grid label,
 input.toggle-edit:checked ~ .grid .edit,

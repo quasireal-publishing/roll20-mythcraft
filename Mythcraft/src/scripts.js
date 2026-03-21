@@ -1043,6 +1043,13 @@ var handle_equipment = function (page) {
         var attackRow = getRow("attacks");
         links.push(attackRow);
         handle_weapon(page, attackRow, row);
+        if (page.data.extra_attacks) {
+            var extraAttacks = parseJSON(page.data.extra_attacks);
+            extraAttacks.forEach(function (e) {
+                var extraAttackRow = getRow("attacks");
+                handle_weapon(__assign(__assign({}, page), { name: e.name, data: __assign(__assign({}, e), { Category: page.data.Category, blobs: undefined, expansion: page.data.expansion }) }), extraAttackRow, undefined);
+            });
+        }
     }
     if (page.data.modifiers) {
         handle_modifiers(page, row);
@@ -1301,14 +1308,6 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
     if (!page.data.attribute) {
         update["".concat(row, "_bonus")] = 0;
     }
-    if (page.data.extra_attacks) {
-        var extraAttacks = parseJSON(page.data.extra_attacks);
-        extraAttacks.forEach(function (extra) {
-            var extraRow = getRow("attacks");
-            var extraUpdate = getUpdate(attrs, extra, extraRow);
-            console.log(extraUpdate);
-        });
-    }
     setDropAttrs(update);
     setDropAttrs((_a = {},
         _a["".concat(row, "_modifier")] = (_b = page.data.modifier) !== null && _b !== void 0 ? _b : 0,
@@ -1391,22 +1390,22 @@ var createAttributeName = function (name) {
     return name === null || name === void 0 ? void 0 : name.replace(/ /g, "_").toLowerCase();
 };
 var getAttributeAbbreviation = function (attribute) {
-    if (attribute === "luck") {
-        return attribute;
+    if (attribute.includes("none") || attribute.includes("0")) {
+        return "-";
+    }
+    if (attribute.includes("luck")) {
+        return "luck";
+    }
+    if (attribute.includes("awareness")) {
+        return "awr";
+    }
+    if (attribute.includes("coordination")) {
+        return "cor";
     }
     if (attribute.charAt(0) === "@") {
         attribute = attribute.substring(2, attribute.length - 1);
     }
     var abbreviation = attribute.substring(0, 3);
-    if (attribute === "awareness" || attribute === "coordination") {
-        var key = getTranslationByKey(abbreviation);
-        if (key) {
-            return key;
-        }
-        else {
-            console.warn("Key not found for ".concat(attribute, " abbreviation: ").concat(abbreviation));
-        }
-    }
     return abbreviation;
 };
 var getFieldsetAttr = function (key) {

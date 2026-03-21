@@ -11,6 +11,27 @@ const handle_equipment = (page: CompendiumAttributes) => {
     const attackRow = getRow("attacks");
     links.push(attackRow);
     handle_weapon(page, attackRow, row);
+
+    if (page.data.extra_attacks) {
+      const extraAttacks = parseJSON(page.data.extra_attacks);
+      extraAttacks.forEach((e: { [key: string]: string }) => {
+        const extraAttackRow = getRow("attacks");
+        handle_weapon(
+          {
+            ...page,
+            name: e.name,
+            data: {
+              ...e,
+              Category: page.data.Category,
+              blobs: undefined,
+              expansion: page.data.expansion,
+            },
+          },
+          extraAttackRow,
+          undefined,
+        );
+      });
+    }
   }
 
   if (page.data.modifiers) {

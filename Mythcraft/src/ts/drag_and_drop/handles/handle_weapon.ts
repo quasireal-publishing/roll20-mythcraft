@@ -60,16 +60,6 @@ const handle_weapon = (
     update[`${row}_bonus`] = 0;
   }
 
-  if (page.data.extra_attacks) {
-    const extraAttacks = parseJSON(page.data.extra_attacks);
-    extraAttacks.forEach((extra: { [key: string]: string }) => {
-      const extraRow = getRow("attacks");
-      const extraUpdate = getUpdate(attrs, extra, extraRow);
-      //Object.assign(update, extraUpdate);
-      console.log(extraUpdate);
-    });
-  }
-
   setDropAttrs(update);
 
   //Modifier needs to trigger a change event to update the bonus

@@ -71,7 +71,7 @@ declare type CompendiumAttributes = {
   data: {
     Category: string;
     blobs: { [key: string]: unknown };
-    expansion: number;
+    expansion: string;
     //- This custom data added by the compendium owner
     [key: string]: string;
   };
