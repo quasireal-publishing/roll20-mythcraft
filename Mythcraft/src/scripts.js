@@ -426,7 +426,7 @@ var getRollFormula = function (isPrimarySource, isSpellCard) {
     if (!isPrimarySource) {
         abilityModifier = "ceil(".concat(abilityModifier, "/2)");
     }
-    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{modifier}[modifier])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{attack_critical_hit}cf@{critical_fail}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{description=@{description}}}");
+    return "{{dice=[[1d20+".concat(abilityModifier, "[ability]+(@{modifier}[modifier])+(?{TA/TD|0})[tactical bonus]+(@{luck_negative_modifier}[negative luck modifier])cs>@{attack_critical_hit}cf@{critical_fail}]]}} {{damage=[Damage](~repeating_spells-roll_damage)}} {{defense=@{defense}}} {{description=@{description}}}");
 };
 var updateActionPointsPerRound = function (attributes) {
     getAttrs(attributes, function (values) {
@@ -953,6 +953,41 @@ var setDropAttrs = function (update, silent) {
         dropWarning("Error setting attributes: ".concat(e));
     }
 };
+var getFavorites = function (page) {
+    var JSON = parseJSON(page.data.favorites);
+    var update = {};
+    JSON.forEach(function (e) {
+        var row = getRow("favorites");
+        update["".concat(row, "_name")] = "".concat(e.name);
+        update["".concat(row, "_description")] = e.description;
+        update["".concat(row, "_tags")] = e.tags;
+        update["".concat(row, "_toggle_edit")] = false;
+    });
+    return update;
+};
+var getReactiveActions = function (page) {
+    var JSON = parseJSON(page.data.reactive_actions);
+    var update = {};
+    JSON.forEach(function (action) {
+        var row = getRow("reactive-actions");
+        update["".concat(row, "_name")] = "".concat(action.name);
+        update["".concat(row, "_description")] = action.description;
+        update["".concat(row, "_ap")] = action.ap;
+        update["".concat(row, "_toggle_edit")] = false;
+    });
+    return update;
+};
+var getTrackables = function (page) {
+    var JSON = parseJSON(page.data.trackables);
+    var update = {};
+    JSON.forEach(function (trackable) {
+        var newRow = getRow("trackables");
+        update["".concat(newRow, "_name")] = "".concat(page.name, " ").concat(trackable.name);
+        update["".concat(newRow, "_value")] = trackable.value;
+        update["".concat(newRow, "_value_max")] = trackable.value;
+    });
+    return update;
+};
 var handle_bop = function (page) {
     var attrs = ["name", "occupation", "description"];
     var row = getRow("additional-info");
@@ -1047,15 +1082,24 @@ var handle_equipment = function (page) {
             var extraAttacks = parseJSON(page.data.extra_attacks);
             extraAttacks.forEach(function (e) {
                 var extraAttackRow = getRow("attacks");
-                handle_weapon(__assign(__assign({}, page), { name: e.name, data: __assign(__assign({}, e), { Category: page.data.Category, blobs: undefined, expansion: page.data.expansion }) }), extraAttackRow, undefined);
+                handle_weapon(__assign(__assign({}, page), { name: e.name, data: __assign(__assign({}, e), { Category: page.data.Category, expansion: page.data.expansion }) }), extraAttackRow, undefined);
             });
+        }
+        if (page.data.reactive_actions) {
+            var reactiveActions = getReactiveActions(page);
+            Object.assign(update, reactiveActions);
         }
     }
     if (page.data.modifiers) {
         handle_modifiers(page, row);
     }
     if (page.data.trackables) {
-        handle_trackables(page, row);
+        var trackables = getTrackables(page);
+        Object.assign(update, trackables);
+    }
+    if (page.data.favorites) {
+        var favorites = getFavorites(page);
+        Object.assign(update, favorites);
     }
     var linksString = links.join(",");
     update["".concat(row, "_link")] = linksString;
@@ -1199,18 +1243,6 @@ var handle_talent = function (page) {
     }
     setDropAttrs(update);
 };
-var handle_trackables = function (page, row) {
-    var attrs = ["name", "value"];
-    var JSON = parseJSON(page.data.trackables);
-    var update = {};
-    JSON.forEach(function (trackable) {
-        var newRow = getRow("trackables");
-        update["".concat(newRow, "_name")] = "".concat(page.name, " ").concat(trackable.name);
-        update["".concat(newRow, "_value")] = trackable.value;
-        update["".concat(newRow, "_value_max")] = trackable.value;
-    });
-    setDropAttrs(update);
-};
 var handle_vehicles = function (page) {
     var attrs = [
         "range",
@@ -1286,6 +1318,7 @@ var handle_weapon = function (page, attackRow, inventoryRow) {
         "description",
         "effect",
         "crit_range",
+        "defense",
     ];
     var row = attackRow ? attackRow : getRow("attacks");
     var update = getUpdate(attrs, page, row);

@@ -31,6 +31,7 @@ const handle_weapon = (
     "description",
     "effect",
     "crit_range",
+    "defense",
   ];
   const row = attackRow ? attackRow : getRow("attacks");
   const update = getUpdate(attrs, page, row);

@@ -23,7 +23,6 @@ const handle_equipment = (page: CompendiumAttributes) => {
             data: {
               ...e,
               Category: page.data.Category,
-              blobs: undefined,
               expansion: page.data.expansion,
             },
           },
@@ -32,6 +31,11 @@ const handle_equipment = (page: CompendiumAttributes) => {
         );
       });
     }
+
+    if (page.data.reactive_actions) {
+      const reactiveActions = getReactiveActions(page);
+      Object.assign(update, reactiveActions);
+    }
   }
 
   if (page.data.modifiers) {
@@ -39,7 +43,13 @@ const handle_equipment = (page: CompendiumAttributes) => {
   }
 
   if (page.data.trackables) {
-    handle_trackables(page, row);
+    const trackables = getTrackables(page);
+    Object.assign(update, trackables);
+  }
+
+  if (page.data.favorites) {
+    const favorites = getFavorites(page);
+    Object.assign(update, favorites);
   }
 
   const linksString = links.join(",");

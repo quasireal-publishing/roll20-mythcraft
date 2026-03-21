@@ -126,9 +126,16 @@
     .attacks {
       .custom-grid {
         grid-template-columns:
-          $button-max-width $spacing-32 $spacing-12
-          $spacing-16 $spacing-32 repeat(2, $spacing-20)
-          1fr;
+          minmax($button-max-width, 1fr) $spacing-32 $spacing-12
+          $spacing-16 $spacing-32 repeat(2, $spacing-20);
+      }
+
+      .attack-modifiers {
+        grid-template-columns: $spacing-32 1fr $spacing-32;
+      }
+
+      .attack-defense {
+        grid-template-columns: 1fr min-content $spacing-32 min-content 1fr;
       }
 
       span[name="attr_attribute_abbreviation"] {
@@ -369,6 +376,10 @@ h3[data-i18n="tags"] {
 .favorites {
   .custom-grid {
     grid-template-columns: $button-max-width repeat(1, minmax($spacing-16, 1fr));
+
+    span[name="attr_tags"] {
+      text-align: center;
+    }
   }
 }
 

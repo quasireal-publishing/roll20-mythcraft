@@ -28,11 +28,16 @@ rolltemplate.sheet-rolltemplate-rolls
 				span {{type}}
 			| {{/type}}
 
-
 			| {{#damage}}
 			.sheet-template-damage
 				| {{damage}}
 			| {{/damage}}
+			
+			| {{#defense}}
+			.sheet-template-defense
+				span vs 
+				span.sheet-capitalize {{defense}}
+			| {{/defense}}
 
 			| {{#effect}}
 			.sheet-template-damage
