@@ -9,14 +9,16 @@ const getUpdate = (
     const sheetAttr = repeatingRow ? `${repeatingRow}_${attr}` : attr;
 
     const pageValue = (page as Record<string, unknown>)[attr];
-    const dataValue = (page.data as Record<string, unknown>)[attr];
+    const dataValue = (page.data as Record<string, unknown>)?.[attr];
 
     if (pageValue === undefined && dataValue === undefined) {
       return;
     }
 
-    update[sheetAttr] =
-      (pageValue as AttrValue) ?? roll20Attribute(attr, dataValue as AttrValue);
+    update[sheetAttr] = roll20Attribute(
+      attr,
+      (pageValue as AttrValue) ?? (dataValue as AttrValue),
+    );
   });
 
   if (repeatingRow) {

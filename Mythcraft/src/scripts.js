@@ -912,15 +912,14 @@ var getRow = function (section) { return "repeating_".concat(section, "_").conca
 var getUpdate = function (attrs, page, repeatingRow) {
     var update = {};
     attrs.forEach(function (attr) {
-        var _a;
+        var _a, _b;
         var sheetAttr = repeatingRow ? "".concat(repeatingRow, "_").concat(attr) : attr;
         var pageValue = page[attr];
-        var dataValue = page.data[attr];
+        var dataValue = (_a = page.data) === null || _a === void 0 ? void 0 : _a[attr];
         if (pageValue === undefined && dataValue === undefined) {
             return;
         }
-        update[sheetAttr] =
-            (_a = pageValue) !== null && _a !== void 0 ? _a : roll20Attribute(attr, dataValue);
+        update[sheetAttr] = roll20Attribute(attr, (_b = pageValue) !== null && _b !== void 0 ? _b : dataValue);
     });
     if (repeatingRow) {
         update["".concat(repeatingRow, "_toggle_edit")] = false;
@@ -936,7 +935,11 @@ var processDataArrays = function (array, callback) {
     return map === null || map === void 0 ? void 0 : map.reduce(function (acc, val) { return (__assign(__assign({}, acc), val)); });
 };
 var roll20Attribute = function (attr, value) {
-    if (attributes.includes(attr) && typeof value === "string") {
+    var selectAttributes = ["attribute", "damage_attribute"];
+    var isAttribute = attributes.includes("".concat(value).toLowerCase());
+    if (selectAttributes.includes(attr) &&
+        isAttribute &&
+        typeof value === "string") {
         return "@{".concat(createAttributeName(value), "}");
     }
     return value;
