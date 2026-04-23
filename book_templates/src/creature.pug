@@ -25,9 +25,14 @@ include ./mixins.pug
         .stats.grid.gap-2.w-full.h-full 
             .armor.grid.w-full.h-full.content-start.grid-flow-col.auto-rows-min
                 .grid
-                    each val in ["hp", "speed"]
+                    each val in ["hp"]
                         .grid.gap-2.grid-flow-col.auto-cols-max.items-center
                             +statLabel(val)
+                    | {{#speed}}
+                    .grid.grid-flow-col.gap-1.col-auto-fr
+                        span.font-bold.capitalize speed:
+                        span {{speed}}  
+                    | {{/speed}}
                 each val in ['armor_rating']
                     +statLabel(val)
             .resist.grid.grid-gap-2.w-full.h-full.content-start
