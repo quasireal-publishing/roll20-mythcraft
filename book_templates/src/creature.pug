@@ -26,7 +26,7 @@ include ./mixins.pug
             .armor.grid.w-full.h-full.content-start.grid-flow-col.auto-rows-min
                 .grid
                     each val in ["hp"]
-                        .grid.gap-2.grid-flow-col.auto-cols-max.items-center
+                        .grid.gap-2.grid-flow-col.auto-cols-max.items-center.uppercase
                             +statLabel(val)
                     | {{#speed}}
                     .grid.grid-flow-col.gap-1.col-auto-fr
